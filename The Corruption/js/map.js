@@ -1,22 +1,21 @@
 import {init as initSpawner,spawn} from './ents.js'
 
 const map={
-	load(data){
-		this.sizeX=data.length
-		this.sizeY=data[0].length
+	load({grids,ents}){
+		this.sizeX=grids.length
+		this.sizeY=grids[0].length
 		this.grids=[]
 		this.ents=new Set()
 		this.ents_to_render=new Set()
 		this.ents_to_update=new Set()
 		for(let i=0;i<map.sizeX;i++){
 			map.grids[i]=[]
-			for(let j=0;j<map.sizeY;j++)
-				map.grids[i][j]=new Grid(i,j,...data[i][j])
+			for(let j=0;j<map.sizeY;j++){
+				let data=grids[i][j]
+				map.grids[i][j]=new Grid(i,j,...data)
+			}
 		}
-		spawn('homebase').toCenter(2,2)
-		window.sel=spawn('corrupter')
-		sel.toCenter(6,3)
-		spawn('tower1').toCenter(4,3)
+		if(ents)ents.forEach(data=>spawn(data[0]).toCenter(data[1],data[2]))
 	},
 	getGrid(x,y){
 		if(0<=x&&x<this.sizeX&&0<=y&&y<this.sizeY)

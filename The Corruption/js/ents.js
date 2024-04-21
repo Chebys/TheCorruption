@@ -122,6 +122,7 @@ class Tower extends Building{
 		p.damage=this.damage
 		p.track(this,e)
 		this.cdLeft=this.cd
+		return p
 	}
 	remove(){
 		map.ents_to_update.remove(this)
@@ -139,7 +140,7 @@ class Tower extends Building{
 	}
 }
 class Projectile extends Visible{//Mob只能沿grid移动
-	constructor(speed=4,type){
+	constructor(speed=4){
 		super()
 		this.speed=speed
 		map.ents_to_update.add(this)
@@ -150,28 +151,72 @@ class Projectile extends Visible{//Mob只能沿grid移动
 		this.tx=target.x
 		this.ty=target.y
 	}
+	moveOn(dt){
+		this.setPos(...this._moveTo(this.tx,this.ty,dt))
+	}
 	remove(){
 		map.ents_to_update.delete(this)
 		super.remove()
 	}
 	update(dt){
-		if(this.getDist(this.target)<=0.2){
+		if(this.getDist(this.target)<=0.1){
 			this.target.getAttacked(this.damage) //damage来源于Tower
 			this.remove()
 		}else if(this.x==this.tx&&this.y==this.ty){
-			this.remove() //爆炸？
-		}else{
-			this.setPos(...this._moveTo(this.tx,this.ty,dt))
+			this.remove()
+		}else this.moveOn(dt)
+	}
+}
+class Parabolic extends Projectile{//抛射物
+	z=0
+	rotate=0
+	constructor(speed,gravity=1500){
+		super(speed)
+		this.gravity=gravity
+	}
+	get imageState(){
+		return {
+			z:this.z,
+			rotate:this.rotate
 		}
+	}
+	track(origin,target){
+		super.track(origin,target)
+		var t=map.dist(this,target)/this.speed
+		this.vz=this.gravity*t/2
+	}
+	moveOn(dt){
+		super.moveOn(dt)
+		this.vz-=this.gravity*dt
+		this.z+=this.vz*dt
+		this.rotate+=dt*6
+	}
+}
+class Bomb extends Parabolic{
+	atkR=1
+	explode(){
+		var tars=this.getNearbyEnts(this.atkR,e=>e.group=2)
+		tars.forEach(t=>t.getAttacked(this.damage))
+		this.remove()
+	}
+	update(dt){
+		if(this.x==this.tx&&this.y==this.ty){
+			this.explode()
+		}else this.moveOn(dt)
 	}
 }
 class Tower1 extends Tower{
 	constructor(){
 		super(5,1.5,3)
 	}
+	attack(e){
+		super.attack(e).z=20 //塔的高度
+	}
 }
-class Ball extends Projectile{
-	
+class Ball extends Bomb{
+	constructor(){
+		super(1.5)
+	}
 }
 class Mob extends Visible{
 	static states={}

@@ -19,7 +19,6 @@ function render(){
 	renderRoads()
 	if(ctrl.selGrid)renderTile(ctrl.selGrid,1)
 	renderEnts()
-	renderHud()
 }
 
 const colormap=['#bb0','#0a0','#06f']
@@ -73,25 +72,15 @@ function renderEnts(){
 	map.ents_to_render.forEach(e=>list.insert(e,cmp))
 	list.forEach(renderEnt)
 }
-function renderEnt({x,y,image:imgname}){
+function renderEnt({x,y,image:imgname,imageState}){
 	var img=images[imgname]||images.default
-	var {cx,cy}=img
 	var [x,y]=getCvsPos(x,y)
-	ctx.drawImage(img.src,x-cx,y-cy)
+	if(imageState){
+		let {z=0,rotate=0}=imageState
+		drawRotatedImage(img,x,y-z,imageState.rotate)
+	}else drawImage(img,x,y)
 }
 
-function renderHud(){
-	ctx.fillStyle='#642'
-	ctx.fillRect(0,HEIGHT-200,WIDTH,200)
-	ctx.fillStyle='#420'
-	ctx.fillRect(20,HEIGHT-180,WIDTH-40,160)
-	if(ctrl.selGrid){
-		ctx.font='40px sans-serif'
-		ctx.textBaseline='top'
-		ctx.fillStyle='#fff'
-		ctx.fillText(ctrl.selGrid.tile,40,HEIGHT-160)
-	}
-}
 function getCvsPos(x,y){//地图坐标转化为canvas坐标
 	return [map.ox+(x-y)*100,map.oy+(x+y)*50]
 }
@@ -129,5 +118,14 @@ function mapOctagon(x,y,d){//正八边形；x,y为中心，d为中心到平行�
 	ctx.lineTo(...getCvsPos(x+a,y-d))
 	ctx.lineTo(...getCvsPos(x+d,y-a))
 	ctx.closePath()
+}
+function drawImage({src,cx,cy},x,y){//第一个参数为asset
+	ctx.drawImage(src,x-cx,y-cy)
+}
+function drawRotatedImage(img,x,y,angle){
+	ctx.translate(x,y)
+	ctx.rotate(angle)
+	drawImage(img,0,0)
+	ctx.setTransform(1, 0, 0, 1, 0, 0) //归位
 }
 export {init,render}

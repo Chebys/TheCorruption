@@ -9,7 +9,7 @@ grids的tile
 	atkR  攻击半径
 	group  1玩家 2敌对
 	arrived 用于state
-	
+	z      目前仅用于抛射物；直接使用canvas坐标(dz=-dy)
 	
 分清哪些信息由实体记录/更新，哪些由state记录/更新
 关键看信息是否随状态切换而丢失
