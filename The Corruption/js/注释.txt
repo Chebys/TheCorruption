@@ -1,0 +1,23 @@
+grids的tile
+	0 泥土
+	1 草地
+	2 水
+
+实体属性
+	originGrid,targetGrid  表示ent处于两个grid连线上
+	ignored
+	atkR  攻击半径
+	group  1玩家 2敌对
+	arrived 用于state
+	
+	
+分清哪些信息由实体记录/更新，哪些由state记录/更新
+关键看信息是否随状态切换而丢失
+
+尽量不让属性为负数
+
+图片命名规则：
+	等图片多了再说
+
+
+grid的坐标不是它的中心！
