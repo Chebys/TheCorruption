@@ -73,9 +73,8 @@ class Visible extends Located{
 }
 class Building extends Visible{
 	group=1 //都是玩家？
-	constructor(atkR=2,health=100,r=0.4){
+	constructor(health=100,r=0.4){
 		super()
-		this.atkR=atkR
 		this.r=r
 		this.maxHealth=health
 		this.health=health
@@ -101,7 +100,7 @@ class HomeBase extends Building{
 	remove(){
 		map.homebase=null
 		super.remove()
-		console.log('输了。')
+		console.log('输了？')
 	}
 }
 class Tower extends Building{
@@ -132,7 +131,7 @@ class Tower extends Building{
 		if(this.cdLeft){
 			this.cdLeft=Math.max(this.cdLeft-dt,0)
 		}else{
-			var tars=this.getNearbyEnts(this.atkR,e=>e.group==2),tar
+			let tars=this.getNearbyEnts(this.atkR,e=>e.group==2),tar
 			if(!tars.size)return
 			for(let e of tars)if(this.cmpTarget(e,tar))tar=e
 			this.attack(tar)
@@ -195,7 +194,7 @@ class Parabolic extends Projectile{//抛射物
 class Bomb extends Parabolic{
 	atkR=1
 	explode(){
-		var tars=this.getNearbyEnts(this.atkR,e=>e.group=2)
+		var tars=this.getNearbyEnts(this.atkR,e=>e.group==2)
 		tars.forEach(t=>t.getAttacked(this.damage))
 		this.remove()
 	}
@@ -235,7 +234,7 @@ class Mob extends Visible{
 		this.state.name=name
 		return this.state
 	}
-	canPass(g1,g2){
+	canPass(g1,g2){//作为参数传递，不能出现this？
 		return g2.tile!=2 //默认不能渡水
 	}
 	findPath(grid){

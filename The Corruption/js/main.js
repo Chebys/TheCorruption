@@ -1,6 +1,6 @@
 import {loadAssets} from './assets.js'
 import strings from './strings.js'
-import {CvsEle,init as initUI,render as renderUI} from './cvsEle.js'
+import {CvsEle,init as initUI,reset as resetUI,render as renderUI} from './cvsEle.js'
 import {init as initRenderer,render as renderMap} from './render.js'
 import map from './map.js'
 
@@ -22,7 +22,6 @@ const ctrl={}
 map.ox=WIDTH/2,map.oy=0 //地图原点在canvas中的坐标
 
 initUI(canvas)
-initRenderer(canvas,map,ctrl)
 var currentFrame,t0
 function startGame(){
 	console.log('加载地图')
@@ -41,6 +40,7 @@ function startGame(){
 			map.oy+=dy
 		}
 	})
+	initRenderer(canvas,map,ctrl)
 	currentFrame=requestAnimationFrame(main)
 }
 function main(t){
@@ -58,6 +58,7 @@ function pause(){
 
 var UI={}
 function constructUI(){
+	resetUI()
 	var bHeight=200,bY=HEIGHT-bHeight //底栏位置
 	new CvsEle(2,2,100,40,{bgcolor:'#420',border:{width:4,color:'#864'}})
 	new CvsEle(10,14,0,0,{text:'$:100'})
@@ -111,7 +112,13 @@ var entData=[
 	['corrupter',6,3],
 	['tower1',4,3]
 ]
-loadAssets(startGame,(i,len)=>console.log('加载资源：'+i+'/'+len))
+
+var loadingInfo=new CvsEle(300,300)
+loadAssets(startGame,(i,len)=>{
+	var t='加载资源：'+i+'/'+len
+	loadingInfo.text(t)
+	renderUI()
+})
 
 //debug
 window.map=map

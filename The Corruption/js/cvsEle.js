@@ -98,6 +98,7 @@ function init(c,ctx1){
 	ctx=ctx1||c.getContext('2d')
 	for(let name in listeners)
 		c.addEventListener(name,e=>{
+			console.log()
 			for(let [ele,fn] of listeners[name])
 				if(isTarget(ele,e)){
 					fn(e,...canvas.getMousePos(e))
@@ -105,8 +106,12 @@ function init(c,ctx1){
 				}
 		})
 }
+function reset(){
+	elements=[]
+	for(let k in listeners)listeners[k].clear()
+}
 function render(){//按元素创建的顺序渲染
 	elements.forEach(e=>e.hidden||e.draw())
 }
 
-export {CvsEle,init,render,elements}
+export {CvsEle,init,reset,render,elements}
