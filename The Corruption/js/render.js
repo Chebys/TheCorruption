@@ -14,7 +14,7 @@ function render(){
 	ctx.fillRect(0,0,WIDTH,HEIGHT)
 	renderGrids()
 	renderRoads()
-	if(ctrl.selGrid)renderTile(ctrl.selGrid,1)
+	if(ctrl.selType=='grid')renderTile(ctrl.sel,1)
 	renderEnts()
 }
 

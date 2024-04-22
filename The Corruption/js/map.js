@@ -103,6 +103,14 @@ const map={
 		if(x1==x2||y1==y2)return true //邻边
 		if(this.getGrid(x1,y2)?.road||this.getGrid(x2,y1)?.road)return false //同时存在邻边和对角，优先邻边
 		return true
+	},
+	click(x,y){
+		var grid=this.getGrid(x,y)
+		if(grid)return ['grid',grid]
+		var building
+		if(building)return []
+		var unit
+		return [null,null]
 	}
 }
 

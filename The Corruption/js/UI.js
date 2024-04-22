@@ -53,8 +53,8 @@ const UI_inGame={
 		var bHeight=200,bY=canvas.height-bHeight //底栏位置
 		new CvsEle(0,bY,canvas.width,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
 			.on('mousedown',e=>e.stopImmediatePropagation())
-		this.info[0]=new CvsEle(100,bY+20,100,50,borderStyle)
-		this.info[1]=new CvsEle(100,bY+80,100,100,borderStyle)
+		this.info[0]=new CvsEle(100,bY+20,100,50,borderStyle) //名称
+		this.info[1]=new CvsEle(100,bY+80,100,100,borderStyle) //图片
 		this.info[2]=new CvsEle(250,bY+20,150,50,borderStyle)
 		this.info[3]=new CvsEle(250,bY+70,150,50,borderStyle)
 		this.info[4]=new CvsEle(250,bY+120,150,50,borderStyle)
@@ -110,8 +110,33 @@ const UI_inGame={
 const UI_editor={
 	construct(){
 		reset()
-		
-		render(1)
+		var bHeight=200,bY=canvas.height-bHeight //底栏位置
+		new CvsEle(0,bY,canvas.width,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
+			.on('mousedown',e=>e.stopImmediatePropagation())
+		for(let i=0;i<3;i++){
+			let tileButton=new CvsEle(100+i*100,bY+50,100,100,borderStyle)
+			tileButton.text(strings.tileName[i])
+			tileButton.on('click',e=>{
+				if(ctrl.sel){
+					ctrl.sel.tile=i
+					this.onMapChange()
+				}
+			})
+		}
+		var roadButton=new CvsEle(400,bY+50,100,100,borderStyle)
+		roadButton.text('道路')
+		roadButton.on('click',e=>{
+			if(ctrl.sel){
+				ctrl.sel.road=!ctrl.sel.road
+				this.onMapChange()
+			}
+		})
+	},
+	setOnMapChange(fn){
+		this.onMapChange=fn
+	},
+	render(){
+		render()
 	}
 }
 

@@ -58,32 +58,47 @@ function startGame(){
 	function clickHandler(e){//处理地图点击
 		if(e.button){
 			ctrl.reset()
+			UI.clear()
 			return
 		}
 		ctrl.mousedown=true
 		var [x,y]=canvas.getMousePos(e)
-		var grid=map.getGrid(...getMapPos(x,y))
-		if(grid){
-			ctrl.selGrid=grid
-			UI.showInfo(ctrl.getGridData())
-			return
+		var [type,obj]=map.click(...getMapPos(x,y))
+		if(type){
+			ctrl.select(type,obj)
+			UI.showInfo(ctrl.getData())
+		}else{
+			ctrl.reset()
+			UI.clear()
 		}
-		ctrl.selGrid=null
-		var ent
-		UI.clear()
 	}
 }
 
 function startEditor(l){
 	UI_editor.construct()
 	map.loadBlank(l)
+	UI_editor.setOnMapChange(e=>{
+		renderMap()
+		UI_editor.render()
+	})
 	canvas.addEventListener('mousedown',clickHandler)
 	canvas.addEventListener('mousemove',dragMap)
 	
 	renderMap()
+	UI_editor.render()
 	
-	function clickHandler(){
+	function clickHandler(e){
+		if(e.button){
+			ctrl.reset()
+			return
+		}
 		ctrl.mousedown=true
+		var [x,y]=canvas.getMousePos(e)
+		var grid=map.getGrid(...getMapPos(x,y))
+		if(grid)ctrl.select('grid',grid)
+		else ctrl.reset()
+		renderMap()
+		UI_editor.render()
 	}
 	function dragMap(e){
 		if(ctrl.mousedown){
@@ -91,6 +106,7 @@ function startEditor(l){
 			map.ox+=dx
 			map.oy+=dy
 			renderMap()
+			UI_editor.render()
 		}
 	}
 }
