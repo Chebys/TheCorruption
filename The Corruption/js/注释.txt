@@ -1,15 +1,21 @@
-grids的tile
-	0 泥土
-	1 草地
-	2 水
+地图数据格式（暂定）：
+	原则：可序列化为JSON
+	ox,oy
+	grids	[tile,road]
+	ents	[prefab,x,y]
+
+grid的tile
+	0	泥土
+	1	草地
+	2	水域
 
 实体属性
-	originGrid,targetGrid  表示ent处于两个grid连线上
+	originGrid,targetGrid	表示ent处于两个grid连线上
 	ignored
-	atkR  攻击半径
-	group  1玩家 2敌对
-	arrived 用于state
-	z      目前仅用于抛射物；直接使用canvas坐标(dz=-dy)
+	atkR		攻击半径
+	group		1玩家 2敌对
+	arrived		用于state
+	z			目前仅用于抛射物；直接使用canvas坐标(dz=-dy)
 	
 分清哪些信息由实体记录/更新，哪些由state记录/更新
 关键看信息是否随状态切换而丢失

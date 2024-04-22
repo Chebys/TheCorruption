@@ -1,6 +1,7 @@
 var canvas,ctx
 
 //尽量不要为互相遮挡的元素注册相同事件的监听，无法保证顺序
+//重复注册同一元素同一事件则覆盖
 var elements=[]
 var listeners={
 	mousemove:new Map(),
@@ -11,17 +12,16 @@ var defaultFont='20px sans-serif'
 var defaultcolor='#fff'
 /*style:
 	bgcolor
-	img  Asset对象
+	img		Asset对象
 	border:{
 		width
 		color
 	}
 	radius
-	text
 	font
 	color
-	textAlign
-	padding 单个数值；有更复杂的需求，请将文本作为独立element
+	textAlign	"left" || "right" || "center"（默认）
+	padding		单个数值；有更复杂的需求，请将文本作为独立element
 */
 class CvsEle{
 	constructor(x,y,width,height,style={}){
@@ -45,31 +45,46 @@ class CvsEle{
 		this.hidden=false
 	}
 	text(t){
-		this.style.text=t
+		this.intext=t
 	}
 	img(i){
 		this.style.img=i
 	}
 	draw(){
-		if(this.style.img){
-			ctx.drawImage(this.style.img.src,this.x1,this.y1)
-		}else if(this.style.bgcolor){
+		if(this.style.bgcolor){
 			ctx.fillStyle=this.style.bgcolor
 			ctx.fill(this.path)
 		} 
+		if(this.style.img){
+			ctx.drawImage(this.style.img.src,this.x1,this.y1)
+		}
 		if(this.style.border){
 			let {width,color}=this.style.border
 			ctx.lineWidth=width
 			ctx.strokeStyle=color
 			ctx.stroke(this.path)
 		}
-		if(this.style.text){
+		if(this.intext){
 			ctx.fillStyle=this.style.color||defaultcolor
 			ctx.font=this.style.font||defaultFont
-			ctx.textAlign=this.style.textAlign
 			ctx.textBaseline='top'
 			let pd=this.style.padding||0
-			ctx.fillText(this.style.text,this.x1+pd,this.y1+pd)
+			let x,y=this.y1+pd
+			switch(this.style.textAlign){
+				case 'left':
+					ctx.textAlign='left'
+					x=this.x1+pd
+					break
+				case 'right':
+					ctx.textAlign='right'
+					x=this.x2-pd
+					break
+				case 'center':
+				default:
+					ctx.textAlign='center'
+					x=(this.x1+this.x2)/2
+			}
+			ctx.fillText(this.intext,x,y)
 		}
 	}
 	on(eventName,fn){//fn(event,x,y)
@@ -98,7 +113,6 @@ function init(c,ctx1){
 	ctx=ctx1||c.getContext('2d')
 	for(let name in listeners)
 		c.addEventListener(name,e=>{
-			console.log()
 			for(let [ele,fn] of listeners[name])
 				if(isTarget(ele,e)){
 					fn(e,...canvas.getMousePos(e))

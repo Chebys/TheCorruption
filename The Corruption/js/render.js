@@ -1,7 +1,7 @@
 import LinkedList from '/lib/linkedList.js'
 import {canvas,ctx} from './canvas.js'
 import map from './map.js'
-import ctrl from './ctrl.js'
+import ctrl from './control.js'
 
 const bgcolor='#608'
 const roadWidth=0.6
