@@ -1,4 +1,4 @@
-import {init as initSpawner,spawn} from './ents.js'
+import {spawn} from './ents.js'
 
 const map={
 	load({grids,ents}){
@@ -91,6 +91,6 @@ class Grid{
 	get center(){return [this.x+0.5,this.y+0.5]}
 }
 
-initSpawner(map)
+map.spawn=spawn
 
 export default map

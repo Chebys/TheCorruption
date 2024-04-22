@@ -1,17 +1,14 @@
-import {images} from './assets.js'
 import LinkedList from '/lib/linkedList.js'
+import {canvas,ctx} from './canvas.js'
+import map from './map.js'
+import ctrl from './ctrl.js'
 
 const bgcolor='#608'
 const roadWidth=0.6
-var ctx,map,ctrl,WIDTH,HEIGHT
-function init(canvas,m,c){
-	WIDTH=canvas.width
-	HEIGHT=canvas.height
-	ctx=canvas.getContext('2d',{alpha:false})
-	//ctx.imageSmoothingEnabled=false
-	map=m
-	ctrl=c
-}
+
+const WIDTH=canvas.width
+const HEIGHT=canvas.height
+
 function render(){
 	ctx.fillStyle=bgcolor
 	ctx.fillRect(0,0,WIDTH,HEIGHT)
@@ -72,13 +69,12 @@ function renderEnts(){
 	map.ents_to_render.forEach(e=>list.insert(e,cmp))
 	list.forEach(renderEnt)
 }
-function renderEnt({x,y,image:imgname,imageState}){
-	var img=images[imgname]||images.default
+function renderEnt({x,y,image,imageState}){
 	var [x,y]=getCvsPos(x,y)
 	if(imageState){
 		let {z=0,rotate=0}=imageState
-		drawRotatedImage(img,x,y-z,imageState.rotate)
-	}else drawImage(img,x,y)
+		drawRotatedImage(image,x,y-z,imageState.rotate)
+	}else drawImage(image,x,y)
 }
 
 function getCvsPos(x,y){//地图坐标转化为canvas坐标
@@ -128,4 +124,4 @@ function drawRotatedImage(img,x,y,angle){
 	drawImage(img,0,0)
 	ctx.setTransform(1, 0, 0, 1, 0, 0) //归位
 }
-export {init,render}
+export default render

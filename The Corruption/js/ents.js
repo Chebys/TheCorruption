@@ -1,6 +1,6 @@
+import {images} from './assets.js'
+import map from './map.js'
 import states from'./states.js'
-
-var map
 
 class Ent{
 	constructor(){
@@ -64,7 +64,7 @@ class Visible extends Located{
 		map.ents_to_render.add(this)
 	}
 	get image(){
-		return this.name
+		return images[this.name]||images.default
 	}
 	remove(){
 		map.ents_to_render.delete(this)
@@ -206,7 +206,7 @@ class Bomb extends Parabolic{
 }
 class Tower1 extends Tower{
 	constructor(){
-		super(5,1.5,3)
+		super(2,1.5,3)
 	}
 	attack(e){
 		super.attack(e).z=20 //塔的高度
@@ -226,7 +226,7 @@ class Mob extends Visible{
 		map.ents_to_update.add(this)
 	}
 	get image(){
-		return this.state.image
+		return images[this.state.imageName]||images.default
 	}
 	setState(name){
 		var State=this.constructor.states[name]||states[name]
@@ -320,16 +320,13 @@ var prefabs={};
 	prefabs[C.name.toLocaleLowerCase()]=C
 })
 
-function init(m){
-	map=m
-}
 function spawn(name){
 	var C=prefabs[name]
 	if(C)return new C()
 	console.log('不存在名为"'+name+'"的prefab')
 }
 
-export {init,spawn}
+export {spawn}
 
 //window.prefabs=prefabs
 window.spawn=spawn

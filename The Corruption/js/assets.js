@@ -9,8 +9,8 @@ class Asset{
 		if(type=='image'){
 			this.src=new Image()
 			this.src.src=path+name+'.png'
-			this.cx=cx//实体中心在图片中的坐标（可超出图片，如飞行单位）
-			this.cy=cy
+			this.cx=cx||0 //实体中心在图片中的坐标（可超出图片，如飞行单位）
+			this.cy=cy||0
 			images[name]=this
 		}else if(type=='audio'){
 			audios[name]=this

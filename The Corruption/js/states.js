@@ -2,7 +2,7 @@ class State{
 	constructor(ent){
 		this.ent=ent
 	}
-	get image(){
+	get imageName(){
 		return this.ent.name
 	}
 	end(){//正常结束，而非中断

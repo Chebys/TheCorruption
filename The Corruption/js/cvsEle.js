@@ -11,7 +11,7 @@ var defaultFont='20px sans-serif'
 var defaultcolor='#fff'
 /*style:
 	bgcolor
-	img
+	img  Asset对象
 	border:{
 		width
 		color
@@ -52,7 +52,7 @@ class CvsEle{
 	}
 	draw(){
 		if(this.style.img){
-			
+			ctx.drawImage(this.style.img.src,this.x1,this.y1)
 		}else if(this.style.bgcolor){
 			ctx.fillStyle=this.style.bgcolor
 			ctx.fill(this.path)
@@ -110,7 +110,8 @@ function reset(){
 	elements=[]
 	for(let k in listeners)listeners[k].clear()
 }
-function render(){//按元素创建的顺序渲染
+function render(clear){//按元素创建的顺序渲染
+	if(clear)ctx.clearRect(0,0,canvas.width,canvas.height)
 	elements.forEach(e=>e.hidden||e.draw())
 }
 
