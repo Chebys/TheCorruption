@@ -1,10 +1,10 @@
 import strings from './strings.js'
 import {CvsEle,init as initEle,reset,render,elements} from './cvsEle.js'
-import {canvas} from './canvas.js'
+import {canvas,ctx} from './canvas.js'
 import ctrl from './control.js'
 import {images} from './assets.js'
 
-initEle(canvas,canvas.getContext('2d'))
+initEle(canvas,ctx)
 
 const WIDTH=canvas.width
 const HEIGHT=canvas.height
@@ -22,6 +22,7 @@ const UI_loading={
 const UI_mainMenu={
 	construct(){
 		reset()
+		new CvsEle(0,0,WIDTH,HEIGHT,{bgColor:'#000'})
 		this.startButton=new CvsEle(300,300,600,100,{bgcolor:'#646',font:'40px sans-serif',padding:30})
 		this.startButton.text('开始游戏')
 		this.editorButton=new CvsEle(300,500,600,100,{bgcolor:'#646',font:'40px sans-serif',padding:30})
