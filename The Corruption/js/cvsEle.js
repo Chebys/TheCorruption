@@ -121,7 +121,7 @@ function init(c,ctx1){
 		})
 }
 function reset(){
-	elements=[]
+	elements.splice(0)
 	for(let k in listeners)listeners[k].clear()
 }
 function render(clear){//按元素创建的顺序渲染
