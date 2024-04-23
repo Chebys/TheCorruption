@@ -24,13 +24,8 @@ class Located extends Ent{
 		return !map.blocked(x,y)
 	}
 	setPos(x,y){
-		var oldgrid=this.grid
 		this.x=x
 		this.y=y
-		if(this.grid!=oldgrid){
-			oldgrid?.ents.delete(this)
-			this.grid.ents.add(this)//建筑？
-		}
 	}
 	_moveTo(x,y,dt){
 		var k=this.speed*dt/map.dist(this,{x:x,y:y})
@@ -51,11 +46,7 @@ class Located extends Ent{
 	}
 	getNearbyEnts(dist,fn=e=>true){
 		var _fn=e=>e!=this&&fn(e)
-		return map.findEnts(this.x,this.y,dist,_fn)
-	}
-	remove(){
-		this.grid?.ents.delete(this)
-		super.remove()
+		return map.findUnits(this.x,this.y,dist,_fn)
 	}
 }
 class Visible extends Located{
@@ -79,6 +70,9 @@ class Building extends Visible{
 		this.maxHealth=health
 		this.health=health
 	}
+	get isWall(){
+		return this instanceof Wall
+	}
 	setPos(x,y){
 		super.setPos(x,y)
 		this.grid.building=this
@@ -92,15 +86,19 @@ class Building extends Visible{
 		super.remove()
 	}
 }
+class Wall extends Building{
+	
+}
 class HomeBase extends Building{
 	constructor(){
 		super()
+		map.homebase?.remove()
 		map.homebase=this
 	}
 	remove(){
 		map.homebase=null
 		super.remove()
-		console.log('输了？')
+		alert('输了。')
 	}
 }
 class Tower extends Building{
@@ -262,6 +260,14 @@ class Unit extends Mob{
 		this.cd=cd
 		this.atkR=atkR
 	}
+	setPos(x,y){
+		var oldGrid=this.grid
+		super.setPos(x,y)
+		if(oldGrid!=this.grid){
+			oldGrid?.units.delete(this)
+			this.grid.units.add(this)
+		}
+	}
 	attack(ent){//前置判断（距离、cd等）完成后调用
 		ent.getAttacked(this.damage)
 		this.cdLeft=this.cd
@@ -269,6 +275,10 @@ class Unit extends Mob{
 	getAttacked(dmg){
 		this.health-=dmg
 		if(this.health<=0)this.remove()
+	}
+	remove(){
+		this.grid?.units.delete(this)
+		super.remove()
 	}
 	update(dt){
 		if(this.cdLeft)this.cdLeft=Math.max(this.cdLeft-dt,0)//最好先判断状态
@@ -287,8 +297,7 @@ class Corrupter extends Enemy{
 		return map.hasRoad(g1,g2)
 	}
 }
-class Spawner extends Ent{
-	grids=new Set()
+class Spawner extends Located{
 	cd=60
 	cdLeft=3
 	constructor(){
@@ -303,14 +312,14 @@ class Spawner extends Ent{
 		this.cdLeft-=dt
 		if(this.cdLeft<=0){
 			this.cdLeft=this.cd
-			var e=spawn('corrupter')
-			e.toCenter(2,4)
+			spawn('corrupter').setPos(this.x,this.y)
 		}
 	}
 }
 
 var prefabs={};
 [
+	Wall,
 	HomeBase,
 	Tower1,
 	Ball,
@@ -323,7 +332,7 @@ var prefabs={};
 function spawn(name){
 	var C=prefabs[name]
 	if(C)return new C()
-	console.log('不存在名为"'+name+'"的prefab')
+	console.error('不存在名为"'+name+'"的prefab')
 }
 
 export {spawn}

@@ -35,7 +35,7 @@ const map={
 			for(let j=0;j<this.sizeY;j++){
 				let g=this.grids[i][j]
 				gridData[i][j]=[g.tile]
-				if(g.road)gridData.push(g.road)
+				if(g.road)gridData[i][j].push(g.road)
 			}
 		}
 		return {
@@ -81,13 +81,13 @@ const map={
 	dist({x:x1,y:y1},{x:x2,y:y2}){
 		return Math.sqrt((x1-x2)**2+(y1-y2)**2)
 	},
-	findEnts(x,y,dist,fn=e=>true){
+	findUnits(x,y,dist,fn=e=>true){
 		var grid=this.getGrid(x,y),res=new Set(),l=Math.ceil(dist)
 		for(let i=grid.x-l;i<=grid.x+l;i++)
 			for(let j=grid.y-l;j<=grid.y+l;j++){
 				let g=this.getGrid(i,j)
 				if(!g)continue
-				for(let e of g.ents)
+				for(let e of g.units)
 					if(this.dist({x:x,y:y},e)<=dist&&fn(e))
 						res.add(e)
 			}
@@ -120,7 +120,7 @@ class Grid{
 		this.y=y
 		this.tile=tile
 		this.road=road
-		this.ents=new Set()
+		this.units=new Set()
 	}
 	get center(){return [this.x+0.5,this.y+0.5]}
 }

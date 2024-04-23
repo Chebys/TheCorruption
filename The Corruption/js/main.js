@@ -77,10 +77,22 @@ function startGame(){
 function startEditor(l){
 	UI_editor.construct()
 	map.loadBlank(l)
-	UI_editor.setOnMapChange(e=>{
+	UI_editor.setOnMapChange(()=>{
 		renderMap()
 		UI_editor.render()
 	})
+	UI_editor.setOnSave(()=>{
+		var data=map.export()
+		localStorage.setItem('mapData',JSON.stringify(data))
+		alert('已保存至localStorage.mapData')
+	})
+	UI_editor.setOnExit(()=>{
+		ctrl.reset()
+		canvas.removeEventListener('mousedown',clickHandler)
+		canvas.removeEventListener('mousemove',dragMap)
+		mainMenu()
+	})
+	
 	canvas.addEventListener('mousedown',clickHandler)
 	canvas.addEventListener('mousemove',dragMap)
 	
@@ -129,7 +141,8 @@ var gridData=[
 var entData=[
 	['homebase',2,2],
 	['corrupter',6,3],
-	['tower1',4,3]
+	['tower1',4,3],
+	['spawner',6,3]
 ]
 UI_loading.construct()
 loadAssets(mainMenu,(i,len)=>{

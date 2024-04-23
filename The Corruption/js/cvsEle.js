@@ -106,7 +106,7 @@ function isTarget(ele,e){
 
 function init(c,ctx1){
 	if(!c.getMousePos){
-		console.log('canvas应具有getMousePos方法')
+		console.error('canvas应具有getMousePos方法')
 		return
 	}
 	canvas=c

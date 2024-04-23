@@ -1,10 +1,13 @@
 import strings from './strings.js'
 import {CvsEle,init as initEle,reset,render} from './cvsEle.js'
-import {canvas,ctx} from './canvas.js'
+import {canvas} from './canvas.js'
 import ctrl from './control.js'
 import {images} from './assets.js'
 
-initEle(canvas,ctx)
+initEle(canvas,canvas.getContext('2d'))
+
+const WIDTH=canvas.width
+const HEIGHT=canvas.height
 
 const UI_loading={
 	construct(){
@@ -50,8 +53,8 @@ const UI_inGame={
 		this.exitButton.text('返回主菜单')
 		this.exitButton.hide()
 		
-		var bHeight=200,bY=canvas.height-bHeight //底栏位置
-		new CvsEle(0,bY,canvas.width,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
+		var bHeight=200,bY=HEIGHT-bHeight //底栏位置
+		new CvsEle(0,bY,WIDTH,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
 			.on('mousedown',e=>e.stopImmediatePropagation())
 		this.info[0]=new CvsEle(100,bY+20,100,50,borderStyle) //名称
 		this.info[1]=new CvsEle(100,bY+80,100,100,borderStyle) //图片
@@ -110,11 +113,11 @@ const UI_inGame={
 const UI_editor={
 	construct(){
 		reset()
-		var bHeight=200,bY=canvas.height-bHeight //底栏位置
-		new CvsEle(0,bY,canvas.width,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
+		var bHeight=200,bY=HEIGHT-bHeight //底栏位置
+		new CvsEle(0,bY,WIDTH,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
 			.on('mousedown',e=>e.stopImmediatePropagation())
 		for(let i=0;i<3;i++){
-			let tileButton=new CvsEle(100+i*100,bY+50,100,100,borderStyle)
+			let tileButton=new CvsEle(100+i*100,bY+50,100,50,borderStyle)
 			tileButton.text(strings.tileName[i])
 			tileButton.on('click',e=>{
 				if(ctrl.sel){
@@ -123,7 +126,7 @@ const UI_editor={
 				}
 			})
 		}
-		var roadButton=new CvsEle(400,bY+50,100,100,borderStyle)
+		var roadButton=new CvsEle(400,bY+50,100,50,borderStyle)
 		roadButton.text('道路')
 		roadButton.on('click',e=>{
 			if(ctrl.sel){
@@ -131,9 +134,20 @@ const UI_editor={
 				this.onMapChange()
 			}
 		})
+		this.saveButton=new CvsEle(800,bY+50,100,50,borderStyle)
+		this.saveButton.text('保存')
+		this.exitButton=new CvsEle(900,bY+50,100,50,borderStyle)
+		this.exitButton.text('退出')
+		
 	},
 	setOnMapChange(fn){
 		this.onMapChange=fn
+	},
+	setOnSave(fn){
+		this.saveButton.on('click',fn)
+	},
+	setOnExit(fn){
+		this.exitButton.on('click',fn)
 	},
 	render(){
 		render()
