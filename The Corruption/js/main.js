@@ -27,6 +27,7 @@ function startGame(){
 	UI.setOnExit(exit)
 	canvas.addEventListener('mousedown',clickHandler)
 	canvas.addEventListener('mousemove',dragMap)
+	map.inGame=true //有用吗？
 	currentFrame=requestAnimationFrame(main)
 	
 	function main(t){
@@ -42,6 +43,7 @@ function startGame(){
 	}
 	function exit(){
 		cancelAnimationFrame(currentFrame)
+		map.inGame=false
 		ctrl.reset()
 		canvas.removeEventListener('mousedown',clickHandler)
 		canvas.removeEventListener('mousemove',dragMap)

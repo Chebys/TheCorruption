@@ -27,7 +27,7 @@ class Located extends Ent{
 		this.x=x
 		this.y=y
 	}
-	_moveTo(x,y,dt){
+	_moveTo(x,y,dt){//需要this.speed
 		var k=this.speed*dt/map.dist(this,{x:x,y:y})
 		if(k>=1)return [x,y]
 		return [this.x+(x-this.x)*k,this.y+(y-this.y)*k]
@@ -92,12 +92,13 @@ class Wall extends Building{
 class HomeBase extends Building{
 	constructor(){
 		super()
-		map.homebase?.remove()
+		map.homebase?.remove(true)
 		map.homebase=this
 	}
-	remove(){
+	remove(noLose){
 		map.homebase=null
 		super.remove()
+		if(noLose)return
 		alert('输了。')
 	}
 }
@@ -315,6 +316,9 @@ class Spawner extends Located{
 			spawn('corrupter').setPos(this.x,this.y)
 		}
 	}
+}
+class AreaSpawner extends Ent{
+	
 }
 
 var prefabs={};

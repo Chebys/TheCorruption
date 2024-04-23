@@ -1,11 +1,12 @@
 import {spawn} from './ents.js'
 
 const map={
-	load({ox=600,oy=0,grids,ents}){
+	load({ox=600,oy=0,grids,stats={},ents}){
 		this.ox=ox //地图原点在canvas中的坐标
 		this.oy=oy
 		this.sizeX=grids.length
 		this.sizeY=grids[0].length
+		this.stats=stats //食物，木材，黄金，石料
 		this.grids=[]
 		this.ents=new Set()
 		this.ents_to_render=new Set()

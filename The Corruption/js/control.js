@@ -1,4 +1,5 @@
 import strings from './strings.js'
+import map from './map.js'
 
 const getData={
 	grid:g=>{
@@ -20,6 +21,13 @@ const control={
 	},
 	option(i){//当控件被点击，由UI调用
 		console.log(i)
+	},
+	editorOption(cmd){//用于地图编辑器
+		if(this.selType!='grid')return
+		switch(cmd){
+			case 'homebase':
+				map.spawn('homebase').setGrid(this.sel)
+		}
 	},
 	reset(){//鼠标、键盘按下状态不能清除
 		this.selType=null

@@ -134,6 +134,13 @@ const UI_editor={
 				this.onMapChange()
 			}
 		})
+		var baseButton=new CvsEle(500,bY+50,100,50,borderStyle)
+		baseButton.text('基地')
+		baseButton.on('click',e=>{
+			ctrl.editorOption('homebase')
+			this.onMapChange()
+		})
+		
 		this.saveButton=new CvsEle(800,bY+50,100,50,borderStyle)
 		this.saveButton.text('保存')
 		this.exitButton=new CvsEle(900,bY+50,100,50,borderStyle)
