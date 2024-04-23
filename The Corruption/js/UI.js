@@ -1,5 +1,5 @@
 import strings from './strings.js'
-import {CvsEle,init as initEle,reset,render} from './cvsEle.js'
+import {CvsEle,init as initEle,reset,render,elements} from './cvsEle.js'
 import {canvas} from './canvas.js'
 import ctrl from './control.js'
 import {images} from './assets.js'

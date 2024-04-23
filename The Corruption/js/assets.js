@@ -1,6 +1,11 @@
-const path='/The Corruption/img/'
+const path='/The Corruption/'
 
 const assets=[],images={},audios={}
+
+const eventName={
+	image:'load',
+	audio:'canplaythrough'
+}
 
 class Asset{
 	constructor(type,name,cx,cy){
@@ -8,18 +13,33 @@ class Asset{
 		this.name=name
 		if(type=='image'){
 			this.src=new Image()
-			this.src.src=path+name+'.png'
+			this.url=path+'img/'+name+'.png'
 			this.cx=cx||0 //实体中心在图片中的坐标（可超出图片，如飞行单位）
 			this.cy=cy||0
 			images[name]=this
 		}else if(type=='audio'){
+			this.src=new Audio()
+			this.url=path+'audio/'+name
 			audios[name]=this
 		}
 		assets.push(this)
 	}
 	load(onload){//考虑做成异步函数？
-		if(this.src.complete)onload()
-		else this.src.onload=onload
+		var e=eventName[this.type]
+		var fn=()=>{
+			this.src.removeEventListener(e,fn) //改变currentTime会重复触发
+			onload()
+		}
+		this.src.addEventListener(e,fn)
+		this.src.src=this.url
+	}
+	play(reset){
+		return //考虑使用Web Audio API
+		if(reset)this.src.currentTime=0
+		this.src.play()
+	}
+	pause(){
+		this.src.pause()
 	}
 }
 
@@ -28,6 +48,8 @@ new Asset('image','default',32,64)
 new Asset('image','homebase',32,32)
 new Asset('image','corrupter',32,48)
 new Asset('image','ball',16,16)
+//new Asset('audio','bg.mid') 不支持的格式
+new Asset('audio','bg.mp3')
 
 function loadAssets(onload,beforeEach){
 	var i=0,len=assets.length
@@ -42,4 +64,4 @@ function loadAssets(onload,beforeEach){
 	loadNext()
 }
 
-export {loadAssets,images}
+export {loadAssets,images,audios}

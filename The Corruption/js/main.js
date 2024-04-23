@@ -1,4 +1,4 @@
-import {loadAssets} from './assets.js'
+import {audios,loadAssets} from './assets.js'
 import {canvas} from './canvas.js'
 //import strings from './strings.js'
 import {UI_loading,UI_mainMenu,UI_inGame as UI,UI_editor} from './UI.js'
@@ -18,12 +18,16 @@ function mainMenu(){
 }
 
 function startGame(){
+	audios['bg.mp3'].play(1)
 	var currentFrame,t0
 	UI_loading.push('加载地图')
 	map.load({ox:canvas.width/2,oy:0,grids:gridData,ents:entData})
 	UI.construct() //优先为UI添加事件监听
-	UI.setOnPause(()=>cancelAnimationFrame(currentFrame))//取消监听？
-	UI.setOnContinue(main)//requestAnimationFrame会传入当前时间，导致longUpdate
+	UI.setOnPause(()=>{
+		audios['bg.mp3'].pause()
+		cancelAnimationFrame(currentFrame)
+	})//取消监听？
+	UI.setOnContinue(continu)
 	UI.setOnExit(exit)
 	canvas.addEventListener('mousedown',clickHandler)
 	canvas.addEventListener('mousemove',dragMap)
@@ -39,7 +43,8 @@ function startGame(){
 		currentFrame=requestAnimationFrame(main)
 	}
 	function continu(){
-		main()
+		audios['bg.mp3'].play()
+		main()//requestAnimationFrame会传入当前时间，导致longUpdate
 	}
 	function exit(){
 		cancelAnimationFrame(currentFrame)

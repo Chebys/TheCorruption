@@ -24,7 +24,7 @@ var defaultcolor='#fff'
 	padding		单个数值；有更复杂的需求，请将文本作为独立element
 */
 class CvsEle{
-	constructor(x,y,width,height,style={}){
+	constructor(x,y,width=0,height=0,style={}){
 		this.x1=x
 		this.y1=y
 		this.x2=x+width
@@ -130,3 +130,5 @@ function render(clear){//按元素创建的顺序渲染
 }
 
 export {CvsEle,init,reset,render,elements}
+
+window.elements=elements
