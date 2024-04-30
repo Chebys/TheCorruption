@@ -32,6 +32,7 @@ function startGame(){
 	canvas.addEventListener('mousedown',clickHandler)
 	canvas.addEventListener('mousemove',dragMap)
 	map.inGame=true //有用吗？
+	
 	currentFrame=requestAnimationFrame(main)
 	
 	function main(t){

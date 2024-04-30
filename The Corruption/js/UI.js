@@ -28,6 +28,19 @@ const UI_mainMenu={
 		this.startButton.text('开始游戏')
 		this.editorButton=new CvsEle(300,500,600,100,{bgcolor:'#646',font:'40px sans-serif',padding:30})
 		this.editorButton.text('地图编辑器')
+		this.FSButton=new CvsEle(0,0,120,60,{bgcolor:'#646',font:'30px sans-serif',padding:20})
+		this.FSButton.text(document.fullscreenElement?'退出全屏':'全屏')
+		this.FSButton.on('click',()=>{
+			if(document.fullscreenElement){
+				document.exitFullscreen()
+				this.FSButton.text('全屏')
+				render(1)
+			}else{
+				document.body.requestFullscreen()
+				this.FSButton.text('退出全屏')
+				render(1)
+			}
+		})
 		render(1)
 	},
 	setOnStartGame(fn){

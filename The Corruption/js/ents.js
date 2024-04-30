@@ -44,7 +44,7 @@ class Located extends Ent{
 		if(tar.r)d-=tar.r
 		return d
 	}
-	getNearbyEnts(dist,fn=e=>true){
+	getNearbyUnits(dist,fn=e=>true){
 		var _fn=e=>e!=this&&fn(e)
 		return map.findUnits(this.x,this.y,dist,_fn)
 	}
@@ -130,7 +130,7 @@ class Tower extends Building{
 		if(this.cdLeft){
 			this.cdLeft=Math.max(this.cdLeft-dt,0)
 		}else{
-			let tars=this.getNearbyEnts(this.atkR,e=>e.group==2),tar
+			let tars=this.getNearbyUnits(this.atkR,e=>e.group==2),tar
 			if(!tars.size)return
 			for(let e of tars)if(this.cmpTarget(e,tar))tar=e
 			this.attack(tar)
@@ -193,7 +193,7 @@ class Parabolic extends Projectile{//抛射物
 class Bomb extends Parabolic{
 	atkR=1
 	explode(){
-		var tars=this.getNearbyEnts(this.atkR,e=>e.group==2)
+		var tars=this.getNearbyUnits(this.atkR,e=>e.group==2)
 		tars.forEach(t=>t.getAttacked(this.damage))
 		this.remove()
 	}
