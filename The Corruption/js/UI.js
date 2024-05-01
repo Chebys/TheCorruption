@@ -24,9 +24,10 @@ const UI_mainMenu={
 	construct(){
 		reset()
 		new CvsEle(0,0,WIDTH,HEIGHT,{bgcolor:'#000'})
-		this.startButton=new CvsEle(300,300,600,100,{bgcolor:'#646',font:'40px sans-serif',padding:30})
+		var mainbtstyle={bgcolor:'#646',font:'40px sans-serif',padding:30,radius:20,border:{width:2,color:'#fff'}}
+		this.startButton=new CvsEle(300,250,600,100,mainbtstyle)
 		this.startButton.text('开始游戏')
-		this.editorButton=new CvsEle(300,500,600,100,{bgcolor:'#646',font:'40px sans-serif',padding:30})
+		this.editorButton=new CvsEle(300,450,600,100,mainbtstyle)
 		this.editorButton.text('地图编辑器')
 		this.FSButton=new CvsEle(0,0,120,60,{bgcolor:'#646',font:'30px sans-serif',padding:20})
 		this.FSButton.text(document.fullscreenElement?'退出全屏':'全屏')
