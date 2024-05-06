@@ -54,7 +54,7 @@ class CvsEle{
 		this.hidden=false
 	}
 	text(t){
-		this.intext=t
+		this.intext=t //字符串或函数
 	}
 	img(i){
 		this.style.img=i
@@ -91,7 +91,8 @@ class CvsEle{
 					ctx.textAlign='center'
 					x=(this.x1+this.x2)/2
 			}
-			ctx.fillText(this.intext,x,y)
+			var t=this.intext
+			ctx.fillText(typeof t=='function'?t():t,x,y)
 		}
 	}
 	on(eventName,fn){//fn(event,x,y)

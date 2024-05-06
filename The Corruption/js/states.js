@@ -75,11 +75,10 @@ class Attacking extends State{
 			return
 		}
 		//前摇以后再说
-		if(this.ent.cdLeft){
-			//cd不能取消，由实体更新
-		}else{
+		if(this.ent.cd.ready){
 			this.ent.attack(this.targetEnt)
 		}
+		//cd不能取消，由实体更新
 	}
 }
 class Invading extends State{

@@ -38,7 +38,7 @@ class Asset{
 		}
 		else drawImage(ctx,this,x,y)
 	}
-	play(reset){
+	play(reset){//反复？
 		if(reset)this.src.currentTime=0
 		this.src.play()
 	}

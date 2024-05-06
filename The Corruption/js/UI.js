@@ -9,6 +9,13 @@ initEle(canvas,ctx)
 const WIDTH=canvas.width
 const HEIGHT=canvas.height
 
+function toggleFS(){
+	return document.fullscreenElement
+		?document.exitFullscreen()
+		:document.body.requestFullscreen()
+}
+var FStext=()=>document.fullscreenElement?'退出全屏':'全屏'
+
 const UI_loading={
 	construct(){
 		reset()
@@ -30,18 +37,8 @@ const UI_mainMenu={
 		this.editorButton=new CvsEle(300,450,600,100,mainbtstyle)
 		this.editorButton.text('地图编辑器')
 		this.FSButton=new CvsEle(0,0,120,60,{bgcolor:'#646',font:'30px sans-serif',padding:20})
-		this.FSButton.text(document.fullscreenElement?'退出全屏':'全屏')
-		this.FSButton.on('click',()=>{
-			if(document.fullscreenElement){
-				document.exitFullscreen()
-				this.FSButton.text('全屏')
-				render(1)
-			}else{
-				document.body.requestFullscreen()
-				this.FSButton.text('退出全屏')
-				render(1)
-			}
-		})
+		this.FSButton.text(FStext)
+		this.FSButton.on('click',()=>toggleFS().then(()=>render(1)))
 		render(1)
 	},
 	setOnStartGame(fn){
@@ -58,16 +55,19 @@ const UI_inGame={
 	options:[],
 	construct(){
 		reset()
-		new CvsEle(2,2,100,40,{bgcolor:'#420',border:{width:4,color:'#864'},padding:10}).text('$:100')
+		this.stat_gold=new CvsEle(2,2,100,40,{bgcolor:'#420',border:{width:4,color:'#864'},padding:10})
 		
-		this.pauseButton=new CvsEle(1100,0,100,40,{bgcolor:'#420'})
+		this.pauseButton=new CvsEle(1100,0,100,40,{bgcolor:'#420',padding:10})
 		this.pauseButton.text('暂停')
-		this.continueButton=new CvsEle(300,200,600,100,menuStyle)
+		
+		this.continueButton=new CvsEle(300,150,600,100,menuStyle)
 		this.continueButton.text('继续')
-		this.continueButton.hide()
-		this.exitButton=new CvsEle(300,300,600,100,menuStyle)
+		this.FSButton=new CvsEle(300,250,600,100,menuStyle)
+		this.FSButton.text(FStext)
+		this.FSButton.on('click',()=>toggleFS().then(()=>this.FSButton.draw()))//不能清除之前的画面，麻烦
+		this.exitButton=new CvsEle(300,350,600,100,menuStyle)
 		this.exitButton.text('返回主菜单')
-		this.exitButton.hide()
+		this.hideMenu()
 		
 		var bHeight=200,bY=HEIGHT-bHeight //底栏位置
 		new CvsEle(0,bY,WIDTH,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
@@ -116,13 +116,18 @@ const UI_inGame={
 		this.info.forEach((ele,i)=>ele.text(info[i]))
 		this.options.forEach((ele,i)=>ele.img(images[options[i]]))
 	},
+	pushStats({gold}){
+		this.stat_gold.text('$:'+gold)
+	},
 	showMenu(){
 		this.continueButton.show()
+		this.FSButton.show()
 		this.exitButton.show()
 		render()
 	},
 	hideMenu(){
 		this.continueButton.hide()
+		this.FSButton.hide()
 		this.exitButton.hide()
 	}
 }

@@ -2,12 +2,38 @@ import {images} from './assets.js'
 import map from './map.js'
 import states from'./states.js'
 
+class CD{
+	constructor(total,left){
+		this.total=total
+		this.left=left??total
+	}
+	get ready(){
+		return !this.left
+	}
+	refresh(){
+		this.left=this.total
+	}
+	update(dt,autoRefresh){//无需前置判断
+		this.left=Math.max(this.left-dt,0)
+		if(autoRefresh&&this.ready){
+			this.refresh()
+			return true
+		}
+	}
+}
+
 class Ent{
 	constructor(){
 		map.ents.add(this)
 	}
 	get name(){
 		return this.constructor.name.toLocaleLowerCase()
+	}
+	startUpdating(){
+		map.ents_to_update.add(this)
+	}
+	stopUpdating(){
+		map.ents_to_update.delete(this)
 	}
 	remove(){
 		map.ents.delete(this)
@@ -104,13 +130,12 @@ class HomeBase extends Building{
 }
 class Tower extends Building{
 	projectile='ball'
-	cdLeft=0
 	constructor(damage,atkR,cd){
 		super()
 		this.damage=damage
 		this.atkR=atkR
-		this.cd=cd
-		map.ents_to_update.add(this)
+		this.cd=new CD(cd,0)
+		this.startUpdating()
 	}
 	cmpTarget(t1,t2){//比较优先级；t1优先时返回真
 		return true
@@ -119,7 +144,7 @@ class Tower extends Building{
 		var p=spawn(this.projectile)
 		p.damage=this.damage
 		p.track(this,e)
-		this.cdLeft=this.cd
+		this.cd.refresh()
 		return p
 	}
 	remove(){
@@ -127,13 +152,13 @@ class Tower extends Building{
 		super.remove()
 	}
 	update(dt){
-		if(this.cdLeft){
-			this.cdLeft=Math.max(this.cdLeft-dt,0)
-		}else{
+		if(this.cd.ready){
 			let tars=this.getNearbyUnits(this.atkR,e=>e.group==2),tar
 			if(!tars.size)return
 			for(let e of tars)if(this.cmpTarget(e,tar))tar=e
 			this.attack(tar)
+		}else{
+			this.cd.update(dt)
 		}
 	}
 }
@@ -141,7 +166,7 @@ class Projectile extends Visible{//Mob只能沿grid移动
 	constructor(speed=4){
 		super()
 		this.speed=speed
-		map.ents_to_update.add(this)
+		this.startUpdating()
 	}
 	track(origin,target){
 		this.setPos(origin.x,origin.y)
@@ -153,7 +178,7 @@ class Projectile extends Visible{//Mob只能沿grid移动
 		this.setPos(...this._moveTo(this.tx,this.ty,dt))
 	}
 	remove(){
-		map.ents_to_update.delete(this)
+		this.stopUpdating()
 		super.remove()
 	}
 	update(dt){
@@ -216,13 +241,24 @@ class Ball extends Bomb{
 		super(1.5)
 	}
 }
+class GoldMine extends Building{
+	constructor(){
+		super()
+		this.cd=new CD(1)
+		this.startUpdating()
+	}
+	update(dt){
+		this.cd.update(dt,true)
+			&&(map.stats.gold+=1)
+	}
+}
 class Mob extends Visible{
 	static states={}
 	constructor(speed=1){
 		super()
 		this.speed=speed
 		this.setState('default')
-		map.ents_to_update.add(this)
+		this.startUpdating()
 	}
 	get image(){
 		return images[this.state.imageName]||images.default
@@ -243,7 +279,7 @@ class Mob extends Visible{
 		this.setState('Moving').target(grid)
 	}
 	remove(){
-		map.ents_to_update.delete(this)
+		this.stopUpdating()
 		super.remove()
 	}
 	update(dt){
@@ -251,14 +287,13 @@ class Mob extends Visible{
 	}
 }
 class Unit extends Mob{
-	cdLeft=0
 	constructor(health,damage,moreData={}){
 		var {speed=0.3,cd=1,atkR=0.1}=moreData
 		super(speed)
 		this.maxHealth=health
 		this.health=health
 		this.damage=damage
-		this.cd=cd
+		this.cd=new CD(cd,0)
 		this.atkR=atkR
 	}
 	setPos(x,y){
@@ -271,7 +306,7 @@ class Unit extends Mob{
 	}
 	attack(ent){//前置判断（距离、cd等）完成后调用
 		ent.getAttacked(this.damage)
-		this.cdLeft=this.cd
+		this.cd.refresh()
 	}
 	getAttacked(dmg){
 		this.health-=dmg
@@ -282,7 +317,7 @@ class Unit extends Mob{
 		super.remove()
 	}
 	update(dt){
-		if(this.cdLeft)this.cdLeft=Math.max(this.cdLeft-dt,0)//最好先判断状态
+		this.cd.update(dt)//最好先判断状态
 		super.update(dt)
 	}
 }
@@ -299,22 +334,18 @@ class Corrupter extends Enemy{
 	}
 }
 class Spawner extends Located{
-	cd=60
-	cdLeft=3
 	constructor(){
 		super()
-		map.ents_to_update.add(this)
+		this.cd=new CD(60,3)
+		this.startUpdating()
 	}
 	remove(){
-		map.ents_to_update.delete(this)
+		this.stopUpdating()
 		super.remove()
 	}
 	update(dt){
-		this.cdLeft-=dt
-		if(this.cdLeft<=0){
-			this.cdLeft=this.cd
-			spawn('corrupter').setPos(this.x,this.y)
-		}
+		this.cd.update(dt,true)
+			&&spawn('corrupter').setPos(this.x,this.y)
 	}
 }
 class AreaSpawner extends Ent{
@@ -327,6 +358,7 @@ var prefabs={};
 	HomeBase,
 	Tower1,
 	Ball,
+	GoldMine,
 	Corrupter,
 	Spawner
 ].forEach(C=>{

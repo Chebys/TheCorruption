@@ -40,6 +40,7 @@ function startGame(){
 		var dt=t&&t0?(t-t0)/1000:0
 		t0=t
 		renderMap()
+		UI.pushStats(map.stats)
 		UI.render()
 		map.ents_to_update.forEach(e=>e.update(dt))
 		currentFrame=requestAnimationFrame(main)
@@ -151,7 +152,8 @@ var entData=[
 	['homebase',2,2],
 	['corrupter',6,3],
 	['tower1',4,3],
-	['spawner',6,3]
+	['spawner',6,3],
+	['goldmine',1,1]
 ]
 UI_loading.construct()
 loadAssets(mainMenu,(i,len)=>{
