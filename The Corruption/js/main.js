@@ -18,13 +18,14 @@ function mainMenu(){
 }
 
 function startGame(){
-	audios['bg.mp3'].play(1)
+	var bgmusic=audios['bg.mp3']
+	bgmusic.play(1)
 	var currentFrame,t0
 	UI_loading.push('加载地图')
 	map.load({ox:canvas.width/2,oy:0,grids:gridData,ents:entData})
 	UI.construct() //优先为UI添加事件监听
 	UI.setOnPause(()=>{
-		audios['bg.mp3'].pause()
+		bgmusic.pause()
 		cancelAnimationFrame(currentFrame)
 	})//取消监听？
 	UI.setOnContinue(continu)
@@ -44,7 +45,7 @@ function startGame(){
 		currentFrame=requestAnimationFrame(main)
 	}
 	function continu(){
-		audios['bg.mp3'].play()
+		bgmusic.play()
 		main()//requestAnimationFrame会传入当前时间，导致longUpdate
 	}
 	function exit(){

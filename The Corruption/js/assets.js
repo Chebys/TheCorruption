@@ -26,21 +26,29 @@ class Asset{
 	}
 	load(onload){//考虑做成异步函数？
 		var e=eventName[this.type]
-		var fn=()=>{
-			this.src.removeEventListener(e,fn) //改变currentTime会重复触发
-			onload()
-		}
-		this.src.addEventListener(e,fn)
+		this.src.addEventListener(e,onload,{once:true})
 		this.src.src=this.url
 	}
+	draw(ctx,x,y,angle){
+		if(angle){
+			ctx.translate(x,y)
+			ctx.rotate(angle)
+			drawImage(ctx,this,0,0)
+			ctx.setTransform(1, 0, 0, 1, 0, 0) //归位
+		}
+		else drawImage(ctx,this,x,y)
+	}
 	play(reset){
-		return //考虑使用Web Audio API
 		if(reset)this.src.currentTime=0
 		this.src.play()
 	}
 	pause(){
 		this.src.pause()
 	}
+}
+
+function drawImage(ctx,{src,cx,cy},x,y){
+	ctx.drawImage(src,x-cx,y-cy)
 }
 
 new Asset('image','test')

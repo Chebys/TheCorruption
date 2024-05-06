@@ -73,8 +73,8 @@ function renderEnt({x,y,image,imageState}){
 	var [x,y]=getCvsPos(x,y)
 	if(imageState){
 		let {z=0,rotate=0}=imageState
-		drawRotatedImage(image,x,y-z,imageState.rotate)
-	}else drawImage(image,x,y)
+		image.draw(ctx,x,y-z,imageState.rotate)
+	}else image.draw(ctx,x,y)
 }
 
 function getCvsPos(x,y){//地图坐标转化为canvas坐标
@@ -115,13 +115,5 @@ function mapOctagon(x,y,d){//正八边形；x,y为中心，d为中心到平行�
 	ctx.lineTo(...getCvsPos(x+d,y-a))
 	ctx.closePath()
 }
-function drawImage({src,cx,cy},x,y){//第一个参数为asset
-	ctx.drawImage(src,x-cx,y-cy)
-}
-function drawRotatedImage(img,x,y,angle){
-	ctx.translate(x,y)
-	ctx.rotate(angle)
-	drawImage(img,0,0)
-	ctx.setTransform(1, 0, 0, 1, 0, 0) //归位
-}
+
 export default render
