@@ -15,6 +15,7 @@ function render(){
 	renderGrids()
 	renderRoads()
 	if(ctrl.selType=='grid')renderTile(ctrl.sel,1)
+	else if(ctrl.selType=='building')circleEnt(ctrl.sel)
 	renderEnts()
 }
 
@@ -64,6 +65,14 @@ function renderRoad(g1,g2){
 	ctx.fill()
 }
 
+function circleEnt({x,y,r},r1=0.4){//选中
+	r=r||r1
+	ctx.lineWidth=4
+	ctx.strokeStyle='rgba(255,255,255,0.8)'
+	ctx.lineJoin='round'
+	mapOctagon(x,y,r)
+	ctx.stroke()
+}
 function renderEnts(){
 	var list=new LinkedList(),cmp=(e1,e2)=>e1.x+e1.y<e2.x+e2.y
 	map.ents_to_render.forEach(e=>list.insert(e,cmp))
@@ -77,7 +86,7 @@ function renderEnt({x,y,image,imageState}){
 	}else image.draw(ctx,x,y)
 }
 
-function getCvsPos(x,y){//地图坐标转化为canvas坐标
+function getCvsPos(x,y,z=0){//地图坐标转化为canvas坐标
 	return [map.ox+(x-y)*100,map.oy+(x+y)*50]
 }
 function mapRect(x,y,sizex,sizey){

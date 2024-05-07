@@ -12,12 +12,11 @@ var defaultFont='20px sans-serif'
 var defaultcolor='#fff'
 /*style:
 	bgcolor
-	img		Asset对象
 	border:{
 		width
 		color
 	}
-	radius
+	radius		符合roundRect语法
 	font
 	color
 	textAlign	"left" || "right" || "center"（默认）
@@ -31,20 +30,8 @@ class CvsEle{
 		this.y2=y+height
 		this.style=style
 		this.path=new Path2D()
-		if(style.radius){
-			let r=Math.min(style.radius,width/2,height/2)
-			this.path.moveTo(this.x1,this.y1+r)
-			this.path.arcTo(this.x1,this.y1,this.x1+r,this.y1,r)
-			this.path.lineTo(this.x2-r,this.y1)
-			this.path.arcTo(this.x2,this.y1,this.x2,this.y1+r,r)
-			this.path.lineTo(this.x2,this.y2-r)
-			this.path.arcTo(this.x2,this.y2,this.x2-r,this.y2,r)
-			this.path.lineTo(this.x1+r,this.y2)
-			this.path.arcTo(this.x1,this.y2,this.x1,this.y2-r,r)
-			this.path.closePath()
-		}else{
-			this.path.rect(x,y,width,height)
-		}
+		if(style.radius)this.path.roundRect(x,y,width,height,style.radius)
+		else this.path.rect(x,y,width,height)
 		elements.push(this)
 	}
 	hide(){
@@ -56,15 +43,15 @@ class CvsEle{
 	text(t){
 		this.intext=t //字符串或函数
 	}
-	img(i){
-		this.style.img=i
+	img(i){//Asset对象
+		this.image=i
 	}
 	draw(){
 		if(this.style.bgcolor){
 			ctx.fillStyle=this.style.bgcolor
 			ctx.fill(this.path)
 		}
-		this.style.img?.draw(ctx,this.x1,this.y1)
+		this.image?.draw(ctx,this.x1,this.y1,true)
 		if(this.style.border){
 			let {width,color}=this.style.border
 			ctx.lineWidth=width

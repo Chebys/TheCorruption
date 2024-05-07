@@ -66,9 +66,9 @@ function startGame(){
 		}
 	}
 	function clickHandler(e){//处理地图点击
-		if(e.button){
+		if(e.button){//右键
 			ctrl.reset()
-			UI.clear()
+			UI.clearInfo()
 			return
 		}
 		ctrl.mousedown=true
@@ -79,7 +79,7 @@ function startGame(){
 			UI.showInfo(ctrl.getData())
 		}else{
 			ctrl.reset()
-			UI.clear()
+			UI.clearInfo()
 		}
 	}
 }

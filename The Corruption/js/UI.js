@@ -73,15 +73,15 @@ const UI_inGame={
 		new CvsEle(0,bY,WIDTH,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
 			.on('mousedown',e=>e.stopImmediatePropagation())
 		this.info[0]=new CvsEle(100,bY+20,100,50,borderStyle) //名称
-		this.info[1]=new CvsEle(100,bY+80,100,100,borderStyle) //图片
-		this.info[2]=new CvsEle(250,bY+20,150,50,borderStyle)
-		this.info[3]=new CvsEle(250,bY+70,150,50,borderStyle)
-		this.info[4]=new CvsEle(250,bY+120,150,50,borderStyle)
+		this.infoImg=new CvsEle(100,bY+80,100,100,borderStyle) //图片
+		this.info[1]=new CvsEle(250,bY+20,150,50,borderStyle) //生命值
+		this.info[2]=new CvsEle(250,bY+70,150,50,borderStyle)
+		this.info[3]=new CvsEle(250,bY+120,150,50,borderStyle)
 		for(let i=0;i<2;i++)
-			for(let j=0;j<4;j++){
+			for(let j=0;j<5;j++){
 				let opt=new CvsEle(500+j*64,bY+40+i*64,64,64,borderStyle)
-				opt.on('click',e=>ctrl.option(i*4+j))
-				this.options[i*4+j]=opt
+				opt.on('click',e=>ctrl.option(i*5+j))
+				this.options[i*5+j]=opt
 			}
 	},
 	setOnPause(fn){
@@ -102,19 +102,15 @@ const UI_inGame={
 	render(){
 		render()
 	},
-	clear(){
-		for(let e of this.info){
-			e.text()
-			e.img()
-		}
-		for(let e of this.options){
-			e.text()
-			e.img()
-		}
-	},
-	showInfo({info=[],options=[]}){//info为文字数组，options为图片名数组
+	showInfo({info=[],options=[],img:imgName='default'}){//info为文字数组，options为图片名数组
+		this.infoImg.img(images[imgName])
 		this.info.forEach((ele,i)=>ele.text(info[i]))
 		this.options.forEach((ele,i)=>ele.img(images[options[i]]))
+	},
+	clearInfo(){
+		this.infoImg.img()
+		for(let e of this.info)e.text()
+		for(let e of this.options)e.img()
 	},
 	pushStats({gold}){
 		this.stat_gold.text('$:'+gold)

@@ -29,10 +29,12 @@ class Asset{
 		this.src.addEventListener(e,onload,{once:true})
 		this.src.src=this.url
 	}
-	draw(ctx,x,y,angle){
-		if(angle){
+	draw(ctx,x,y,opt){
+		//opt为true时，表示以图片左上角为中心；为数字时，表示旋转角度
+		if(opt===true)drawImage(ctx,this,x,y,true)
+		else if(typeof opt=='number'){
 			ctx.translate(x,y)
-			ctx.rotate(angle)
+			ctx.rotate(opt)
 			drawImage(ctx,this,0,0)
 			ctx.setTransform(1, 0, 0, 1, 0, 0) //归位
 		}
@@ -40,22 +42,28 @@ class Asset{
 	}
 	play(reset){//反复？
 		if(reset)this.src.currentTime=0
-		this.src.play()
+		//this.src.play()
 	}
 	pause(){
 		this.src.pause()
 	}
 }
 
-function drawImage(ctx,{src,cx,cy},x,y){
-	ctx.drawImage(src,x-cx,y-cy)
+function drawImage(ctx,{src,cx,cy},x,y,noCenter){
+	noCenter?ctx.drawImage(src,x,y):ctx.drawImage(src,x-cx,y-cy)
 }
 
 new Asset('image','test')
+new Asset('image','info_tile0')
+new Asset('image','info_tile1')
+new Asset('image','info_tile2')
 new Asset('image','default',32,64)
+
 new Asset('image','homebase',32,32)
+new Asset('image','tower1',32,48)
 new Asset('image','corrupter',32,48)
 new Asset('image','ball',16,16)
+
 //new Asset('audio','bg.mid') 不支持的格式
 new Asset('audio','bg.mp3')
 

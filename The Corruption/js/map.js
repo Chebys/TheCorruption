@@ -95,9 +95,12 @@ const map={
 			}
 		return res
 	},
-	blocked(x,y){//判断该点是否被建筑阻挡
-		var b=this.getGrid(x,y).building
-		if(b&&this.dist({x:x,y:y},b)<=b.r)return true
+	getBuilding(x,y){
+		var b=this.getGrid(x,y)?.building //不在同一格时？
+		if(b&&this.dist({x:x,y:y},b)<=b.r)return b
+	},
+	blocked(x,y){
+		return !!this.getBuilding(x,y)
 	},
 	hasRoad(g1,g2){//判断相邻（邻边或对角）两格是否带有道路相连
 		if(!g1?.road||!g2?.road)return false
@@ -107,11 +110,12 @@ const map={
 		return true
 	},
 	click(x,y){
+		var b=this.getBuilding(x,y) //考虑高度？
+		if(b)return ['building',b]
 		var grid=this.getGrid(x,y)
 		if(grid)return ['grid',grid]
-		var building
-		if(building)return []
 		var unit
+		if(unit)return ['unit',unit]
 		return [null,null]
 	}
 }
