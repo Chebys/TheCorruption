@@ -14,7 +14,7 @@ function toggleFS(){
 		?document.exitFullscreen()
 		:document.body.requestFullscreen()
 }
-var FStext=()=>document.fullscreenElement?'退出全屏':'全屏'
+var FStext=_=>document.fullscreenElement?'退出全屏':'全屏'
 
 const UI_loading={
 	construct(){
@@ -38,7 +38,7 @@ const UI_mainMenu={
 		this.editorButton.text('地图编辑器')
 		this.FSButton=new CvsEle(0,0,120,60,{bgcolor:'#646',font:'30px sans-serif',padding:20})
 		this.FSButton.text(FStext)
-		this.FSButton.on('click',()=>toggleFS().then(()=>render(1)))
+		this.FSButton.on('click',_=>toggleFS().then(_=>render(1)))
 		render(1)
 	},
 	setOnStartGame(fn){
@@ -64,7 +64,7 @@ const UI_inGame={
 		this.continueButton.text('继续')
 		this.FSButton=new CvsEle(300,250,600,100,menuStyle)
 		this.FSButton.text(FStext)
-		this.FSButton.on('click',()=>toggleFS().then(()=>this.FSButton.draw()))//不能清除之前的画面，麻烦
+		this.FSButton.on('click',_=>toggleFS().then(_=>this.FSButton.draw()))//不能清除之前的画面，麻烦
 		this.exitButton=new CvsEle(300,350,600,100,menuStyle)
 		this.exitButton.text('返回主菜单')
 		this.hideMenu()
@@ -85,13 +85,13 @@ const UI_inGame={
 			}
 	},
 	setOnPause(fn){
-		this.pauseButton.on('click',()=>{
+		this.pauseButton.on('click',_=>{
 			fn()
 			this.showMenu()
 		})
 	},
 	setOnContinue(fn){
-		this.continueButton.on('click',()=>{
+		this.continueButton.on('click',_=>{
 			fn()
 			this.hideMenu()
 		})

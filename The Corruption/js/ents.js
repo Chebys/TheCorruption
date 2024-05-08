@@ -49,7 +49,7 @@ class Located extends Ent{
 	canSetPos(x,y){
 		return !map.blocked(x,y)
 	}
-	setPos(x,y){
+	setPos(x,y){//暂时不考虑高度
 		this.x=x
 		this.y=y
 	}
@@ -130,11 +130,12 @@ class HomeBase extends Building{
 }
 class Tower extends Building{
 	projectile='ball'
-	constructor(damage,atkR,cd){
+	constructor(damage,atkR,cd,z0){
 		super()
 		this.damage=damage
 		this.atkR=atkR
 		this.cd=new CD(cd,0)
+		this.z0=z0 //发射弹药的初始高度
 		this.startUpdating()
 	}
 	cmpTarget(t1,t2){//比较优先级；t1优先时返回真
@@ -148,7 +149,7 @@ class Tower extends Building{
 		return p
 	}
 	remove(){
-		map.ents_to_update.remove(this)
+		this.stopUpdating()
 		super.remove()
 	}
 	update(dt){
@@ -163,19 +164,26 @@ class Tower extends Building{
 	}
 }
 class Projectile extends Visible{//Mob只能沿grid移动
+	z=0
 	constructor(speed=4){
 		super()
 		this.speed=speed
 		this.startUpdating()
 	}
+	//get imageState(){}
 	track(origin,target){
 		this.setPos(origin.x,origin.y)
+		this.z=origin.z0
 		this.target=target
 		this.tx=target.x
 		this.ty=target.y
+		var t=map.dist(this,target)/this.speed
+		this.vz=-origin.z0/t
+		return t
 	}
 	moveOn(dt){
 		this.setPos(...this._moveTo(this.tx,this.ty,dt))
+		this.z+=this.vz*dt
 	}
 	remove(){
 		this.stopUpdating()
@@ -191,7 +199,6 @@ class Projectile extends Visible{//Mob只能沿grid移动
 	}
 }
 class Parabolic extends Projectile{//抛射物
-	z=0
 	rotate=0
 	constructor(speed,gravity=1500){
 		super(speed)
@@ -204,14 +211,12 @@ class Parabolic extends Projectile{//抛射物
 		}
 	}
 	track(origin,target){
-		super.track(origin,target)
-		var t=map.dist(this,target)/this.speed
-		this.vz=this.gravity*t/2
+		var t=super.track(origin,target)
+		this.vz+=this.gravity*t/2
 	}
 	moveOn(dt){
 		super.moveOn(dt)
 		this.vz-=this.gravity*dt
-		this.z+=this.vz*dt
 		this.rotate+=dt*6
 	}
 }
@@ -228,12 +233,13 @@ class Bomb extends Parabolic{
 		}else this.moveOn(dt)
 	}
 }
+
+class ArcherTower extends Tower{
+	projectile='arrow'
+}
 class Tower1 extends Tower{
 	constructor(){
-		super(2,1.5,3)
-	}
-	attack(e){
-		super.attack(e).z=20 //塔的高度
+		super(2,1.5,3,20)
 	}
 }
 class Ball extends Bomb{
@@ -241,6 +247,7 @@ class Ball extends Bomb{
 		super(1.5)
 	}
 }
+
 class GoldMine extends Building{
 	constructor(){
 		super()

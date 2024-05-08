@@ -1,17 +1,36 @@
 import strings from './strings.js'
 import map from './map.js'
 
+const gridOpts=[]
+gridOpts[0]=[
+	{
+		img:'tower1',
+		fn(){//是否已有建筑？
+			spawnAtSelGrid('tower1')
+		}
+	}
+]
+
 const getData={
 	grid:g=>{
+		var opts=[]
+		gridOpts[g.tile]?.forEach(opt=>{
+			opts.push(opt.img)
+		})
 		return {
 			img:'info_tile'+g.tile,
-			info:[strings.tileName[g.tile],'']
+			info:[strings.tileName[g.tile],''],
+			options:opts
 		}
 	},
 	building:b=>{
 		return {
 			img:b.name,
-			info:[strings.entName[b.name],()=>'生命：'+b.health]
+			info:[
+				strings.entName[b.name],
+				_=>'生命：'+b.health,
+				b.damage&&(_=>'攻击力：'+b.damage)
+			]
 		}
 	},
 	unit:u=>{
@@ -30,13 +49,16 @@ const control={
 		return getData[this.selType]?.(this.sel)||console.error('getData失败')||defaultInfo
 	},
 	option(i){//当控件被点击，由UI调用
-		console.log(i)
+		switch(this.selType){
+			case 'grid':gridOpts[this.sel.tile]?.[i]?.fn();break
+			case 'building':
+		}
 	},
 	editorOption(cmd){//用于地图编辑器
 		if(this.selType!='grid')return
 		switch(cmd){
 			case 'homebase':
-				map.spawn('homebase').setGrid(this.sel)
+				spawnAtSelGrid('homebase')
 				break
 			case 'spawner':
 				break
@@ -46,6 +68,10 @@ const control={
 		this.selType=null
 		this.sel=null
 	}
+}
+
+function spawnAtSelGrid(name){
+	map.spawn(name).setGrid(control.sel)
 }
 
 export default control

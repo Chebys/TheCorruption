@@ -31,7 +31,7 @@ const map={
 		this.load({grids:grids})
 	},
 	export(){//简略导出，用于地图编辑器
-		var gridData=[]
+		var gridData=[],entData=[]
 		for(let i=0;i<this.sizeX;i++){
 			gridData[i]=[]
 			for(let j=0;j<this.sizeY;j++){
@@ -42,7 +42,8 @@ const map={
 		}
 		return {
 			//ox:this.ox,oy:this.oy,
-			grids:gridData
+			grids:gridData,
+			ents:entData
 		}
 	},
 	getGrid(x,y){

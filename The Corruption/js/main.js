@@ -11,7 +11,7 @@ addEventListener('mouseup',e=>ctrl.mousedown=false)//考虑在canvas外松开的
 function mainMenu(){
 	UI_mainMenu.construct()
 	UI_mainMenu.setOnStartGame(startGame)
-	UI_mainMenu.setOnEditor(()=>{
+	UI_mainMenu.setOnEditor(_=>{
 		var l=parseInt(prompt('输入地图边长（建议不超过30）'))
 		l&&startEditor(l)
 	})
@@ -20,11 +20,10 @@ function mainMenu(){
 function startGame(){
 	var bgmusic=audios['bg.mp3']
 	bgmusic.play(1)
-	var currentFrame,t0
 	UI_loading.push('加载地图')
 	map.load({ox:canvas.width/2,oy:0,grids:gridData,ents:entData})
 	UI.construct() //优先为UI添加事件监听
-	UI.setOnPause(()=>{
+	UI.setOnPause(_=>{
 		bgmusic.pause()
 		cancelAnimationFrame(currentFrame)
 	})//取消监听？
@@ -34,6 +33,7 @@ function startGame(){
 	canvas.addEventListener('mousemove',dragMap)
 	map.inGame=true //有用吗？
 	
+	var currentFrame,t0
 	currentFrame=requestAnimationFrame(main)
 	
 	function main(t){
@@ -87,16 +87,16 @@ function startGame(){
 function startEditor(l){
 	UI_editor.construct()
 	map.loadBlank(l)
-	UI_editor.setOnMapChange(()=>{
+	UI_editor.setOnMapChange(_=>{
 		renderMap()
 		UI_editor.render()
 	})
-	UI_editor.setOnSave(()=>{
+	UI_editor.setOnSave(_=>{
 		var data=map.export()
 		localStorage.setItem('mapData',JSON.stringify(data))
 		alert('已保存至localStorage.mapData')
 	})
-	UI_editor.setOnExit(()=>{
+	UI_editor.setOnExit(_=>{
 		ctrl.reset()
 		canvas.removeEventListener('mousedown',clickHandler)
 		canvas.removeEventListener('mousemove',dragMap)
