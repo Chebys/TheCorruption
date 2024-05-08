@@ -125,14 +125,14 @@ class HomeBase extends Building{
 		map.homebase=null
 		super.remove()
 		if(noLose)return
-		alert('输了。')
+		map.state='lose'
 	}
 }
-class Tower extends Building{
+class Tower extends Building{//远程
 	projectile='ball'
-	constructor(damage,atkR,cd,z0){
+	constructor({dmg,atkR,cd,z0}){
 		super()
-		this.damage=damage
+		this.damage=dmg
 		this.atkR=atkR
 		this.cd=new CD(cd,0)
 		this.z0=z0 //发射弹药的初始高度
@@ -206,7 +206,6 @@ class Parabolic extends Projectile{//抛射物
 	}
 	get imageState(){
 		return {
-			z:this.z,
 			rotate:this.rotate
 		}
 	}
@@ -236,10 +235,16 @@ class Bomb extends Parabolic{
 
 class ArcherTower extends Tower{
 	projectile='arrow'
+	constructor(){
+		super({dmg:2,atkR:2,cd:2,z0:40})
+	}
+}
+class Arrow extends Projectile{
+	
 }
 class Tower1 extends Tower{
 	constructor(){
-		super(2,1.5,3,20)
+		super({dmg:2,atkR:1.5,cd:3,z0:40})
 	}
 }
 class Ball extends Bomb{
@@ -341,9 +346,10 @@ class Corrupter extends Enemy{
 	}
 }
 class Spawner extends Located{
-	constructor(){
+	constructor(child,cd){
 		super()
-		this.cd=new CD(60,3)
+		this.child=child
+		this.cd=new CD(cd,cd)
 		this.startUpdating()
 	}
 	remove(){
@@ -352,7 +358,12 @@ class Spawner extends Located{
 	}
 	update(dt){
 		this.cd.update(dt,true)
-			&&spawn('corrupter').setPos(this.x,this.y)
+			&&spawn(this.child).setPos(this.x,this.y)
+	}
+}
+class CorrupterSpawner extends Spawner{
+	constructor(){
+		super('corrupter',10)
 	}
 }
 class AreaSpawner extends Ent{
@@ -363,11 +374,13 @@ var prefabs={};
 [
 	Wall,
 	HomeBase,
+	ArcherTower,
+	Arrow,
 	Tower1,
 	Ball,
 	GoldMine,
 	Corrupter,
-	Spawner
+	CorrupterSpawner
 ].forEach(C=>{
 	prefabs[C.name.toLocaleLowerCase()]=C
 })

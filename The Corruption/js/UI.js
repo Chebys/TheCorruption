@@ -49,7 +49,7 @@ const UI_mainMenu={
 	}
 }
 const menuStyle={bgcolor:'#646',border:{width:4,color:'#000'},font:'40px sans-serif',padding:30}
-const borderStyle={border:{width:2,color:'#000'}}
+const borderStyle={border:{width:2,color:'#000'},padding:10}
 const UI_inGame={
 	info:[],
 	options:[],
@@ -74,9 +74,10 @@ const UI_inGame={
 			.on('mousedown',e=>e.stopImmediatePropagation())
 		this.info[0]=new CvsEle(100,bY+20,100,50,borderStyle) //名称
 		this.infoImg=new CvsEle(100,bY+80,100,100,borderStyle) //图片
-		this.info[1]=new CvsEle(250,bY+20,150,50,borderStyle) //生命值
-		this.info[2]=new CvsEle(250,bY+70,150,50,borderStyle)
-		this.info[3]=new CvsEle(250,bY+120,150,50,borderStyle)
+		this.info[1]=new CvsEle(250,bY+20,150,40,borderStyle) //生命值
+		this.info[2]=new CvsEle(250,bY+60,150,40,borderStyle)
+		this.info[3]=new CvsEle(250,bY+100,150,40,borderStyle)
+		this.info[4]=new CvsEle(250,bY+140,150,40,borderStyle)
 		for(let i=0;i<2;i++)
 			for(let j=0;j<5;j++){
 				let opt=new CvsEle(500+j*64,bY+40+i*64,64,64,borderStyle)

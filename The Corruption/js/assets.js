@@ -60,9 +60,11 @@ new Asset('image','info_tile2')
 new Asset('image','default',32,64)
 
 new Asset('image','homebase',32,32)
+new Asset('image','archertower',32,48)
+new Asset('image','arrow',16,16)
 new Asset('image','tower1',32,48)
-new Asset('image','corrupter',32,48)
 new Asset('image','ball',16,16)
+new Asset('image','corrupter',32,48)
 
 //new Asset('audio','bg.mid') 不支持的格式
 new Asset('audio','bg.mp3')

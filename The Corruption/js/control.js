@@ -1,15 +1,51 @@
 import strings from './strings.js'
+import {price} from './figures.js'
 import map from './map.js'
+
+const stats={
+	get(s){return map.stats[s]},
+	set(tb){
+		for(let k in tb)map.stats[k]=tb[k]
+	},
+	add(tb){
+		for(let k in tb)map.stats[k]+=tb[k]
+	},
+	sub(tb){
+		for(let k in tb)map.stats[k]-=tb[k]
+	},
+	check(tb){//判断是否足够
+		for(let k in tb)if(map.stats[k]<tb[k])return false
+		return true
+	}
+}
 
 const gridOpts=[]
 gridOpts[0]=[
 	{
+		img:'archertower',
+		fn(){
+			tryConstruct('archertower')
+		}
+	},
+	{
 		img:'tower1',
-		fn(){//是否已有建筑？
-			spawnAtSelGrid('tower1')
+		fn(){
+			tryConstruct('tower1')
 		}
 	}
 ]
+gridOpts[1]=gridOpts[0]
+function canConstruct(name){//调用前保证选中grid
+	var g=control.sel
+	return !g.building&&!g.road&&stats.check(price[name])
+}
+function tryConstruct(name){
+	if(canConstruct(name)){
+		stats.sub(price[name])
+		spawnAtSelGrid(name)
+		return true
+	}
+}
 
 const getData={
 	grid:g=>{
@@ -34,7 +70,14 @@ const getData={
 		}
 	},
 	unit:u=>{
-		
+		return {
+			img:u.name,
+			info:[
+				strings.entName[u.name],
+				_=>'生命：'+u.health,
+				u.damage&&(_=>'攻击力：'+u.damage)
+			]
+		}
 	}
 }
 const defaultInfo={info:['错误']}

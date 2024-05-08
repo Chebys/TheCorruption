@@ -16,6 +16,7 @@ function render(){
 	renderRoads()
 	if(ctrl.selType=='grid')renderTile(ctrl.sel,1)
 	else if(ctrl.selType=='building')circleEnt(ctrl.sel)
+	else if(ctrl.selType=='unit')circleEnt(ctrl.sel,0.3)
 	renderEnts()
 }
 
@@ -78,12 +79,12 @@ function renderEnts(){
 	map.ents_to_render.forEach(e=>list.insert(e,cmp))
 	list.forEach(renderEnt)
 }
-function renderEnt({x,y,image,imageState}){
+function renderEnt({x,y,z=0,image,imageState}){
 	var [x,y]=getCvsPos(x,y)
 	if(imageState){
-		let {z=0,rotate=0}=imageState
+		let {rotate=0}=imageState
 		image.draw(ctx,x,y-z,imageState.rotate)
-	}else image.draw(ctx,x,y)
+	}else image.draw(ctx,x,y-z)
 }
 
 function getCvsPos(x,y,z=0){//地图坐标转化为canvas坐标

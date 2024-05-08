@@ -50,6 +50,7 @@ class Moving extends State{
 			this.ent.setPos(x1,y1)
 			return true
 		}
+		//if(this.ent.group==2)this.ent.setState('Attacking').Attacking
 		this.ent.setState('default')
 	}
 }
@@ -62,7 +63,7 @@ class MovingToBuilding extends Moving{
 	update(dt){
 		var result=super.update(dt)
 		if(!result&&this.ent.getDist(this.targetBuilding)<=this.dist)
-			this.ent.arrived=true //super.update中已setState('default')
+			this.ent.arrived=true //super.update中已setState
 	}
 }
 class Attacking extends State{

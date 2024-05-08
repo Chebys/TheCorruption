@@ -11,7 +11,7 @@ grid的tile
 
 实体属性
 	originGrid,targetGrid	表示ent处于两个grid连线上
-	ignored
+	ignored		
 	atkR		攻击半径
 	group		1玩家 2敌对
 	arrived		用于state

@@ -31,7 +31,7 @@ function startGame(){
 	UI.setOnExit(exit)
 	canvas.addEventListener('mousedown',clickHandler)
 	canvas.addEventListener('mousemove',dragMap)
-	map.inGame=true //有用吗？
+	map.state='inGame' //有用吗？
 	
 	var currentFrame,t0
 	currentFrame=requestAnimationFrame(main)
@@ -42,8 +42,19 @@ function startGame(){
 		renderMap()
 		UI.pushStats(map.stats)
 		UI.render()
+		switch(map.state){
+			case 'lose':lose();return
+			case 'win':win();return
+		}
 		map.ents_to_update.forEach(e=>e.update(dt))
+		if(ctrl.sel?.ignored)unsel()
 		currentFrame=requestAnimationFrame(main)
+	}
+	function lose(){
+		
+	}
+	function win(){
+		
 	}
 	function continu(){
 		bgmusic.play()
@@ -51,7 +62,7 @@ function startGame(){
 	}
 	function exit(){
 		cancelAnimationFrame(currentFrame)
-		map.inGame=false
+		map.state=null
 		ctrl.reset()
 		canvas.removeEventListener('mousedown',clickHandler)
 		canvas.removeEventListener('mousemove',dragMap)
@@ -67,8 +78,7 @@ function startGame(){
 	}
 	function clickHandler(e){//处理地图点击
 		if(e.button){//右键
-			ctrl.reset()
-			UI.clearInfo()
+			unsel()
 			return
 		}
 		ctrl.mousedown=true
@@ -78,9 +88,12 @@ function startGame(){
 			ctrl.select(type,obj)
 			UI.showInfo(ctrl.getData())
 		}else{
-			ctrl.reset()
-			UI.clearInfo()
+			unsel()
 		}
+	}
+	function unsel(){
+		ctrl.reset()
+		UI.clearInfo()
 	}
 }
 
@@ -152,7 +165,7 @@ var entData=[
 	['homebase',2,2],
 	['corrupter',6,3],
 	['tower1',4,3],
-	['spawner',6,3],
+	['corrupterspawner',6,3],
 	['goldmine',1,1]
 ]
 UI_loading.construct()

@@ -6,8 +6,8 @@ const map={
 		this.oy=oy
 		this.sizeX=grids.length
 		this.sizeY=grids[0].length
-		this.stats=stats
-		for(let k of ['food','wood','gold','stone'])this.stats[k]=this.stats[k]||0
+		this.stats={}
+		for(let k of ['food','wood','gold','stone'])this.stats[k]=stats[k]||0
 		this.grids=[]
 		this.ents=new Set()
 		this.ents_to_render=new Set()
@@ -96,6 +96,20 @@ const map={
 			}
 		return res
 	},
+	getUnit(x,y){
+		var units=this.getGrid(x,y)?.units
+		if(units){
+			let u,r=0.3 //至少离多近可以选中；和render存在耦合
+			for(let u1 of units){
+				let r1=this.dist({x:x,y:y},u1)
+				if(r1<=r){
+					u=u1
+					r=r1
+				}
+			}
+			return u
+		}
+	},
 	getBuilding(x,y){
 		var b=this.getGrid(x,y)?.building //不在同一格时？
 		if(b&&this.dist({x:x,y:y},b)<=b.r)return b
@@ -111,12 +125,12 @@ const map={
 		return true
 	},
 	click(x,y){
+		var unit=this.getUnit(x,y)
+		if(unit)return ['unit',unit]
 		var b=this.getBuilding(x,y) //考虑高度？
 		if(b)return ['building',b]
 		var grid=this.getGrid(x,y)
 		if(grid)return ['grid',grid]
-		var unit
-		if(unit)return ['unit',unit]
 		return [null,null]
 	}
 }
