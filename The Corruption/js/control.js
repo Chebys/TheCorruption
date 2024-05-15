@@ -47,7 +47,7 @@ function tryConstruct(name){
 	}
 }
 
-const getData={
+const getData={//如果数值可能变化，使用函数
 	grid:g=>{
 		var opts=[]
 		gridOpts[g.tile]?.forEach(opt=>{
@@ -55,7 +55,7 @@ const getData={
 		})
 		return {
 			img:'info_tile'+g.tile,
-			info:[strings.tileName[g.tile],''],
+			info:[strings.tileName[g.tile],_=>'腐化度：'+g.corruption],
 			options:opts
 		}
 	},

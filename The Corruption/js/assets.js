@@ -53,7 +53,8 @@ function drawImage(ctx,{src,cx,cy},x,y,noCenter){
 	noCenter?ctx.drawImage(src,x,y):ctx.drawImage(src,x-cx,y-cy)
 }
 
-new Asset('image','test')
+new Asset('image','mainmenu')
+
 new Asset('image','info_tile0')
 new Asset('image','info_tile1')
 new Asset('image','info_tile2')

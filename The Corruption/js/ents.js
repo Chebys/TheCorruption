@@ -37,7 +37,7 @@ class Ent{
 	}
 	remove(){
 		map.ents.delete(this)
-		this.ignored=true
+		this.ignored=true //用于检查引用是否有效
 	}
 }
 class Located extends Ent{
@@ -171,14 +171,14 @@ class Projectile extends Visible{//Mob只能沿grid移动
 		this.startUpdating()
 	}
 	//get imageState(){}
-	track(origin,target){
-		this.setPos(origin.x,origin.y)
-		this.z=origin.z0
+	track({x,y,z0},target){
+		this.setPos(x,y)
+		this.z=z0
 		this.target=target
 		this.tx=target.x
 		this.ty=target.y
 		var t=map.dist(this,target)/this.speed
-		this.vz=-origin.z0/t
+		this.vz=-z0/t
 		return t
 	}
 	moveOn(dt){
@@ -322,7 +322,10 @@ class Unit extends Mob{
 	}
 	getAttacked(dmg){
 		this.health-=dmg
-		if(this.health<=0)this.remove()
+		if(this.health<=0)this.onDeath()&&this.remove()
+	}
+	onDeath(cause){//用于重写
+		return true
 	}
 	remove(){
 		this.grid?.units.delete(this)
@@ -343,6 +346,10 @@ class Corrupter extends Enemy{
 	}
 	canPass(g1,g2){
 		return map.hasRoad(g1,g2)
+	}
+	onDeath(){
+		this.grid.corruption.changeBase(0.01)
+		return true
 	}
 }
 class Spawner extends Located{

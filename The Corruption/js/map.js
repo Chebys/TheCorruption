@@ -135,6 +135,29 @@ const map={
 	}
 }
 
+class Corruption{
+	max=1
+	min=0
+	constructor(base){
+		this.setBase(base||0)
+		this.extra=new Map() //每个实体产生的腐化度单独计算
+	}
+	restrict(v){
+		v=Math.max(v,this.min)
+		v=Math.min(v,this.max)
+		return v
+	}
+	setBase(v){this.base=this.restrict(v)}
+	get(){
+		var s=this.base
+		for(let v of this.extra.values())s+=v
+		return this.restrict(s)
+	}
+	changeBase(v){this.setBase(this.base+v)}
+	setExtra(src,v){this.extra.set(src,v)}
+	removeExtra(src){this.extra.delete(src)}
+	toString(){return this.get()*100+'%'}
+}
 class Grid{
 	constructor(x,y,tile,road){//建筑等实体不在此处初始化
 		this.x=x
@@ -142,6 +165,7 @@ class Grid{
 		this.tile=tile
 		this.road=road
 		this.units=new Set()
+		this.corruption=new Corruption()
 	}
 	get center(){return [this.x+0.5,this.y+0.5]}
 }
