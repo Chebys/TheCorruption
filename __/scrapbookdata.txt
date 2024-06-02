@@ -132,7 +132,7 @@ bedroll_furry_blueprint@{"prefab": "bedroll_furry_blueprint", "inventoryitem": t
 bedroll_straw@{"prefab": "bedroll_straw", "fuel_fueltype": "BURNABLE", "fuel_fuelvalue": 180, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 10}
 bedroll_straw_blueprint@{"prefab": "bedroll_straw_blueprint", "inventoryitem": true, "burntime": 7.5}
 bee@{"prefab": "bee", "combat_damage": 10, "combat_playerdamage": 10, "perishtime": 960, "inventoryitem": true, "sleeper_resistance": 1, "freezable_resistance": 1, "workable": "NET", "workable_workleft": 1, "burntime": 6, "health": 100, "stackable_maxsize": 20, "is_smallcreature": true}
-beebox@{"prefab": "beebox", "harvestable": true, "workable": "HAMMER", "workable_workleft": 4, "burntime": 10, "is_structure": true}
+beebox@{"prefab": "beebox", "workable": "HAMMER", "workable_workleft": 4, "harvestable": true, "burntime": 10, "is_structure": true}
 beebox_blueprint@{"prefab": "beebox_blueprint", "inventoryitem": true, "burntime": 7.5}
 beefalo@{"prefab": "beefalo", "combat_damage": 34, "combat_playerdamage": 34, "sleeper_resistance": 3, "freezable_resistance": 3, "burntime": 10, "health": 500, "is_animal": true, "is_largecreature": true}
 beefalohat@{"prefab": "beefalohat", "inventoryitem": true, "equippable_equipslot": "head", "waterproofer": 20, "fueled_maxseconds": 4800, "fueled_fueltype": "USAGE", "insulator_insulation": 240, "insulator_type": "WINTER"}
@@ -150,10 +150,10 @@ bell@{"prefab": "bell", "finiteuses": 3, "inventoryitem": true}
 bell_blueprint@{"prefab": "bell_blueprint", "inventoryitem": true, "burntime": 7.5}
 berries@{"prefab": "berries", "edible_foodtype": "VEGGIE", "edible_hunger": 9.375, "edible_health": 0, "edible_sanity": 0, "perishtime": 2880, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
 berries_cooked@{"prefab": "berries_cooked", "edible_foodtype": "VEGGIE", "edible_hunger": 12.5, "edible_health": 1, "edible_sanity": 0, "perishtime": 1440, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
-berrybush@{"prefab": "berrybush", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 15, "is_plant": true}
-berrybush2@{"prefab": "berrybush2", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 15, "is_plant": true}
-berrybush2_snake@{"prefab": "berrybush2_snake", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 15, "is_plant": true}
-berrybush_snake@{"prefab": "berrybush_snake", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 15, "is_plant": true}
+berrybush@{"prefab": "berrybush", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 15, "is_plant": true}
+berrybush2@{"prefab": "berrybush2", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 15, "is_plant": true}
+berrybush2_snake@{"prefab": "berrybush2_snake", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 15, "is_plant": true}
+berrybush_snake@{"prefab": "berrybush_snake", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 15, "is_plant": true}
 bigfoot@{"prefab": "bigfoot", "combat_damage": 1000, "combat_playerdamage": 1000}
 bigshadowtentacle@{"prefab": "bigshadowtentacle", "combat_damage": 60, "combat_playerdamage": 60, "sanityaura": -40, "freezable_resistance": 3}
 bill@{"prefab": "bill", "combat_damage": 17, "combat_playerdamage": 17, "sleeper_resistance": 1, "freezable_resistance": 1, "burntime": 6, "health": 250, "is_monster": true}
@@ -184,7 +184,7 @@ blubbersuit@{"prefab": "blubbersuit", "inventoryitem": true, "equippable_equipsl
 blubbersuit_blueprint@{"prefab": "blubbersuit_blueprint", "inventoryitem": true, "burntime": 7.5}
 blue_cap@{"prefab": "blue_cap", "edible_foodtype": "VEGGIE", "edible_hunger": 12.5, "edible_health": 20, "edible_sanity": -15, "perishtime": 4800, "inventoryitem": true, "burntime": 3, "stackable_maxsize": 40}
 blue_cap_cooked@{"prefab": "blue_cap_cooked", "edible_foodtype": "VEGGIE", "edible_hunger": 0, "edible_health": -3, "edible_sanity": 10, "fuel_fueltype": "BURNABLE", "fuel_fuelvalue": 7.5, "perishtime": 4800, "inventoryitem": true, "burntime": 3, "stackable_maxsize": 40}
-blue_mushroom@{"prefab": "blue_mushroom", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 5}
+blue_mushroom@{"prefab": "blue_mushroom", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 5}
 blueamulet@{"prefab": "blueamulet", "inventoryitem": true, "equippable_equipslot": "body", "equippable_dapperness": 2, "fueled_maxseconds": 360, "fueled_fueltype": "MAGIC"}
 blueamulet_blueprint@{"prefab": "blueamulet_blueprint", "inventoryitem": true, "burntime": 7.5}
 bluegem@{"prefab": "bluegem", "edible_foodtype": "ELEMENTAL", "edible_hunger": 5, "edible_health": 10, "edible_sanity": 0, "inventoryitem": true, "stackable_maxsize": 40}
@@ -267,7 +267,7 @@ catcoonhat@{"prefab": "catcoonhat", "inventoryitem": true, "equippable_equipslot
 catcoonhat_blueprint@{"prefab": "catcoonhat_blueprint", "inventoryitem": true, "burntime": 7.5}
 cave_banana@{"prefab": "cave_banana", "edible_foodtype": "VEGGIE", "edible_hunger": 12.5, "edible_health": 1, "edible_sanity": 0, "perishtime": 4800, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
 cave_banana_cooked@{"prefab": "cave_banana_cooked", "edible_foodtype": "VEGGIE", "edible_hunger": 12.5, "edible_health": 3, "edible_sanity": 0, "perishtime": 2880, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
-cave_banana_tree@{"prefab": "cave_banana_tree", "pickable": true, "workable": "CHOP", "workable_workleft": 3, "burntime": 10}
+cave_banana_tree@{"prefab": "cave_banana_tree", "workable": "CHOP", "workable_workleft": 3, "pickable": true, "burntime": 10}
 cave_entrance@{"prefab": "cave_entrance", "workable": "MINE", "workable_workleft": 6}
 cave_entrance_roc@{"prefab": "cave_entrance_roc", "workable": "MINE", "workable_workleft": 6}
 cave_exit_roc@{"prefab": "cave_exit_roc", "workable": "MINE", "workable_workleft": 6}
@@ -287,7 +287,7 @@ chitin@{"prefab": "chitin", "inventoryitem": true, "stackable_maxsize": 10}
 circlingbat@{"prefab": "circlingbat", "is_monster": true}
 city_hammer@{"prefab": "city_hammer", "inventoryitem": true, "equippable_equipslot": "hands", "weapon_damage": 17, "is_irreplaceable": true}
 city_lamp@{"prefab": "city_lamp", "workable": "HAMMER", "workable_workleft": 4}
-clawpalmtree@{"prefab": "clawpalmtree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
+clawpalmtree@{"prefab": "clawpalmtree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
 clawpalmtree_burnt@{"prefab": "clawpalmtree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 clawpalmtree_normal@{"prefab": "clawpalmtree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 clawpalmtree_sapling@{"prefab": "clawpalmtree_sapling", "fuel_fueltype": "BURNABLE", "fuel_fuelvalue": 15, "inventoryitem": true, "burntime": 7.5, "stackable_maxsize": 40, "is_plant": true}
@@ -306,7 +306,7 @@ coconut_halved@{"prefab": "coconut_halved", "edible_foodtype": "SEEDS", "edible_
 coffee@{"prefab": "coffee", "edible_foodtype": "VEGGIE", "edible_hunger": 9.375, "edible_health": 3, "edible_sanity": -5, "perishtime": 4800, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40, "cookable": true, "cooktime": 10, "cook_priority": 30}
 coffeebeans@{"prefab": "coffeebeans", "edible_foodtype": "VEGGIE", "edible_hunger": 9.375, "edible_health": 0, "edible_sanity": 0, "perishtime": 2880, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
 coffeebeans_cooked@{"prefab": "coffeebeans_cooked", "edible_foodtype": "VEGGIE", "edible_hunger": 9.375, "edible_health": 0, "edible_sanity": -5, "perishtime": 7200, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
-coffeebush@{"prefab": "coffeebush", "pickable": true, "workable": "DIG", "workable_workleft": 1, "is_plant": true}
+coffeebush@{"prefab": "coffeebush", "workable": "DIG", "workable_workleft": 1, "pickable": true, "is_plant": true}
 coldfire@{"prefab": "coldfire", "workable": "HAMMER", "workable_workleft": 4, "fueled_maxseconds": 270, "fueled_fueltype": "BURNABLE", "fueled_fueltype2": "CHEMICAL", "is_structure": true}
 coldfire_blueprint@{"prefab": "coldfire_blueprint", "inventoryitem": true, "burntime": 7.5}
 coldfirepit@{"prefab": "coldfirepit", "workable": "HAMMER", "workable_workleft": 4, "fueled_maxseconds": 360, "fueled_fueltype": "BURNABLE", "fueled_fueltype2": "CHEMICAL", "is_structure": true}
@@ -324,7 +324,7 @@ cookpot_blueprint@{"prefab": "cookpot_blueprint", "inventoryitem": true, "burnti
 coontail@{"prefab": "coontail", "inventoryitem": true, "stackable_maxsize": 20}
 coral@{"prefab": "coral", "inventoryitem": true, "stackable_maxsize": 40}
 coral_brain@{"prefab": "coral_brain", "edible_foodtype": "MEAT", "edible_hunger": 10, "edible_health": -10, "edible_sanity": 50, "perishtime": 480, "inventoryitem": true}
-coral_brain_rock@{"prefab": "coral_brain_rock", "pickable": true, "workable": "HAMMER", "workable_workleft": 4}
+coral_brain_rock@{"prefab": "coral_brain_rock", "workable": "HAMMER", "workable_workleft": 4, "pickable": true}
 corallarve@{"prefab": "corallarve", "inventoryitem": true, "waterproofer": 100, "stackable_maxsize": 10}
 coralreef@{"prefab": "coralreef", "workable": "MINE", "workable_workleft": 9}
 cork@{"prefab": "cork", "edible_foodtype": "WOOD", "edible_hunger": 10, "edible_health": 10, "edible_sanity": 0, "fuel_fueltype": "CORK", "fuel_fuelvalue": 45, "inventoryitem": true, "burntime": 30, "stackable_maxsize": 20}
@@ -357,10 +357,10 @@ cutstone_blueprint@{"prefab": "cutstone_blueprint", "inventoryitem": true, "burn
 dead_swordfish@{"prefab": "dead_swordfish", "edible_foodtype": "MEAT", "edible_hunger": 25, "edible_health": 1, "edible_sanity": 0, "perishtime": 1440, "inventoryitem": true, "stackable_maxsize": 40}
 deadlyfeast@{"prefab": "deadlyfeast", "edible_foodtype": "MEAT", "edible_hunger": 10, "edible_health": -150, "edible_sanity": 0, "inventoryitem": true}
 deciduous_root@{"prefab": "deciduous_root", "combat_damage": 30, "combat_playerdamage": 30}
-deciduoustree@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
-deciduoustree_burnt@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
+deciduoustree@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
+deciduoustree_burnt@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
 deciduoustree_normal@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
-deciduoustree_piko_nest@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
+deciduoustree_piko_nest@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 deciduoustree_short@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 deciduoustree_stump@{"prefab": "deciduoustree", "workable": "DIG", "workable_workleft": 1, "burntime": 5, "is_plant": true}
 deciduoustree_tall@{"prefab": "deciduoustree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
@@ -388,7 +388,7 @@ doydoyegg@{"prefab": "doydoyegg", "edible_foodtype": "MEAT", "edible_hunger": 25
 doydoyegg_cooked@{"prefab": "doydoyegg_cooked", "edible_foodtype": "MEAT", "edible_hunger": 37.5, "edible_health": 0, "edible_sanity": 0, "perishtime": 2880, "inventoryitem": true, "stackable_maxsize": 20}
 doydoyegg_cracked@{"prefab": "doydoyegg_cracked", "edible_foodtype": "MEAT", "edible_hunger": 25, "edible_health": 3, "edible_sanity": 0, "perishtime": 4800, "inventoryitem": true}
 doydoyfeather@{"prefab": "doydoyfeather", "fuel_fueltype": "BURNABLE", "fuel_fuelvalue": 7.5, "inventoryitem": true, "burntime": 7.5, "stackable_maxsize": 10}
-doydoynest@{"prefab": "doydoynest", "pickable": true, "workable": "HAMMER", "workable_workleft": 3, "burntime": 10}
+doydoynest@{"prefab": "doydoynest", "workable": "HAMMER", "workable_workleft": 3, "pickable": true, "burntime": 10}
 doydoynest_blueprint@{"prefab": "doydoynest_blueprint", "inventoryitem": true, "burntime": 7.5}
 dragon_scales@{"prefab": "dragon_scales", "inventoryitem": true, "stackable_maxsize": 10}
 dragonfly@{"prefab": "dragonfly", "combat_damage": 150, "combat_playerdamage": 75, "sanityaura": -100, "sleeper_resistance": 4, "freezable_resistance": 4, "health": 2750, "is_monster": true, "is_epic": true, "is_largecreature": true}
@@ -422,7 +422,7 @@ dug_nettle@{"prefab": "dug_nettle", "edible_foodtype": "WOOD", "edible_hunger": 
 dug_sapling@{"prefab": "dug_sapling", "edible_foodtype": "WOOD", "edible_hunger": 10, "edible_health": 10, "edible_sanity": 0, "fuel_fueltype": "BURNABLE", "fuel_fuelvalue": 180, "inventoryitem": true, "burntime": 30, "stackable_maxsize": 10, "is_plant": true}
 dungball@{"prefab": "dungball", "pickable": true}
 dungbeetle@{"prefab": "dungbeetle", "combat_damage": 0, "combat_playerdamage": 0, "sleeper_resistance": 1, "freezable_resistance": 1, "burntime": 6, "health": 60, "is_animal": true}
-dungpile@{"prefab": "dungpile", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 10}
+dungpile@{"prefab": "dungpile", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 10}
 durian@{"prefab": "durian", "edible_foodtype": "VEGGIE", "edible_hunger": 25, "edible_health": -3, "edible_sanity": -5, "perishtime": 4800, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 20}
 durian_cooked@{"prefab": "durian_cooked", "edible_foodtype": "VEGGIE", "edible_hunger": 25, "edible_health": 0, "edible_sanity": -5, "perishtime": 2880, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
 durian_seeds@{"prefab": "durian_seeds", "edible_foodtype": "SEEDS", "edible_hunger": 9.375, "edible_health": 0.5, "edible_sanity": 0, "perishtime": 19200, "inventoryitem": true, "stackable_maxsize": 40, "is_plant": true}
@@ -433,13 +433,13 @@ eel_cooked@{"prefab": "eel_cooked", "edible_foodtype": "MEAT", "edible_hunger": 
 eggplant@{"prefab": "eggplant", "edible_foodtype": "VEGGIE", "edible_hunger": 25, "edible_health": 8, "edible_sanity": 0, "perishtime": 4800, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 20}
 eggplant_cooked@{"prefab": "eggplant_cooked", "edible_foodtype": "VEGGIE", "edible_hunger": 25, "edible_health": 20, "edible_sanity": 0, "perishtime": 2880, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
 eggplant_seeds@{"prefab": "eggplant_seeds", "edible_foodtype": "SEEDS", "edible_hunger": 9.375, "edible_health": 0.5, "edible_sanity": 0, "perishtime": 19200, "inventoryitem": true, "stackable_maxsize": 40, "is_plant": true}
-elephantcactus@{"prefab": "elephantcactus", "pickable": true, "workable": "DIG", "workable_workleft": 1}
+elephantcactus@{"prefab": "elephantcactus", "workable": "DIG", "workable_workleft": 1, "pickable": true}
 elephantcactus_active@{"prefab": "elephantcactus_active", "combat_damage": 20, "combat_playerdamage": 20, "freezable_resistance": 3, "health": 400}
 elephantcactus_stump@{"prefab": "elephantcactus_stump", "workable": "DIG", "workable_workleft": 1}
 encrustedboat@{"prefab": "encrustedboat", "workable": "HAMMER", "workable_workleft": 4}
 encrustedboat_blueprint@{"prefab": "encrustedboat_blueprint", "inventoryitem": true, "burntime": 7.5}
 evergreen@{"prefab": "evergreen", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
-evergreen_burnt@{"prefab": "evergreen", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
+evergreen_burnt@{"prefab": "evergreen", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 evergreen_normal@{"prefab": "evergreen", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 evergreen_short@{"prefab": "evergreen", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 evergreen_sparse@{"prefab": "evergreen_sparse", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
@@ -570,14 +570,14 @@ goldpan@{"prefab": "goldpan", "finiteuses": 30, "inventoryitem": true, "equippab
 goldpan_blueprint@{"prefab": "goldpan_blueprint", "inventoryitem": true, "burntime": 7.5}
 goose_feather@{"prefab": "goose_feather", "inventoryitem": true, "stackable_maxsize": 10}
 grabbing_vine@{"prefab": "grabbing_vine", "combat_damage": 10, "combat_playerdamage": 10, "health": 100, "is_animal": true}
-grass@{"prefab": "grass", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 10, "is_plant": true}
+grass@{"prefab": "grass", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 10, "is_plant": true}
 grass_tall@{"prefab": "grass_tall", "workable": "DIG", "workable_workleft": 1, "burntime": 10, "is_plant": true}
 grass_tall_patch@{"prefab": "grass_tall", "workable": "DIG", "workable_workleft": 1, "burntime": 10, "is_plant": true}
 grass_umbrella@{"prefab": "grass_umbrella", "fuel_fueltype": "BURNABLE", "fuel_fuelvalue": 180, "perishtime": 960, "inventoryitem": true, "equippable_equipslot": "hands", "equippable_dapperness": 2, "waterproofer": 50, "burntime": 7.5, "insulator_insulation": 120, "insulator_type": "SUMMER"}
 grass_water@{"prefab": "grass_water", "pickable": true, "is_plant": true}
 green_cap@{"prefab": "green_cap", "edible_foodtype": "VEGGIE", "edible_hunger": 12.5, "edible_health": 0, "edible_sanity": -50, "perishtime": 4800, "inventoryitem": true, "burntime": 3, "stackable_maxsize": 40}
 green_cap_cooked@{"prefab": "green_cap_cooked", "edible_foodtype": "VEGGIE", "edible_hunger": 0, "edible_health": -1, "edible_sanity": 15, "fuel_fueltype": "BURNABLE", "fuel_fuelvalue": 7.5, "perishtime": 4800, "inventoryitem": true, "burntime": 3, "stackable_maxsize": 40}
-green_mushroom@{"prefab": "green_mushroom", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 5}
+green_mushroom@{"prefab": "green_mushroom", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 5}
 greenamulet@{"prefab": "greenamulet", "finiteuses": 5, "inventoryitem": true, "equippable_equipslot": "body", "equippable_dapperness": 2}
 greengem@{"prefab": "greengem", "edible_foodtype": "ELEMENTAL", "edible_hunger": 5, "edible_health": 10, "edible_sanity": 0, "inventoryitem": true, "stackable_maxsize": 40}
 greenstaff@{"prefab": "greenstaff", "finiteuses": 5, "inventoryitem": true, "equippable_equipslot": "hands"}
@@ -657,7 +657,7 @@ jellyfish_planted@{"prefab": "jellyfish_planted", "combat_damage": 0, "combat_pl
 jellyjerky@{"prefab": "jellyjerky", "edible_foodtype": "MEAT", "edible_hunger": 25, "edible_health": 10, "edible_sanity": 20, "perishtime": 9600, "inventoryitem": true, "stackable_maxsize": 20}
 jellyopop@{"prefab": "jellyopop", "edible_foodtype": "MEAT", "edible_hunger": 12.5, "edible_health": 20, "edible_sanity": 0, "perishtime": 1440, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40, "cookable": true, "cooktime": 10, "cook_priority": 20}
 jungletree@{"prefab": "jungletree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
-jungletree_burnt@{"prefab": "jungletree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
+jungletree_burnt@{"prefab": "jungletree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 jungletree_normal@{"prefab": "jungletree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 jungletree_short@{"prefab": "jungletree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 jungletree_stump@{"prefab": "jungletree", "workable": "DIG", "workable_workleft": 1, "burntime": 5, "is_plant": true}
@@ -702,7 +702,7 @@ lightninggoat@{"prefab": "lightninggoat", "combat_damage": 25, "combat_playerdam
 lightninggoathorn@{"prefab": "lightninggoathorn", "inventoryitem": true, "stackable_maxsize": 10}
 limestone@{"prefab": "limestone", "inventoryitem": true, "stackable_maxsize": 10}
 limestone_blueprint@{"prefab": "limestone_blueprint", "inventoryitem": true, "burntime": 7.5}
-limpetrock@{"prefab": "limpetrock", "pickable": true, "workable": "MINE", "workable_workleft": 6}
+limpetrock@{"prefab": "limpetrock", "workable": "MINE", "workable_workleft": 6, "pickable": true}
 limpets@{"prefab": "limpets", "edible_foodtype": "MEAT", "edible_hunger": 12.5, "edible_health": 0, "edible_sanity": -10, "perishtime": 2880, "inventoryitem": true, "stackable_maxsize": 40}
 limpets_cooked@{"prefab": "limpets_cooked", "edible_foodtype": "MEAT", "edible_hunger": 12.5, "edible_health": 1, "edible_sanity": 0, "perishtime": 4800, "inventoryitem": true, "stackable_maxsize": 40}
 little_walrus@{"prefab": "little_walrus", "combat_damage": 22, "combat_playerdamage": 22, "sleeper_resistance": 1, "freezable_resistance": 2, "burntime": 8, "health": 100, "is_character": true}
@@ -756,7 +756,7 @@ marbletree_1@{"prefab": "marbletree", "workable": "MINE", "workable_workleft": 8
 marbletree_2@{"prefab": "marbletree", "workable": "MINE", "workable_workleft": 8}
 marbletree_3@{"prefab": "marbletree", "workable": "MINE", "workable_workleft": 8}
 marbletree_4@{"prefab": "marbletree", "workable": "MINE", "workable_workleft": 8}
-marsh_bush@{"prefab": "marsh_bush", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 15}
+marsh_bush@{"prefab": "marsh_bush", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 15}
 marsh_plant@{"prefab": "marsh_plant", "burntime": 10}
 marsh_plant_tropical@{"prefab": "marsh_plant_tropical", "burntime": 10}
 marsh_tree@{"prefab": "marsh_tree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
@@ -825,7 +825,7 @@ mysterymeat@{"prefab": "mysterymeat", "edible_foodtype": "MEAT", "edible_hunger"
 nautical_blueprint@{"prefab": "nautical_blueprint", "inventoryitem": true, "burntime": 7.5}
 nectar_pod@{"prefab": "nectar_pod", "edible_foodtype": "GENERIC", "edible_hunger": 9.375, "edible_health": 3, "edible_sanity": 0, "perishtime": 19200, "inventoryitem": true, "stackable_maxsize": 40}
 needlespear@{"prefab": "needlespear", "finiteuses": 5, "inventoryitem": true, "equippable_equipslot": "hands", "burntime": 7.5, "weapon_damage": 17}
-nettle@{"prefab": "nettle", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 10, "is_plant": true}
+nettle@{"prefab": "nettle", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 10, "is_plant": true}
 nettlelosange@{"prefab": "nettlelosange", "edible_foodtype": "VEGGIE", "edible_hunger": 25, "edible_health": 20, "edible_sanity": 5, "perishtime": 2880, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40, "cookable": true, "cooktime": 10, "cook_priority": 0}
 nightlight@{"prefab": "nightlight", "workable": "HAMMER", "workable_workleft": 4, "fueled_maxseconds": 540, "fueled_fueltype": "NIGHTMARE", "is_structure": true}
 nightlight_blueprint@{"prefab": "nightlight_blueprint", "inventoryitem": true, "burntime": 7.5}
@@ -870,7 +870,7 @@ palmleaf@{"prefab": "palmleaf", "edible_foodtype": "WOOD", "edible_hunger": 10, 
 palmleaf_hut@{"prefab": "palmleaf_hut", "workable": "HAMMER", "workable_workleft": 4, "burntime": 15, "is_structure": true}
 palmleaf_hut_blueprint@{"prefab": "palmleaf_hut_blueprint", "inventoryitem": true, "burntime": 7.5}
 palmleaf_umbrella@{"prefab": "palmleaf_umbrella", "perishtime": 960, "inventoryitem": true, "equippable_equipslot": "hands", "equippable_dapperness": 2, "waterproofer": 50, "burntime": 7.5, "insulator_insulation": 120, "insulator_type": "SUMMER"}
-palmtree@{"prefab": "palmtree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
+palmtree@{"prefab": "palmtree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 palmtree_burnt@{"prefab": "palmtree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 palmtree_normal@{"prefab": "palmtree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 palmtree_short@{"prefab": "palmtree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
@@ -1065,9 +1065,9 @@ raincoat_blueprint@{"prefab": "raincoat_blueprint", "inventoryitem": true, "burn
 rainforestree_normal@{"prefab": "rainforesttree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 rainforestree_rot_normal@{"prefab": "rainforesttree_rot", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 rainforesttree@{"prefab": "rainforesttree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
-rainforesttree_burnt@{"prefab": "rainforesttree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
-rainforesttree_rot@{"prefab": "rainforesttree_rot", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
-rainforesttree_rot_burnt@{"prefab": "rainforesttree_rot", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
+rainforesttree_burnt@{"prefab": "rainforesttree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
+rainforesttree_rot@{"prefab": "rainforesttree_rot", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
+rainforesttree_rot_burnt@{"prefab": "rainforesttree_rot", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 rainforesttree_rot_short@{"prefab": "rainforesttree_rot", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
 rainforesttree_rot_stump@{"prefab": "rainforesttree_rot", "workable": "DIG", "workable_workleft": 1, "burntime": 5, "is_plant": true}
 rainforesttree_rot_tall@{"prefab": "rainforesttree_rot", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
@@ -1085,8 +1085,8 @@ razor_blueprint@{"prefab": "razor_blueprint", "inventoryitem": true, "burntime":
 reconstruction_project@{"prefab": "reconstruction_project", "workable": "HAMMER", "workable_workleft": 4}
 red_cap@{"prefab": "red_cap", "edible_foodtype": "VEGGIE", "edible_hunger": 12.5, "edible_health": -20, "edible_sanity": 0, "perishtime": 4800, "inventoryitem": true, "burntime": 3, "stackable_maxsize": 40}
 red_cap_cooked@{"prefab": "red_cap_cooked", "edible_foodtype": "VEGGIE", "edible_hunger": 0, "edible_health": 1, "edible_sanity": -10, "fuel_fueltype": "BURNABLE", "fuel_fuelvalue": 7.5, "perishtime": 4800, "inventoryitem": true, "burntime": 3, "stackable_maxsize": 40}
-red_mushroom@{"prefab": "red_mushroom", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 5}
-redbarrel@{"prefab": "redbarrel", "combat_damage": 0, "combat_playerdamage": 0, "burntime": 4.2627338480789, "health": 1000000}
+red_mushroom@{"prefab": "red_mushroom", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 5}
+redbarrel@{"prefab": "redbarrel", "combat_damage": 0, "combat_playerdamage": 0, "burntime": 5.994232001709, "health": 1000000}
 redgem@{"prefab": "redgem", "edible_foodtype": "ELEMENTAL", "edible_hunger": 5, "edible_health": 10, "edible_sanity": 0, "inventoryitem": true, "stackable_maxsize": 40}
 reeds@{"prefab": "reeds", "pickable": true, "burntime": 15}
 reeds_water@{"prefab": "reeds_water", "pickable": true, "burntime": 15}
@@ -1141,8 +1141,8 @@ rock_charcoal@{"prefab": "rock_charcoal", "workable": "MINE", "workable_workleft
 rock_flintless@{"prefab": "rock_flintless", "workable": "MINE", "workable_workleft": 6}
 rock_flintless_low@{"prefab": "rock_flintless_low", "workable": "MINE", "workable_workleft": 2}
 rock_flintless_med@{"prefab": "rock_flintless_med", "workable": "MINE", "workable_workleft": 4}
-rock_flippable@{"prefab": "rock_flippable", "pickable": true, "workable": "MINE", "workable_workleft": 3}
-rock_ice@{"prefab": "rock_ice", "workable": "MINE", "workable_workleft": 6}
+rock_flippable@{"prefab": "rock_flippable", "workable": "MINE", "workable_workleft": 3, "pickable": true}
+rock_ice@{"prefab": "rock_ice", "workable": "MINE", "workable_workleft": 2}
 rock_light@{"prefab": "rock_light", "workable": "MINE", "workable_workleft": 6, "fueled_maxseconds": 30, "fueled_fueltype": "BURNABLE", "is_structure": true}
 rock_obsidian@{"prefab": "rock_obsidian", "workable": "BLANK", "workable_workleft": 6}
 rocks@{"prefab": "rocks", "edible_foodtype": "ELEMENTAL", "edible_hunger": 1, "edible_health": 10, "edible_sanity": 0, "inventoryitem": true, "stackable_maxsize": 40}
@@ -1163,20 +1163,20 @@ rubble@{"prefab": "rubble", "workable": "MINE", "workable_workleft": 6}
 rubble_low@{"prefab": "rubble_low", "workable": "MINE", "workable_workleft": 1.98}
 rubble_med@{"prefab": "rubble_med", "workable": "MINE", "workable_workleft": 3.96}
 ruins_bat@{"prefab": "ruins_bat", "finiteuses": 200, "inventoryitem": true, "equippable_equipslot": "hands", "equippable_walkspeedmult": 0.1, "weapon_damage": 59.5}
-ruins_bowl@{"prefab": "ruins_bowl", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 81.645863216041}
+ruins_bowl@{"prefab": "ruins_bowl", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 94.771263771477}
 ruins_cavein_obstacle@{"prefab": "ruins_cavein_obstacle", "workable": "MINE", "workable_workleft": 6}
-ruins_chair@{"prefab": "ruins_chair", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 76.467482528153}
-ruins_chipbowl@{"prefab": "ruins_chipbowl", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 102.11523789178}
-ruins_plate@{"prefab": "ruins_plate", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 97.953733939634}
-ruins_rubble_chair@{"prefab": "ruins_rubble_chair", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 104.56282235176, "repairable_repairmaterial": ["cutstone", "wall_stone_item", "rocks"]}
-ruins_rubble_table@{"prefab": "ruins_rubble_table", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 106.77602465896, "repairable_repairmaterial": ["cutstone", "wall_stone_item", "rocks"]}
-ruins_rubble_vase@{"prefab": "ruins_rubble_vase", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 103.96343882565, "repairable_repairmaterial": ["cutstone", "wall_stone_item", "rocks"]}
+ruins_chair@{"prefab": "ruins_chair", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 77.099826044496}
+ruins_chipbowl@{"prefab": "ruins_chipbowl", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 95.800347911008}
+ruins_plate@{"prefab": "ruins_plate", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 106.8431653798}
+ruins_rubble_chair@{"prefab": "ruins_rubble_chair", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 100.45258949553, "repairable_repairmaterial": ["cutstone", "wall_stone_item", "rocks"]}
+ruins_rubble_table@{"prefab": "ruins_rubble_table", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 79.002960295419, "repairable_repairmaterial": ["cutstone", "wall_stone_item", "rocks"]}
+ruins_rubble_vase@{"prefab": "ruins_rubble_vase", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 73.570665608692, "repairable_repairmaterial": ["cutstone", "wall_stone_item", "rocks"]}
 ruins_statue_head@{"prefab": "ruins_statue_head", "workable": "MINE", "workable_workleft": 10, "is_structure": true}
 ruins_statue_head_nogem@{"prefab": "ruins_statue_head_nogem", "workable": "MINE", "workable_workleft": 10, "is_structure": true}
 ruins_statue_mage@{"prefab": "ruins_statue_mage", "workable": "MINE", "workable_workleft": 10, "is_structure": true}
 ruins_statue_mage_nogem@{"prefab": "ruins_statue_mage_nogem", "workable": "MINE", "workable_workleft": 10, "is_structure": true}
-ruins_table@{"prefab": "ruins_table", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 90.591448713645}
-ruins_vase@{"prefab": "ruins_vase", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 99.632251960814}
+ruins_table@{"prefab": "ruins_table", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 76.792199468978}
+ruins_vase@{"prefab": "ruins_vase", "combat_damage": 0, "combat_playerdamage": 0, "workable": "MINE", "workable_workleft": 3, "health": 75.755790887173}
 ruinshat@{"prefab": "ruinshat", "inventoryitem": true, "armor_maxcondition": 1200, "armor_absorb_percent": 0.9, "equippable_equipslot": "head"}
 saddle_basic@{"prefab": "saddle_basic", "finiteuses": 5, "inventoryitem": true}
 saddle_basic_blueprint@{"prefab": "saddle_basic_blueprint", "inventoryitem": true, "burntime": 7.5}
@@ -1199,7 +1199,7 @@ sandbagsmall@{"prefab": "sandbagsmall", "combat_damage": 0, "combat_playerdamage
 sandbagsmall_item@{"prefab": "sandbagsmall_item", "inventoryitem": true, "stackable_maxsize": 20}
 sandbagsmall_item_blueprint@{"prefab": "sandbagsmall_item_blueprint", "inventoryitem": true, "burntime": 7.5}
 sandhill@{"prefab": "sandhill", "workable": "DIG", "workable_workleft": 2}
-sapling@{"prefab": "sapling", "pickable": true, "workable": "DIG", "workable_workleft": 1, "burntime": 10, "is_plant": true}
+sapling@{"prefab": "sapling", "workable": "DIG", "workable_workleft": 1, "pickable": true, "burntime": 10, "is_plant": true}
 science_blueprint@{"prefab": "science_blueprint", "inventoryitem": true, "burntime": 7.5}
 scorpion@{"prefab": "scorpion", "combat_damage": 20, "combat_playerdamage": 20, "sanityaura": -25, "sleeper_resistance": 2, "freezable_resistance": 2, "burntime": 8, "health": 200, "is_monster": true, "is_animal": true}
 sea_chiminea@{"prefab": "sea_chiminea", "workable": "HAMMER", "workable_workleft": 4, "fueled_maxseconds": 360, "fueled_fueltype": "BURNABLE", "is_structure": true}
@@ -1258,7 +1258,7 @@ slow_farmplot@{"prefab": "slow_farmplot", "workable": "HAMMER", "workable_workle
 slow_farmplot_blueprint@{"prefab": "slow_farmplot_blueprint", "inventoryitem": true, "burntime": 7.5}
 slugbug@{"prefab": "slugbug", "edible_foodtype": "MEAT", "edible_hunger": 9.375, "edible_health": 0, "edible_sanity": -10, "perishtime": 19200, "inventoryitem": true, "burntime": 7.5, "stackable_maxsize": 40}
 slugbug_cooked@{"prefab": "slugbug_cooked", "edible_foodtype": "MEAT", "edible_hunger": 12.5, "edible_health": 1, "edible_sanity": -5, "perishtime": 4800, "inventoryitem": true, "burntime": 7.5, "stackable_maxsize": 40}
-slurper@{"prefab": "slurper", "combat_damage": 30, "combat_playerdamage": 30, "sanityaura": -25, "inventoryitem": true, "sleeper_resistance": 1, "freezable_resistance": 2, "equippable_equipslot": "head", "burntime": 8, "health": 200, "is_animal": true}
+slurper@{"prefab": "slurper", "combat_damage": 30, "combat_playerdamage": 30, "sanityaura": -25, "inventoryitem": true, "sleeper_resistance": 1, "equippable_equipslot": "head", "freezable_resistance": 2, "burntime": 8, "health": 200, "is_animal": true}
 slurper_pelt@{"prefab": "slurper_pelt", "edible_foodtype": "HORRIBLE", "edible_hunger": 10, "edible_health": 10, "edible_sanity": 0, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40}
 slurtle@{"prefab": "slurtle", "combat_damage": 25, "combat_playerdamage": 25, "freezable_resistance": 2, "burntime": 8, "health": 600, "is_animal": true}
 slurtle_shellpieces@{"prefab": "slurtle_shellpieces", "inventoryitem": true, "stackable_maxsize": 10}
@@ -1303,7 +1303,7 @@ spider@{"prefab": "spider", "combat_damage": 20, "combat_playerdamage": 20, "san
 spider_dropper@{"prefab": "spider_dropper", "combat_damage": 20, "combat_playerdamage": 20, "sanityaura": -25, "sleeper_resistance": 2, "freezable_resistance": 2, "burntime": 8, "health": 200, "is_monster": true, "is_spider": true}
 spider_hider@{"prefab": "spider_hider", "combat_damage": 20, "combat_playerdamage": 20, "sanityaura": -25, "sleeper_resistance": 2, "freezable_resistance": 2, "burntime": 8, "health": 150, "is_monster": true, "is_spider": true}
 spider_monkey@{"prefab": "spider_monkey", "combat_damage": 60, "combat_playerdamage": 60, "sanityaura": -40, "sleeper_resistance": 1, "freezable_resistance": 3, "burntime": 10, "health": 550, "is_animal": true}
-spider_monkey_tree@{"prefab": "spider_monkey_tree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
+spider_monkey_tree@{"prefab": "spider_monkey_tree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
 spider_monkey_tree_burnt@{"prefab": "spider_monkey_tree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
 spider_monkey_tree_normal@{"prefab": "spider_monkey_tree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 spider_monkey_tree_short@{"prefab": "spider_monkey_tree", "workable": "CHOP", "workable_workleft": 5, "burntime": 15, "is_plant": true}
@@ -1382,7 +1382,7 @@ tarsuit@{"prefab": "tarsuit", "inventoryitem": true, "equippable_equipslot": "bo
 tarsuit_blueprint@{"prefab": "tarsuit_blueprint", "inventoryitem": true, "burntime": 7.5}
 tea@{"prefab": "tea", "edible_foodtype": "VEGGIE", "edible_hunger": 12.5, "edible_health": 3, "edible_sanity": 33, "perishtime": 480, "inventoryitem": true, "burntime": 5, "stackable_maxsize": 40, "cookable": true, "cooktime": 10, "cook_priority": 25}
 teatree@{"prefab": "teatree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
-teatree_burnt@{"prefab": "teatree", "workable": "CHOP", "workable_workleft": 15, "burntime": 15, "is_plant": true}
+teatree_burnt@{"prefab": "teatree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 teatree_normal@{"prefab": "teatree", "workable": "CHOP", "workable_workleft": 10, "burntime": 15, "is_plant": true}
 teatree_nut@{"prefab": "teatree_nut", "edible_foodtype": "SEEDS", "edible_hunger": 9.375, "edible_health": 1, "edible_sanity": 0, "perishtime": 9600, "inventoryitem": true, "burntime": 7.5, "stackable_maxsize": 40, "is_plant": true}
 teatree_nut_cooked@{"prefab": "teatree_nut_cooked", "edible_foodtype": "SEEDS", "edible_hunger": 9.375, "edible_health": 3, "edible_sanity": 0, "perishtime": 2880, "inventoryitem": true, "burntime": 7.5, "stackable_maxsize": 40}
@@ -1657,7 +1657,7 @@ wildborehead@{"prefab": "wildborehead", "workable": "HAMMER", "workable_workleft
 wildborehouse@{"prefab": "wildborehouse", "workable": "HAMMER", "workable_workleft": 4, "burntime": 10, "is_structure": true}
 wildborehouse_blueprint@{"prefab": "wildborehouse_blueprint", "inventoryitem": true, "burntime": 7.5}
 willow@{"prefab": "willow", "combat_damage": 10, "combat_playerdamage": 10, "freezable_resistance": 4, "burntime": 5, "health": 150, "is_character": true}
-willowfire@{"prefab": "willowfire", "burntime": 6.0973540452284}
+willowfire@{"prefab": "willowfire", "burntime": 4.4994048890652}
 wilson@{"prefab": "wilson", "combat_damage": 10, "combat_playerdamage": 10, "freezable_resistance": 4, "health": 150, "is_character": true}
 wind_conch@{"prefab": "wind_conch", "finiteuses": 10, "inventoryitem": true}
 winterhat@{"prefab": "winterhat", "inventoryitem": true, "equippable_equipslot": "head", "equippable_dapperness": 1.33, "fueled_maxseconds": 4800, "fueled_fueltype": "USAGE", "insulator_insulation": 120, "insulator_type": "WINTER"}
@@ -1678,7 +1678,7 @@ woodlegssail@{"prefab": "woodlegssail", "inventoryitem": true, "burntime": 7.5}
 worm@{"prefab": "worm", "combat_damage": 75, "combat_playerdamage": 75, "sanityaura": -25, "pickable": true, "health": 900, "is_monster": true}
 wormlight@{"prefab": "wormlight", "edible_foodtype": "VEGGIE", "edible_hunger": 25, "edible_health": 11, "edible_sanity": -10, "fuel_fueltype": "MOLEHAT", "fuel_fuelvalue": 239.4, "perishtime": 4800, "inventoryitem": true, "stackable_maxsize": 10}
 wormwood@{"prefab": "wormwood", "combat_damage": 10, "combat_playerdamage": 10, "freezable_resistance": 4, "burntime": 4, "health": 150, "is_character": true}
-wreck@{"prefab": "wreck", "pickable": true, "workable": "HAMMER", "workable_workleft": 3}
+wreck@{"prefab": "wreck", "workable": "HAMMER", "workable_workleft": 3, "pickable": true}
 wx78@{"prefab": "wx78", "combat_damage": 10, "combat_playerdamage": 10, "freezable_resistance": 4, "health": 100, "is_character": true}
 yellowamulet@{"prefab": "yellowamulet", "inventoryitem": true, "equippable_equipslot": "body", "equippable_dapperness": 2, "equippable_walkspeedmult": 0.2, "fueled_maxseconds": 480, "fueled_fueltype": "NIGHTMARE"}
 yellowgem@{"prefab": "yellowgem", "edible_foodtype": "ELEMENTAL", "edible_hunger": 5, "edible_health": 10, "edible_sanity": 0, "inventoryitem": true, "stackable_maxsize": 40}
