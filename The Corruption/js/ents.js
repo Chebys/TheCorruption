@@ -392,8 +392,8 @@ var prefabs={};
 	prefabs[C.name.toLocaleLowerCase()]=C
 })
 
-function spawn(name){
-	var C=prefabs[name]
+function spawn(name=''){
+	var C=prefabs[name.toLocaleLowerCase()]
 	if(C)return new C()
 	console.error('不存在名为"'+name+'"的prefab')
 }

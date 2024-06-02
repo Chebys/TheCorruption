@@ -51,7 +51,10 @@ class CvsEle{
 			ctx.fillStyle=this.style.bgcolor
 			ctx.fill(this.path)
 		}
-		this.image?.draw(ctx,this.x1,this.y1,true)
+		if(this.image){
+			var i=this.image.getRaw(),w=this.x2-this.x1,h=this.y2-this.y1
+			ctx.drawImage(i,this.x1,this.y1,w,h)
+		}
 		if(this.style.border){
 			let {width,color}=this.style.border
 			ctx.lineWidth=width

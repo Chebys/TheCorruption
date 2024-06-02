@@ -8,7 +8,7 @@ const eventName={
 }
 
 class Asset{
-	constructor(type,name,cx,cy){
+	constructor(type,name,cx,cy,width,height){
 		this.type=type
 		this.name=name
 		if(type=='image'){
@@ -16,6 +16,8 @@ class Asset{
 			this.url=path+'img/'+name+'.png'
 			this.cx=cx||0 //实体中心在图片中的坐标（可超出图片，如飞行单位）
 			this.cy=cy||0
+			this.width=width
+			this.height=height
 			images[name]=this
 		}else if(type=='audio'){
 			this.src=new Audio()
@@ -28,6 +30,9 @@ class Asset{
 		var e=eventName[this.type]
 		this.src.addEventListener(e,onload,{once:true})
 		this.src.src=this.url
+	}
+	getRaw(){
+		return this.src
 	}
 	draw(ctx,x,y,opt){
 		//opt为true时，表示以图片左上角为中心；为数字时，表示旋转角度
@@ -49,8 +54,9 @@ class Asset{
 	}
 }
 
-function drawImage(ctx,{src,cx,cy},x,y,noCenter){
-	noCenter?ctx.drawImage(src,x,y):ctx.drawImage(src,x-cx,y-cy)
+function drawImage(ctx,{src,cx,cy,width,height},x,y,noCenter){
+	var a=noCenter?[src,x,y]:[src,x-cx,y-cy]
+	width&&height?ctx.drawImage(...a,width,height):ctx.drawImage(...a)
 }
 
 new Asset('image','mainmenu')
@@ -61,7 +67,7 @@ new Asset('image','info_tile2')
 new Asset('image','default',32,64)
 
 new Asset('image','homebase',32,32)
-new Asset('image','archertower',32,48)
+new Asset('image','archertower',64,96)
 new Asset('image','arrow',16,16)
 new Asset('image','tower1',32,48)
 new Asset('image','ball',16,16)
