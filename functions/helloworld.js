@@ -1,4 +1,4 @@
 export function onRequest(context) {
-	return fetch('/lib/partition.js')
+	return fetch('/The Corruption')
 	//return new Response("Hello, world!")
 }
