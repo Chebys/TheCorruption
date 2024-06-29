@@ -1,4 +1,4 @@
 export function onRequest(context) {
-	return env.ASSETS.fetch('/lib/partition.js')
+	return fetch('/The Corruption/')
 	//return new Response("Hello, world!")
 }
