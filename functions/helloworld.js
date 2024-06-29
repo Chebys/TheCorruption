@@ -1,4 +1,4 @@
 export function onRequest(context) {
-	return fetch('/The Corruption/')
+	return env.ASSETS.fetch('/The Corruption/')
 	//return new Response("Hello, world!")
 }
