@@ -89,4 +89,4 @@ function loadAssets(onload,beforeEach){
 	loadNext()
 }
 
-export {loadAssets,images,audios}
+export {loadAssets, images, audios}

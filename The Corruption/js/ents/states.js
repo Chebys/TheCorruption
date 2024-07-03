@@ -84,7 +84,7 @@ class Attacking extends State{
 }
 class Invading extends State{
 	update(dt){
-		var base=map.homebase
+		var base=TheMap.homebase
 		if(!base)return
 		if(this.ent.getDist(base)>this.ent.atkR)
 			this.ent.setState('MovingToBuilding').target(base,this.ent.atkR)//被阻挡时？

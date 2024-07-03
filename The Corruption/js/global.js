@@ -1,5 +1,5 @@
 function global(name, val){
-	if(globalThis[name]!==undefined)console.warn(`Global variable "${name}" already exist!`)
+	if(name in globalThis)console.warn(`Global variable "${name}" already exist!`)
 	globalThis[name]=val
 }
 

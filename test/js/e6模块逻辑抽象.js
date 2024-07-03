@@ -1,7 +1,14 @@
 //应该是这样？
-
+/*一些结论：
+ *若m1 import了 m2，且m2没有import其他模块，则m2先于m1执行
+ *若m1 import了 m2，且这是m2第一次被import（即m2未加载），则m2先于m1执行
+ *若m1 import了 m2，但m2后于m1执行，唯一的可能是：
+ **加载m1时，m2已加载但未加入执行队列（意味着m2必定直接或间接地import了m1）
+ *（推论）若m1 import了 m2，且m2没有直接或间接地import m1（或者说，m2不依赖m1），则m2先于m1执行
+ *入口点模块总是最后执行
+ */
 function import(m){
-	if(m已加载)return; //只会执行一次
+	if(m已加载)return; //只会在第一次import中加入执行队列
 	加载(m);
 	for(m1 of m导入的模块)import(m1); //若无则跳过
 	加入执行队列(m);

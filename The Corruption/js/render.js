@@ -1,8 +1,9 @@
 import LinkedList from '/lib/linkedList.js'
+import {images} from './assets.js'
 import {canvas,ctx} from './canvas.js'
-import map from './map.js'
 import ctrl from './control.js'
 
+const map=TheMap
 const bgcolor='#608'
 const roadWidth=0.6
 
@@ -76,12 +77,13 @@ function renderEnts(){
 	map.ents_to_render.forEach(e=>list.insert(e,cmp))
 	list.forEach(renderEnt)
 }
-function renderEnt({x,y,z=0,image,imageState}){
+function renderEnt({x, y, z=0, imageName, imageState}){
+	var image=images[imageName]||images.default
 	var [x,y]=getCvsPos(x,y)
 	if(imageState){
 		let {rotate=0}=imageState
-		image.draw(ctx,x,y-z,imageState.rotate)
-	}else image.draw(ctx,x,y-z)
+		image.draw(ctx, x, y-z, rotate)
+	}else image.draw(ctx, x, y-z)
 }
 
 function getCvsPos(x,y,z=0){//地图坐标转化为canvas坐标

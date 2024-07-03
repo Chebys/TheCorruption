@@ -1,20 +1,19 @@
 import strings from './strings.js'
 import {price} from './figures.js'
-import map from './map.js'
 
 const stats={
-	get(s){return map.stats[s]},
+	get(s){return TheMap.stats[s]},
 	set(tb){
-		for(let k in tb)map.stats[k]=tb[k]
+		for(let k in tb)TheMap.stats[k]=tb[k]
 	},
 	add(tb){
-		for(let k in tb)map.stats[k]+=tb[k]
+		for(let k in tb)TheMap.stats[k]+=tb[k]
 	},
 	sub(tb){
-		for(let k in tb)map.stats[k]-=tb[k]
+		for(let k in tb)TheMap.stats[k]-=tb[k]
 	},
 	check(tb){//判断是否足够
-		for(let k in tb)if(map.stats[k]<tb[k])return false
+		for(let k in tb)if(TheMap.stats[k]<tb[k])return false
 		return true
 	}
 }
@@ -114,7 +113,7 @@ const control={
 }
 
 function spawnAtSelGrid(name){
-	map.spawn(name).setGrid(control.sel)
+	TheMap.spawn(name).setGrid(control.sel)
 }
 
 export default control

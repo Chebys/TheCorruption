@@ -1,4 +1,4 @@
-import {spawn} from './ents.js'
+import {spawn} from './ent.js'
 
 const map={
 	load({ox=600,oy=0,grids,stats={},ents}){
@@ -172,4 +172,4 @@ class Grid{
 
 map.spawn=spawn
 
-export default map
+global('TheMap', map) //相当于 TheSim
