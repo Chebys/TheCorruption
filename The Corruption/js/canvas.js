@@ -1,4 +1,3 @@
-const WIDTH=1200,HEIGHT=800
 const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{alpha:false})
 canvas.width=WIDTH
 canvas.height=HEIGHT

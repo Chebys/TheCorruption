@@ -1,7 +1,8 @@
+import './global.js'
 import {audios,loadAssets} from './assets.js'
 import {canvas} from './canvas.js'
 //import strings from './strings.js'
-import {UI_loading,UI_mainMenu,UI_inGame as UI,UI_editor} from './UI.js'
+import {UI_loading, UI_mainMenu, UI_inGame as UI, UI_editor} from './UI.js'
 import renderMap from './render.js'
 import map from './map.js'
 import ctrl from './control.js'
@@ -21,7 +22,7 @@ function startGame(){
 	var bgmusic=audios['bg.mp3']
 	bgmusic.play(1)
 	UI_loading.push('加载地图')
-	map.load({ox:canvas.width/2,oy:0,grids:gridData,ents:entData})
+	map.load({ox:canvas.width/2, oy:0, grids:gridData, ents:entData})
 	UI.construct() //优先为UI添加事件监听
 	UI.setOnPause(_=>{
 		bgmusic.pause()

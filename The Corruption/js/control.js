@@ -91,7 +91,7 @@ const control={
 	getData(){//将选中对象信息暴露给UI
 		return getData[this.selType]?.(this.sel)||console.error('getData失败')||defaultInfo
 	},
-	option(i){//当控件被点击，由UI调用
+	option(i){//当控件被点击；由UI调用
 		switch(this.selType){
 			case 'grid':gridOpts[this.sel.tile]?.[i]?.fn();break
 			case 'building':

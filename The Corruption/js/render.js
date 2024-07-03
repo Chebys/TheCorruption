@@ -6,9 +6,6 @@ import ctrl from './control.js'
 const bgcolor='#608'
 const roadWidth=0.6
 
-const WIDTH=canvas.width
-const HEIGHT=canvas.height
-
 function render(){
 	ctx.fillStyle=bgcolor
 	ctx.fillRect(0,0,WIDTH,HEIGHT)
@@ -62,7 +59,7 @@ function renderRoadsFrom(grid){
 	if(map.hasRoad(grid,tar))renderRoad(grid,tar)
 }
 function renderRoad(g1,g2){
-	mapRect2(...g1.center,...g2.center,roadWidth)
+	mapRect2(...g1.center, ...g2.center, roadWidth)
 	ctx.fill()
 }
 
@@ -75,7 +72,7 @@ function circleEnt({x,y,r},r1=0.4){//选中
 	ctx.stroke()
 }
 function renderEnts(){
-	var list=new LinkedList(),cmp=(e1,e2)=>e1.x+e1.y<e2.x+e2.y
+	var list=new LinkedList(), cmp=(e1,e2)=>e1.x+e1.y<e2.x+e2.y
 	map.ents_to_render.forEach(e=>list.insert(e,cmp))
 	list.forEach(renderEnt)
 }

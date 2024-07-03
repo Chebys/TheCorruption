@@ -6,9 +6,6 @@ import {images} from './assets.js'
 
 initEle(canvas,ctx)
 
-const WIDTH=canvas.width
-const HEIGHT=canvas.height
-
 function toggleFS(){
 	return document.fullscreenElement
 		?document.exitFullscreen()
