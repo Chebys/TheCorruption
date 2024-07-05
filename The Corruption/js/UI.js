@@ -15,7 +15,7 @@ function toggleFS(){
 }
 global('ToggleFS', toggleFS)
 
-const screens={
+const screens={ //要不写成类？防止属性残余
 	loading:loading,
 	mainMenu:mainMenu,
 	inGame:inGame,
@@ -25,10 +25,14 @@ const UI={
 	goto(name, config){
 		var screen=screens[name]
 		if(!screen)throw new Error('无'+name)
-		reset()
+		this.clear()
 		screen.construct(config)
 		this.current=screen
 		return screen
+	},
+	clear(){
+		this.current=null
+		reset()
 	},
 	render(){
 		this.current.onPreRender?.()

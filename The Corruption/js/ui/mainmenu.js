@@ -14,6 +14,7 @@ export default {
 		
 		this.editorButton=new CvsEle(300,450,600,100,mainbtstyle)
 		this.editorButton.text('地图编辑器')
+		this.editorButton.hoverStyle(hoverStyle)
 		this.editorButton.on('click', _=>{
 			var l=parseInt(prompt('输入地图边长（建议不超过30）'))
 			l&&main.startEditor(l)
@@ -22,5 +23,6 @@ export default {
 		this.FSButton=new CvsEle(0,0,120,60,{bgcolor:'#640',font:'30px sans-serif',padding:20})
 		this.FSButton.text(FStext)
 		this.FSButton.on('click', ToggleFS)
+		this.FSButton.hoverStyle(hoverStyle)
 	}
 }

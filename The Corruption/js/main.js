@@ -1,14 +1,15 @@
 import './global.js'
 import {canvas} from './canvas.js'
 import './strings.js'
-import './map.js'
 import {loadAssets} from './assets.js'
 import UI from './UI.js'
+import './map.js'
 import renderMap from './render.js'
 import './control.js'
 import level from './level.js'
 
 addEventListener('mouseup', e=>Ctrl.mousedown=false)//考虑在canvas外松开的情况
+addEventListener('contextmenu', e=>e.preventDefault())
 
 var currentFrame,t0
 const main={
@@ -88,8 +89,6 @@ function clickHandler(e){//处理地图点击
 function getMapPos(x,y){//canvas坐标转化为地图坐标
 	return [(x-TheMap.ox+2*y-2*TheMap.oy)/200,(2*y-2*TheMap.oy-x+TheMap.ox)/200]
 }
-
-addEventListener('contextmenu',e=>e.preventDefault())
 
 main.init()
 main.run()

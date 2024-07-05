@@ -8,6 +8,7 @@ canvas.getPosFromDoc=function(x,y){//网页坐标转化为canvas坐标
 canvas.getMousePos=function(e){//从鼠标事件获取canvas坐标
 	return this.getPosFromDoc(e.offsetX, e.offsetY)
 }
+document.body.innerHTML='' //保证代码加载完毕后执行
 document.body.appendChild(canvas)
 ctx.imageSmoothingEnabled=false
 

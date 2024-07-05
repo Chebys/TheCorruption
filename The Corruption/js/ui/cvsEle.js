@@ -100,8 +100,9 @@ class CvsEle{
 	}
 	hoverStyle(style){
 		var _style=this.style
-		Object.setPrototypeOf(style, _style)
-		this.on('mousemove', _=>{this.style=style}, _=>{this.style=_style})
+		var hoverStyle=Object.create(_style)
+		DeepCopy(style, hoverStyle)
+		this.on('mousemove', _=>{this.style=hoverStyle}, _=>{this.style=_style})
 	}
 	activeStyle(){
 		

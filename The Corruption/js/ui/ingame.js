@@ -6,10 +6,11 @@ const hoverStyle={bgcolor:'#bbb'}
 const menuStyle={bgcolor:'#646',border:{width:4,color:'#000'},font:'40px sans-serif',padding:30}
 const borderStyle={border:{width:2,color:'#000'},padding:10}
 export default {
-	info:[],
-	options:[],
 	construct({renderMap}){
 		this.onPreRender=renderMap
+		
+		this.info=[]
+		this.options=[]
 		
 		this.stat_gold=new CvsEle(2,2,100,40,{bgcolor:'#420',border:{width:4,color:'#864'},padding:10})
 		

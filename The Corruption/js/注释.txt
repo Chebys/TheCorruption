@@ -1,3 +1,5 @@
+ui目录下的screen均为对象而非类。建议不要在construct之外为screen的属性赋值
+
 TheMap.state
 	'in_game'
 	'pause'
