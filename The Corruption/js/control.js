@@ -1,4 +1,3 @@
-import strings from './strings.js'
 import {price} from './figures.js'
 
 const stats={
@@ -54,7 +53,7 @@ const getData={//如果数值可能变化，使用函数
 		})
 		return {
 			img:'info_tile'+g.tile,
-			info:[strings.tileName[g.tile], _=>'腐化度：'+g.corruption],
+			info:[STRINGS.tileName[g.tile], _=>'腐化度：'+g.corruption],
 			options:opts
 		}
 	},
@@ -62,7 +61,7 @@ const getData={//如果数值可能变化，使用函数
 		return {
 			img:b.name,
 			info:[
-				strings.entName[b.name],
+				STRINGS.entName[b.name],
 				_=>'生命：'+b.health,
 				b.damage&&(_=>'攻击力：'+b.damage)
 			]
@@ -72,7 +71,7 @@ const getData={//如果数值可能变化，使用函数
 		return {
 			img:u.name,
 			info:[
-				strings.entName[u.name],
+				STRINGS.entName[u.name],
 				_=>'生命：'+u.health,
 				u.damage&&(_=>'攻击力：'+u.damage)
 			]

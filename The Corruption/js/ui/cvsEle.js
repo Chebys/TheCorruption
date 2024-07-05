@@ -1,3 +1,5 @@
+//canvas应具有getMousePos方法
+//图片依赖Asset对象
 var canvas,ctx
 
 var elements=[]
@@ -48,8 +50,8 @@ class CvsEle{
 	text(t){
 		this.intext = typeof t=='function' ? t : String(t??'') //字符串或函数
 	}
-	img(i){//Asset对象
-		this.image=i
+	img(name){
+		this.image=name&&GetImage(name)
 	}
 	draw(){
 		if(this.style.bgcolor){

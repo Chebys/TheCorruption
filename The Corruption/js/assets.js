@@ -89,4 +89,6 @@ function loadAssets(onload,beforeEach){
 	loadNext()
 }
 
+global('GetImage', name=>images[name]||images.default)
+
 export {loadAssets, images, audios}

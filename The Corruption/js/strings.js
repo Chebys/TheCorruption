@@ -10,4 +10,4 @@ strings.entName={
 	corrupter:'腐化者'
 }
 
-export default strings
+global('STRINGS', strings)

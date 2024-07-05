@@ -1,8 +1,10 @@
 import './global.js'
 import {canvas} from './canvas.js'
-//import strings from './strings.js'
+import './strings.js'
 import './map.js'
+import {loadAssets} from './assets.js'
 import UI from './UI.js'
+import renderMap from './render.js'
 import './control.js'
 import level from './level.js'
 
@@ -25,6 +27,13 @@ const main={
 		}
 		currentFrame=requestAnimationFrame(main.run)
 	},
+	init(){
+		var loadingText=''
+		UI.goto('loading', {textFn:_=>loadingText})
+		loadAssets(main.mainMenu, (i,len)=>{
+			loadingText='加载资源：'+i+'/'+len
+		})
+	},
 	mainMenu(){
 		TheMap.state=null
 		Ctrl.reset()
@@ -34,15 +43,15 @@ const main={
 	startGame(){
 		//UI_loading.push('加载地图')
 		TheMap.load(level.get(0))
-		UI.goto('inGame') //优先为UI添加事件监听
+		UI.goto('inGame', {renderMap:renderMap}) //优先为UI添加事件监听
 		//var bgmusic=audios['bg.mp3']
 		//bgmusic.play(1)
 		main.addMapHandler()
 		TheMap.state='in_game'
 	},
-	startEditor(){
+	startEditor(l){
 		TheMap.loadBlank(l)
-		UI.goto('editor')
+		UI.goto('editor', {renderMap:renderMap})
 		main.addMapHandler()
 	},
 	addMapHandler(){
@@ -82,10 +91,9 @@ function getMapPos(x,y){//canvas坐标转化为地图坐标
 
 addEventListener('contextmenu',e=>e.preventDefault())
 
-
-UI.goto('loading')
+main.init()
 main.run()
 
 //debug
-window.Ctrl=Ctrl
+window.ctrl=Ctrl
 window.UI=UI
