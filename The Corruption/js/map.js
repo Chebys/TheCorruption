@@ -1,7 +1,7 @@
 import {spawn} from './ent.js'
 
 const map={
-	load({ox=600,oy=0,grids,stats={},ents}){
+	load({ox=600, oy=0, grids, stats={}, ents}){
 		this.ox=ox //地图原点在canvas中的坐标
 		this.oy=oy
 		this.sizeX=grids.length
@@ -139,6 +139,7 @@ const map={
 		return [null,null]
 	}
 }
+map.spawn=spawn
 
 class Corruption{
 	max=1
@@ -163,6 +164,7 @@ class Corruption{
 	removeExtra(src){this.extra.delete(src)}
 	toString(){return this.get()*100+'%'}
 }
+
 class Grid{
 	constructor(x,y,tile,road){//建筑等实体不在此处初始化
 		this.x=x
@@ -174,7 +176,5 @@ class Grid{
 	}
 	get center(){return [this.x+0.5,this.y+0.5]}
 }
-
-map.spawn=spawn
 
 global('TheMap', map) //相当于 TheSim

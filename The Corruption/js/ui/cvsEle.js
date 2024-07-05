@@ -1,5 +1,5 @@
 //canvas应具有getMousePos方法
-//图片依赖Asset对象
+//图片暂且依赖 GetImage
 var canvas,ctx
 
 var elements=[]
@@ -59,8 +59,8 @@ class CvsEle{
 			ctx.fill(this.path)
 		}
 		if(this.image){
-			var i=this.image.getRaw(),w=this.x2-this.x1,h=this.y2-this.y1
-			ctx.drawImage(i,this.x1,this.y1,w,h)
+			var w=this.x2-this.x1, h=this.y2-this.y1
+			ctx.drawImage(this.image, this.x1, this.y1, w, h)
 		}
 		if(this.style.border){
 			let {width,color}=this.style.border
@@ -95,6 +95,7 @@ class CvsEle{
 	on(eventName, fn, end_fn){
 		//触发时，调用fn(event,x,y)
 		//下一次canvas触发该事件但该元素不是目标时，调用end_fn(event,x,y)
+		//不允许只有end_fn
 		listeners[eventName].set(this,fn)
 		end_fn&&end_listeners[eventName].set(this,end_fn)
 	}

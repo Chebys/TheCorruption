@@ -1,5 +1,6 @@
 import LinkedList from '/lib/linkedList.js'
 import {canvas,ctx} from './canvas.js'
+import {images} from './assets.js'
 
 const map=TheMap
 const bgcolor='#608'
@@ -76,7 +77,7 @@ function renderEnts(){
 	list.forEach(renderEnt)
 }
 function renderEnt({x, y, z=0, imageName, imageState}){
-	var image=GetImage(imageName)
+	var image=images[imageName]||images.default
 	var [x,y]=getCvsPos(x,y)
 	if(imageState){
 		let {rotate=0}=imageState

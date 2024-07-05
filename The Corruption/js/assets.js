@@ -1,6 +1,6 @@
 const path='/The Corruption/'
 
-const assets=[],images={},audios={}
+const assets=[], images={}, audios={}
 
 const eventName={
 	image:'load',
@@ -12,7 +12,7 @@ class Asset{
 		this.type=type
 		this.name=name
 		if(type=='image'){
-			this.src=new Image()
+			//this.src=new Image()
 			this.url=path+'img/'+name+'.png'
 			this.cx=cx||0 //实体中心在图片中的坐标（可超出图片，如飞行单位）
 			this.cy=cy||0
@@ -26,10 +26,19 @@ class Asset{
 		}
 		assets.push(this)
 	}
-	load(onload){//考虑做成异步函数？
-		var e=eventName[this.type]
-		this.src.addEventListener(e,onload,{once:true})
-		this.src.src=this.url
+	async load(blob){
+		/*var e=eventName[this.type]
+		this.src.addEventListener(e, onload, {once:true})
+		this.src.src=this.url*/
+		if(blob){
+			this.src=blob
+			var originbitmap=this.bitmap
+		}else{
+			let res=await fetch(this.url)
+			this.src=await res.blob()
+		}
+		this.bitmap=await createImageBitmap(this.src)
+		//originbitmap?.close() 有些地方还在用之前GetImage得到的bitmap
 	}
 	getRaw(){
 		return this.src
@@ -53,10 +62,16 @@ class Asset{
 		this.src.pause()
 	}
 }
-
-function drawImage(ctx,{src,cx,cy,width,height},x,y,noCenter){
-	var a=noCenter?[src,x,y]:[src,x-cx,y-cy]
-	width&&height?ctx.drawImage(...a,width,height):ctx.drawImage(...a)
+function GetImage(name){
+	var img=images[name]||images.default
+	return img.bitmap
+}
+function drawImage(ctx, {bitmap,cx,cy,width,height}, x, y, noCenter){
+	var a=noCenter?[bitmap,x,y]:[bitmap,x-cx,y-cy]
+	width&&height ? ctx.drawImage(...a, width, height) : ctx.drawImage(...a)
+}
+function PlaySound(name, config={}){
+	
 }
 
 new Asset('image','mainmenu')
@@ -74,21 +89,78 @@ new Asset('image','ball',16,16)
 new Asset('image','corrupter',32,48)
 
 //new Asset('audio','bg.mid') 不支持的格式
-new Asset('audio','bg.mp3')
-
-function loadAssets(onload,beforeEach){
-	var i=0,len=assets.length
+//new Asset('audio','bg.mp3')
+async function loadImage(name, blob){
+	var img=images[name]||new Asset('image',name) 
+	await img.load(blob)
+}
+function loadAssets0(onload,beforeEach){
+	var i=0, len=assets.length
 	function loadNext(){
 		if(i<len){
 			beforeEach?.(i,len)
-			assets[i++].load(loadNext)
+			assets[i++].load().then(loadNext)
 		}else{
 			onload?.()
 		}
 	}
 	loadNext()
 }
+async function loadAssets(onload){
+	var data={}
+	var res=await fetch(path+'data/blob.txt')
+	data.blob=await res.blob()
+	res=await fetch(path+'data/meta.json')
+	res=await res.text()
+	data.meta=JSON.parse(res)
+	await importAssets(data)
+	onload()
+}
+function exportAssets(){ //先试试图像
+	var blobs=[], names=[], sizes=[]
+	for(let img of assets){
+		names.push(img.name)
+		let blob=img.getRaw()
+		blobs.push(blob)
+		sizes.push(blob.size)
+	}
+	return {
+		meta:{
+			names:names,
+			sizes:sizes
+		},
+		blob:new Blob(blobs)
+	}
+}
+function exportToFile(){
+	var {meta, blob}=exportAssets()
+	var jsonstr=JSON.stringify(meta)
+	var metablob=new Blob([jsonstr])
+	DownloadBlob(metablob, 'meta.json')
+	DownloadBlob(blob, 'blob.txt') //dat格式会404
+}
+async function importAssets({meta:{names,sizes}, blob}){
+	var start=0
+	for(let i=0;names[i];i++){
+		let end=start+sizes[i]
+		let raw=blob.slice(start,end)
+		await loadImage(names[i], raw)
+		start=end
+	}
+}
+global('test',async _=>{
+	var data={}
+	var res=await fetch(path+'data/blob.txt')
+	data.blob=await res.blob()
+	res=await fetch(path+'data/meta.json')
+	res=await res.text()
+	data.meta=JSON.parse(res)
+	await importAssets(data)
+})
 
-global('GetImage', name=>images[name]||images.default)
+global('exportToFile', exportToFile)
+global('importAssets', importAssets)
+global('GetImage', GetImage)
+global('PlaySound', PlaySound)
 
 export {loadAssets, images, audios}

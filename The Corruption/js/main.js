@@ -1,4 +1,5 @@
 import './global.js'
+import './.debug.js'
 import {canvas} from './canvas.js'
 import './strings.js'
 import {loadAssets} from './assets.js'
@@ -42,7 +43,7 @@ const main={
 		UI.goto('mainMenu')
 	},
 	startGame(){
-		//UI_loading.push('加载地图')
+		//UI.goto('loading', {textFn:_=>'加载地图'})
 		TheMap.load(level.get(0))
 		UI.goto('inGame', {renderMap:renderMap}) //优先为UI添加事件监听
 		//var bgmusic=audios['bg.mp3']
