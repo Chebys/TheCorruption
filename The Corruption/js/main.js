@@ -30,11 +30,16 @@ const main={
 		currentFrame=requestAnimationFrame(main.run)
 	},
 	init(){
-		var loadingText=''
+		var loadingText=STRINGS.progress_stage[0]
 		UI.goto('loading', {textFn:_=>loadingText})
-		loadAssets(main.mainMenu, (i,len)=>{
+		/*loadAssets(main.mainMenu, (i,len)=>{
 			loadingText='加载资源：'+i+'/'+len
-		})
+		})*/
+		loadAssets(progress=>{
+			var {stage,percent}=progress
+			loadingText=STRINGS.progress_stage[stage]
+			if(percent!=undefined)loadingText+=': '+percent*100+'%'
+		}).then(main.mainMenu)
 	},
 	mainMenu(){
 		TheMap.state=null

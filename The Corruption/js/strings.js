@@ -1,5 +1,7 @@
 var strings={}
 
+strings.progress_stage=['加载元信息','加载数据','即将完成']
+
 strings.tileName=['泥土','草地','水域']
 
 strings.entName={

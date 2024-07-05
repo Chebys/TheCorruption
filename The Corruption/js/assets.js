@@ -94,7 +94,7 @@ async function loadImage(name, blob){
 	var img=images[name]||new Asset('image',name) 
 	await img.load(blob)
 }
-function loadAssets0(onload,beforeEach){
+function loadAssets0(onload,beforeEach){//老式加载；exportAssets 之前使用
 	var i=0, len=assets.length
 	function loadNext(){
 		if(i<len){
@@ -106,15 +106,17 @@ function loadAssets0(onload,beforeEach){
 	}
 	loadNext()
 }
-async function loadAssets(onload){
+async function loadAssets(onprogress){
 	var data={}
-	var res=await fetch(path+'data/blob.txt')
-	data.blob=await res.blob()
-	res=await fetch(path+'data/meta.json')
+	var res=await XHRPromise(path+'data/meta.json')
+		.onprogress(e=>onprogress?.({stage:0, percent:e.loaded/e.total}))
 	res=await res.text()
 	data.meta=JSON.parse(res)
+	res=await XHRPromise(path+'data/blob.txt')
+		.onprogress(e=>onprogress?.({stage:1, percent:e.loaded/e.total}))
+	onprogress({stage:2})
+	data.blob=await res.blob()
 	await importAssets(data)
-	onload()
 }
 function exportAssets(){ //先试试图像
 	var blobs=[], names=[], sizes=[]
