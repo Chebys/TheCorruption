@@ -46,6 +46,11 @@ const map={
 			ents:entData
 		}
 	},
+	
+	update(dt){
+		this.ents_to_update.forEach(e=>e.update(dt))
+	},
+	
 	getGrid(x,y){
 		if(0<=x&&x<this.sizeX&&0<=y&&y<this.sizeY)
 			return this.grids[Math.floor(x)][Math.floor(y)]

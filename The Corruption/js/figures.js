@@ -4,5 +4,5 @@ var price={
 	}
 }
 
-
+//global('FIGURES', {price:price})
 export {price}

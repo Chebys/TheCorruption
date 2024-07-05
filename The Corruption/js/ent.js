@@ -12,10 +12,10 @@ units.forEach(registerPrefab)
 function spawn(name=''){
 	var C=prefabs[name.toLocaleLowerCase()]
 	if(C)return new C()
-	console.error('不存在名为"'+name+'"的prefab')
+	throw new Error('不存在名为"'+name+'"的prefab')
 }
 
 export {spawn}
 
 //window.prefabs=prefabs
-window.spawn=spawn
+//window.spawn=spawn

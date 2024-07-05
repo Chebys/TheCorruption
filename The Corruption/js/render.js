@@ -1,7 +1,6 @@
 import LinkedList from '/lib/linkedList.js'
 import {images} from './assets.js'
 import {canvas,ctx} from './canvas.js'
-import ctrl from './control.js'
 
 const map=TheMap
 const bgcolor='#608'
@@ -12,9 +11,9 @@ function render(){
 	ctx.fillRect(0,0,WIDTH,HEIGHT)
 	renderGrids()
 	renderRoads()
-	if(ctrl.selType=='grid')renderTile(ctrl.sel,1)
-	else if(ctrl.selType=='building')circleEnt(ctrl.sel)
-	else if(ctrl.selType=='unit')circleEnt(ctrl.sel,0.3)
+	if(Ctrl.selType=='grid')renderTile(Ctrl.sel,1)
+	else if(Ctrl.selType=='building')circleEnt(Ctrl.sel)
+	else if(Ctrl.selType=='unit')circleEnt(Ctrl.sel,0.3)
 	renderEnts()
 }
 

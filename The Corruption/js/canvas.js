@@ -1,12 +1,12 @@
-const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{alpha:false})
+const canvas=document.createElement('canvas'), ctx=canvas.getContext('2d', {alpha:false})
 canvas.width=WIDTH
 canvas.height=HEIGHT
 canvas.getPosFromDoc=function(x,y){//网页坐标转化为canvas坐标
 	var rect=this.getBoundingClientRect()
-	return [x*WIDTH/rect.width,y*HEIGHT/rect.height]
+	return [x*WIDTH/rect.width, y*HEIGHT/rect.height]
 }
 canvas.getMousePos=function(e){//从鼠标事件获取canvas坐标
-	return this.getPosFromDoc(e.offsetX,e.offsetY)
+	return this.getPosFromDoc(e.offsetX, e.offsetY)
 }
 document.body.appendChild(canvas)
 ctx.imageSmoothingEnabled=false
@@ -23,4 +23,4 @@ function zoom(){
 	}
 }
 
-export {canvas,ctx}
+export {canvas, ctx}

@@ -1,13 +1,18 @@
 var canvas,ctx
 
+var elements=[]
 //尽量不要为互相遮挡的元素注册相同事件的监听，无法保证顺序
 //重复注册同一元素同一事件则覆盖
-var elements=[]
-var listeners={
-	mousemove:new Map(),
-	mousedown:new Map(),
-	click:new Map()
+const events=['mousemove','mousedown','click']
+var listeners={}
+var end_listeners={}
+var ongoing={}
+for(let e of events){
+	listeners[e]=new Map()
+	end_listeners[e]=new Map()
+	ongoing[e]=new Set()
 }
+
 var defaultFont='20px sans-serif'
 var defaultcolor='#fff'
 /*style:
@@ -41,7 +46,7 @@ class CvsEle{
 		this.hidden=false
 	}
 	text(t){
-		this.intext=t //字符串或函数
+		this.intext = typeof t=='function' ? t : String(t??'') //字符串或函数
 	}
 	img(i){//Asset对象
 		this.image=i
@@ -85,14 +90,24 @@ class CvsEle{
 			ctx.fillText(typeof t=='function'?t():t,x,y)
 		}
 	}
-	on(eventName,fn){//fn(event,x,y)
+	on(eventName, fn, end_fn){
+		//触发时，调用fn(event,x,y)
+		//下一次canvas触发该事件但该元素不是目标时，调用end_fn(event,x,y)
 		listeners[eventName].set(this,fn)
+		end_fn&&end_listeners[eventName].set(this,end_fn)
 	}
-	hoverStyle(){
-		
+	hoverStyle(style){
+		var _style=this.style
+		Object.setPrototypeOf(style, _style)
+		this.on('mousemove', _=>{this.style=style}, _=>{this.style=_style})
 	}
 	activeStyle(){
 		
+	}
+	stopPropagation(){
+		//防止点击穿透
+		//只会阻止直接通过addEventListener添加到canvas的监听器，如地图点击
+		this.on('mousedown', e=>e.stopImmediatePropagation())
 	}
 }
 function isTarget(ele,e){
@@ -109,24 +124,31 @@ function init(c,ctx1){
 	}
 	canvas=c
 	ctx=ctx1||c.getContext('2d')
-	for(let name in listeners)
+	for(let name of events)
 		c.addEventListener(name,e=>{
 			for(let [ele,fn] of listeners[name])
 				if(isTarget(ele,e)){
-					fn(e,...canvas.getMousePos(e))
-					return
+					fn(e, ...canvas.getMousePos(e))
+					ongoing[name].add(ele)
+				}else if(ongoing[name].has(ele)){
+					ongoing[name].delete(ele)
+					end_listeners[name].get(ele)?.(e, ...canvas.getMousePos(e))
 				}
 		})
 }
 function reset(){
 	elements.splice(0)
-	for(let k in listeners)listeners[k].clear()
+	for(let e of events){
+		listeners[e].clear()
+		end_listeners[e].clear()
+		ongoing[e].clear()
+	}
 }
 function render(clear){//按元素创建的顺序渲染
 	if(clear)ctx.clearRect(0,0,canvas.width,canvas.height)
 	elements.forEach(e=>e.hidden||e.draw())
 }
 
-export {CvsEle,init,reset,render,elements}
+export {CvsEle, init, reset, render, elements}
 
 window.elements=elements

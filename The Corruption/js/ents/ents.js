@@ -36,6 +36,7 @@ class Ent{
 	remove(){
 		TheMap.ents.delete(this)
 		this.ignored=true //用于检查引用是否有效
+		if(Ctrl.sel==this)Ctrl.reset()
 	}
 }
 class Located extends Ent{
@@ -87,15 +88,12 @@ class Visible extends Located{
 	}
 }
 class Building extends Visible{
-	group=1 //都是玩家？
+	group=1 //默认为玩家
 	constructor(health=100,r=0.4){
 		super()
 		this.r=r
 		this.maxHealth=health
 		this.health=health
-	}
-	get isWall(){
-		return this instanceof Wall
 	}
 	setPos(x,y){
 		super.setPos(x,y)
@@ -112,6 +110,7 @@ class Building extends Visible{
 }
 class Projectile extends Visible{//Mob只能沿grid移动
 	z=0
+	damage=0 //damage来源于Tower
 	constructor(speed=4){
 		super()
 		this.speed=speed
@@ -138,7 +137,7 @@ class Projectile extends Visible{//Mob只能沿grid移动
 	}
 	update(dt){
 		if(this.getDist(this.target)<=0.1){
-			this.target.getAttacked(this.damage) //damage来源于Tower
+			this.target.getAttacked(this.damage)
 			this.remove()
 		}else if(this.x==this.tx&&this.y==this.ty){
 			this.remove()
@@ -233,7 +232,7 @@ class Spawner extends Located{
 	}
 	update(dt){
 		this.cd.update(dt,true)
-			&&spawn(this.child).setPos(this.x,this.y)
+			&&TheMap.spawn(this.child).setPos(this.x,this.y)
 	}
 }
 class CorrupterSpawner extends Spawner{

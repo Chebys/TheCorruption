@@ -1,3 +1,10 @@
+TheMap.state
+	'in_game'
+	'pause'
+	'lose'
+	'win'
+	假值	未进行游戏
+
 地图数据格式（暂定）：
 	原则：可序列化为JSON
 	ox,oy

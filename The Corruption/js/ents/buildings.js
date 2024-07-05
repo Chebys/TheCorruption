@@ -1,7 +1,9 @@
 import {CD, Building, Projectile} from './ents.js'
 
 class Wall extends Building{
-	
+	get isWall(){
+		return true
+	}
 }
 class HomeBase extends Building{
 	constructor(){
@@ -41,7 +43,7 @@ class Tower extends Building{//远程
 		return true
 	}
 	attack(e){
-		var p=spawn(this.projectile)
+		var p=TheMap.spawn(this.projectile)
 		p.damage=this.damage
 		p.track(this,e)
 		this.cd.refresh()
