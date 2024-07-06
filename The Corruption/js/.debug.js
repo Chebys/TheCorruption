@@ -9,13 +9,14 @@ function DownloadBlob(blob,name){
 }
 global('DownloadBlob', DownloadBlob)
 
-var sel
-function c_sel(tar){
-	sel=tar??sel
-	console.log('c_sel', sel)
-	return sel
-}
-global('c_sel', c_sel)
+;(_=>{
+	var sel
+	global('c_sel', tar=>{
+		sel=tar??sel
+		console.log('c_sel', sel)
+		return sel
+	})
+})()
 
 function sleep(time){ //await sleep(1000)
 	return new Promise(resolve=>setTimeout(resolve, time))

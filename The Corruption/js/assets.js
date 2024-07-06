@@ -73,23 +73,6 @@ function drawImage(ctx, {bitmap,cx,cy,width,height}, x, y, noCenter){
 function PlaySound(name, config={}){
 	
 }
-
-new Asset('image','mainmenu')
-
-new Asset('image','info_tile0')
-new Asset('image','info_tile1')
-new Asset('image','info_tile2')
-new Asset('image','default',32,64)
-
-new Asset('image','homebase',32,32)
-new Asset('image','archertower',64,96)
-new Asset('image','arrow',16,16)
-new Asset('image','tower1',32,48)
-new Asset('image','ball',16,16)
-new Asset('image','corrupter',32,48)
-
-//new Asset('audio','bg.mid') 不支持的格式
-//new Asset('audio','bg.mp3')
 async function loadImage(name, blob){
 	var img=images[name]||new Asset('image',name) 
 	await img.load(blob)
@@ -109,11 +92,17 @@ function loadAssets0(onload,beforeEach){//老式加载；exportAssets 之前使�
 async function loadAssets(onprogress){
 	var data={}
 	var res=await XHRPromise(path+'data/meta.json')
-		.onprogress(e=>onprogress?.({stage:0, percent:e.loaded/e.total}))
+		.onprogress(e=>onprogress?.({
+			stage:0,
+			percent:e.total?e.loaded/e.total:0
+		}))
 	res=await res.text()
 	data.meta=JSON.parse(res)
-	res=await XHRPromise(path+'data/blob.txt')
-		.onprogress(e=>onprogress?.({stage:1, percent:e.loaded/e.total}))
+	res=await XHRPromise(path+'data/blob.txt') //dat格式会404
+		.onprogress(e=>onprogress?.({
+			stage:1,
+			percent:e.total?e.loaded/e.total:0
+		}))
 	onprogress({stage:2})
 	data.blob=await res.blob()
 	await importAssets(data)
@@ -139,7 +128,7 @@ function exportToFile(){
 	var jsonstr=JSON.stringify(meta)
 	var metablob=new Blob([jsonstr])
 	DownloadBlob(metablob, 'meta.json')
-	DownloadBlob(blob, 'blob.txt') //dat格式会404
+	DownloadBlob(blob, 'blob.txt')
 }
 async function importAssets({meta:{names,sizes}, blob}){
 	var start=0
@@ -150,15 +139,24 @@ async function importAssets({meta:{names,sizes}, blob}){
 		start=end
 	}
 }
-global('test',async _=>{
-	var data={}
-	var res=await fetch(path+'data/blob.txt')
-	data.blob=await res.blob()
-	res=await fetch(path+'data/meta.json')
-	res=await res.text()
-	data.meta=JSON.parse(res)
-	await importAssets(data)
-})
+
+new Asset('image','mainmenu')
+
+new Asset('image','info_tile0')
+new Asset('image','info_tile1')
+new Asset('image','info_tile2')
+new Asset('image','default',32,64)
+
+new Asset('image','homebase',32,32)
+new Asset('image','archertower',64,96)
+new Asset('image','arrow',16,16)
+new Asset('image','tower1',32,48)
+new Asset('image','ball',16,16)
+new Asset('image','corrupter',32,48)
+
+//new Asset('audio','bg.mid') 不支持的格式
+//new Asset('audio','bg.mp3')
+
 
 global('exportToFile', exportToFile)
 global('importAssets', importAssets)

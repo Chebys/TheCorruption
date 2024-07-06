@@ -8,11 +8,11 @@ function DeepCopy(obj, tar){
 	for(let k in obj)tar[k]=DeepCopy(obj[k])
 	return tar
 }
-function XHRPromise(url, method){
+function XHRPromise(url, opts={}){
 	//XHRPromise(url).onprogress(fn).then(onload)
 	//或res=await XHRPromise(url).onprogress(fn)
 	var xhr=new XMLHttpRequest
-	xhr.open(method||'GET', url)
+	xhr.open(opts.method||'GET', url)
 	xhr.responseType='blob' //应该不会丢数据
 	var XHRP=new Promise(resolve=>{
 		xhr.send()
