@@ -8,14 +8,16 @@ class Wall extends Building{
 class HomeBase extends Building{
 	constructor(){
 		super()
-		TheMap.homebase?.remove(true)
+		TheMap.homebase?.remove()
 		TheMap.homebase=this
 	}
-	remove(noLose){
+	onDeath(cause){
+		TheMap.pushEvent('lose')
+		return true
+	}
+	remove(){
 		TheMap.homebase=null
 		super.remove()
-		if(noLose)return
-		TheMap.state='lose'
 	}
 }
 class GoldMine extends Building{
@@ -105,7 +107,7 @@ class ArcherTower extends Tower{
 		super({dmg:2,atkR:2,cd:2,z0:40})
 	}
 }
-class Arrow extends Projectile{
+class Arrow extends Parabolic{
 	
 }
 class Tower1 extends Tower{

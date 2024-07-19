@@ -87,7 +87,17 @@ class Visible extends Located{
 		super.remove()
 	}
 }
-class Building extends Visible{
+class Living extends Visible{
+	health=10
+	onDeath(cause){//用于重写
+		return true
+	}
+	getAttacked(dmg){
+		this.health-=dmg
+		if(this.health<=0)this.onDeath()&&this.remove()
+	}
+}
+class Building extends Living{
 	group=1 //默认为玩家
 	constructor(health=100,r=0.4){
 		super()
@@ -98,10 +108,6 @@ class Building extends Visible{
 	setPos(x,y){
 		super.setPos(x,y)
 		this.grid.building=this
-	}
-	getAttacked(dmg){
-		this.health-=dmg
-		if(this.health<=0)this.remove()
 	}
 	remove(){
 		this.grid.building=null
@@ -145,7 +151,7 @@ class Projectile extends Visible{//Mob只能沿grid移动
 	}
 }
 
-class Mob extends Visible{
+class Mob extends Living{
 	static states={}
 	constructor(speed=1){
 		super()
@@ -201,13 +207,6 @@ class Unit extends Mob{
 	attack(ent){//前置判断（距离、cd等）完成后调用
 		ent.getAttacked(this.damage)
 		this.cd.refresh()
-	}
-	getAttacked(dmg){
-		this.health-=dmg
-		if(this.health<=0)this.onDeath()&&this.remove()
-	}
-	onDeath(cause){//用于重写
-		return true
 	}
 	remove(){
 		this.grid?.units.delete(this)

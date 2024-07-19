@@ -55,7 +55,7 @@ export default {
 				this.options[i*5+j]=opt
 			}
 	},
-	showInfo({info=[],options=[],img:imgName='default'}){//info为文字数组，options为图片名数组
+	showInfo({info=[], options=[], img:imgName='default'}){//info为文字数组，options为图片名数组
 		this.infoImg.img(imgName)
 		this.info.forEach((ele,i)=>ele.text(info[i]))
 		this.options.forEach((ele,i)=>ele.img(options[i]))
@@ -76,7 +76,7 @@ export default {
 		this.exitButton.hide()
 	},
 	onUpdate(){
-		var {food, food, gold, stone}=TheMap.stats
+		var {food, wood, gold, stone}=TheMap.stats
 		this.stat_gold.text('$:'+gold)
 		if(Ctrl.updated){
 			if(Ctrl.sel)this.showInfo(Ctrl.getData())

@@ -1,5 +1,3 @@
-const path='/The Corruption/'
-
 const assets=[], images={}, audios={}
 
 const eventName={
@@ -13,7 +11,7 @@ class Asset{
 		this.name=name
 		if(type=='image'){
 			//this.src=new Image()
-			this.url=path+'img/'+name+'.png'
+			this.url=PATH+'img/'+name+'.png'
 			this.cx=cx||0 //实体中心在图片中的坐标（可超出图片，如飞行单位）
 			this.cy=cy||0
 			this.width=width
@@ -21,7 +19,7 @@ class Asset{
 			images[name]=this
 		}else if(type=='audio'){
 			this.src=new Audio()
-			this.url=path+'audio/'+name
+			this.url=PATH+'audio/'+name
 			audios[name]=this
 		}
 		assets.push(this)
@@ -73,9 +71,9 @@ function drawImage(ctx, {bitmap,cx,cy,width,height}, x, y, noCenter){
 function PlaySound(name, config={}){
 	
 }
-async function loadImage(name, blob){
+function loadImage(name, blob){
 	var img=images[name]||new Asset('image',name) 
-	await img.load(blob)
+	return img.load(blob) //Promise
 }
 function loadAssets0(onload,beforeEach){//老式加载；exportAssets 之前使用
 	var i=0, len=assets.length
@@ -91,19 +89,19 @@ function loadAssets0(onload,beforeEach){//老式加载；exportAssets 之前使�
 }
 async function loadAssets(onprogress){
 	var data={}
-	var res=await XHRPromise(path+'data/meta.json')
+	var res=await XHRPromise(PATH+'data/meta.json')
 		.onprogress(e=>onprogress?.({
 			stage:0,
 			percent:e.total?e.loaded/e.total:0
 		}))
 	res=await res.text()
 	data.meta=JSON.parse(res)
-	res=await XHRPromise(path+'data/blob.txt') //dat格式会404
+	res=await XHRPromise(PATH+'data/blob.txt') //dat格式会404
 		.onprogress(e=>onprogress?.({
 			stage:1,
 			percent:e.total?e.loaded/e.total:0
 		}))
-	onprogress({stage:2})
+	onprogress?.({stage:2})
 	data.blob=await res.blob()
 	await importAssets(data)
 }
@@ -157,10 +155,9 @@ new Asset('image','corrupter',32,48)
 //new Asset('audio','bg.mid') 不支持的格式
 //new Asset('audio','bg.mp3')
 
-
 global('exportToFile', exportToFile)
-global('importAssets', importAssets)
+
 global('GetImage', GetImage)
 global('PlaySound', PlaySound)
 
-export {loadAssets, images, audios}
+export {loadAssets0, loadAssets, images, audios}

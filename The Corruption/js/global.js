@@ -33,5 +33,6 @@ global('global', global)
 global('DeepCopy', DeepCopy)
 global('XHRPromise', XHRPromise)
 
+global('PATH', '/The Corruption/')
 global('WIDTH', 1200)
 global('HEIGHT', 800)

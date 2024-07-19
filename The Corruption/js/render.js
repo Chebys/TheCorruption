@@ -1,5 +1,5 @@
 import LinkedList from '/lib/linkedList.js'
-import {canvas,ctx} from './canvas.js'
+import {canvas, ctx} from './canvas.js'
 import {images} from './assets.js'
 
 const map=TheMap

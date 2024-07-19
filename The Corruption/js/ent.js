@@ -3,7 +3,7 @@ import buildings from './ents/buildings.js'
 import units from './ents/units.js'
 
 var prefabs={};
-const registerPrefab=C=>{ prefabs[C.name.toLocaleLowerCase()]=C }
+const registerPrefab = C=>{ prefabs[C.name.toLocaleLowerCase()]=C }
 
 ents.forEach(registerPrefab)
 buildings.forEach(registerPrefab)

@@ -2,7 +2,7 @@ import './global.js'
 import './.debug.js'
 import {canvas} from './canvas.js'
 import './strings.js'
-import {loadAssets} from './assets.js'
+import {loadAssets0, loadAssets} from './assets.js'
 import UI from './UI.js'
 import './map.js'
 import renderMap from './render.js'
@@ -29,12 +29,16 @@ const main={
 		}
 		currentFrame=requestAnimationFrame(main.run)
 	},
+	init0(download){
+		UI.goto('loading', {textFn:_=>null})
+		loadAssets0(_=>{
+			if(download)exportToFile()
+			main.mainMenu()
+		})
+	},
 	init(){
 		var loadingText=STRINGS.progress_stage[0]
 		UI.goto('loading', {textFn:_=>loadingText})
-		/*loadAssets(main.mainMenu, (i,len)=>{
-			loadingText='加载资源：'+i+'/'+len
-		})*/
 		loadAssets(progress=>{
 			var {stage,percent}=progress
 			loadingText=STRINGS.progress_stage[stage]
@@ -54,7 +58,7 @@ const main={
 		//var bgmusic=audios['bg.mp3']
 		//bgmusic.play(1)
 		main.addMapHandler()
-		TheMap.state='in_game'
+		TheMap.startGame()
 	},
 	startEditor(l){
 		TheMap.loadBlank(l)
@@ -96,6 +100,7 @@ function getMapPos(x,y){//canvas坐标转化为地图坐标
 	return [(x-TheMap.ox+2*y-2*TheMap.oy)/200,(2*y-2*TheMap.oy-x+TheMap.ox)/200]
 }
 
+//main.init0(true)
 main.init()
 main.run()
 

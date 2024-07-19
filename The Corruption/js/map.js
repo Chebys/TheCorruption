@@ -1,5 +1,7 @@
 import {spawn} from './ent.js'
 
+var listeners={}
+
 const map={
 	load({ox=600, oy=0, grids, stats={}, ents}){
 		this.ox=ox //地图原点在canvas中的坐标
@@ -47,10 +49,39 @@ const map={
 		}
 	},
 	
-	update(dt){
-		this.ents_to_update.forEach(e=>e.update(dt))
+	startGame(){ //此前先load
+		this.state='in_game'
+		this.tasks=new Set
+		this.listenForEvent('win', this.win)
+		this.listenForEvent('lose', this.lose)
+	},
+	win(){
+		this.state='win'
+	},
+	lose(){
+		this.state='lose'
 	},
 	
+	update(dt){
+		this.ents_to_update.forEach(e=>e.update(dt))
+		for(let task of this.tasks){
+			task.time-=dt
+			if(task.time<=0){
+				let {resolve, fn}=task
+				resolve(fn())
+				this.tasks.delete(task)
+			}
+		}
+	},
+	
+	pushEvent(name, data){
+		listeners[name]?.call(this, data)
+	},
+	listenForEvent(name, fn){//暂且只能添加一个
+		listeners[name]=fn
+	},
+	
+	//工具函数
 	getGrid(x,y){
 		if(0<=x&&x<this.sizeX&&0<=y&&y<this.sizeY)
 			return this.grids[Math.floor(x)][Math.floor(y)]
@@ -177,4 +208,13 @@ class Grid{
 	get center(){return [this.x+0.5,this.y+0.5]}
 }
 
+function DoTaskInTime(fn, time){
+	var task=Promise.withResolvers()
+	task.fn=fn
+	task.time=time
+	map.tasks.add(task)
+	return task.promise
+}
+
 global('TheMap', map) //相当于 TheSim
+global('DoTaskInTime', DoTaskInTime)
