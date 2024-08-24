@@ -12,7 +12,7 @@ var ongoing={}
 for(let e of events){
 	listeners[e]=new Map()
 	end_listeners[e]=new Map()
-	ongoing[e]=new Set()
+	ongoing[e]=new Set
 }
 
 var defaultFont='20px sans-serif'

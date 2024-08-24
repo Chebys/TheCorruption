@@ -1,4 +1,4 @@
-import {canvas,ctx} from './canvas.js'
+import {canvas, ctx} from './canvas.js'
 import {init as initEle, reset, render, elements} from './ui/cvsEle.js'
 
 import loading from './ui/loading.js'
@@ -16,10 +16,10 @@ function toggleFS(){
 global('ToggleFS', toggleFS)
 
 const screens={ //要不写成类？防止属性残余
-	loading:loading,
-	mainMenu:mainMenu,
-	inGame:inGame,
-	editor:editor
+	loading,
+	mainMenu,
+	inGame,
+	editor
 }
 const UI={
 	goto(name, config){

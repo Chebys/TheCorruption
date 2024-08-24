@@ -11,9 +11,9 @@ const map={
 		this.stats={}
 		for(let k of ['food','wood','gold','stone'])this.stats[k]=stats[k]||0
 		this.grids=[]
-		this.ents=new Set()
-		this.ents_to_render=new Set()
-		this.ents_to_update=new Set()
+		this.ents=new Set
+		this.ents_to_render=new Set
+		this.ents_to_update=new Set
 		for(let i=0;i<this.sizeX;i++){
 			this.grids[i]=[]
 			for(let j=0;j<this.sizeY;j++){
@@ -30,7 +30,7 @@ const map={
 			for(let j=0;j<l;j++)
 				grids[i][j]=[0]
 		}
-		this.load({grids:grids})
+		this.load({grids})
 	},
 	export(){//简略导出，用于地图编辑器
 		var gridData=[],entData=[]
@@ -78,6 +78,7 @@ const map={
 		listeners[name]?.call(this, data)
 	},
 	listenForEvent(name, fn){//暂且只能添加一个
+		if(listeners[name])console.warn('TheMap: listener "'+name+'" already exist!')
 		listeners[name]=fn
 	},
 	
@@ -87,22 +88,22 @@ const map={
 			return this.grids[Math.floor(x)][Math.floor(y)]
 	},
 	getGridsAround(grid){
-		var {x,y}=grid,grids=new Set()
+		var {x,y}=grid,grids=new Set
 		for(let pos of[[x,y-1],[x-1,y],[x+1,y],[x,y+1],[x-1,y-1],[x+1,y-1],[x-1,y+1],[x+1,y+1]]){
 			let g=this.getGrid(...pos)
 			if(g)grids.add(g)
 		}
 		return grids
 	},
-	allPaths(grid,passFn=(g1,g2)=>true,maxLenth=100){
+	allPaths(grid, passFn=(g1,g2)=>true, maxLenth=100){
 		var l=0,paths=new Map()//目标grid到path的对应；path首元为起始grid，末元为目标grid
 		paths.set(grid,[grid])
 		const extend=grids=>{
 			if(++l>maxLenth)return
-			var next=new Set()
+			var next=new Set
 			grids.forEach(g1=>{
 				var path1=paths.get(g1)
-				this.getGridsAround(g1).forEach(g2=>{//注意此次使用命名map
+				this.getGridsAround(g1).forEach(g2=>{
 					if(paths.has(g2)||!passFn(g1,g2))return
 					var path2=[...path1,g2]
 					next.add(g2)
@@ -114,14 +115,14 @@ const map={
 		extend([grid])
 		return paths
 	},
-	findPath(g1,g2,passFn){
+	findPath(g1, g2, passFn){
 		return this.allPaths(g1,passFn).get(g2)
 	},
-	dist({x:x1,y:y1},{x:x2,y:y2}){
+	dist({x:x1,y:y1}, {x:x2,y:y2}){
 		return Math.sqrt((x1-x2)**2+(y1-y2)**2)
 	},
-	findUnits(x,y,dist,fn=e=>true){
-		var grid=this.getGrid(x,y),res=new Set(),l=Math.ceil(dist)
+	findUnits(x, y, dist, fn=e=>true){
+		var grid=this.getGrid(x,y), res=new Set, l=Math.ceil(dist)
 		for(let i=grid.x-l;i<=grid.x+l;i++)
 			for(let j=grid.y-l;j<=grid.y+l;j++){
 				let g=this.getGrid(i,j)
@@ -202,18 +203,30 @@ class Grid{
 		this.y=y
 		this.tile=tile
 		this.road=road
-		this.units=new Set()
+		this.units=new Set
 		this.corruption=new Corruption()
 	}
 	get center(){return [this.x+0.5,this.y+0.5]}
 }
 
-function DoTaskInTime(fn, time){
+function _then(fn){
+	return this.promise.then(fn, nullfn)
+}
+function _cancel(){
+	this.promise.catch(nullfn)
+	this.reject()
+	map.tasks.delete(this)
+}
+function DoTaskInTime(time, fn){
 	var task=Promise.withResolvers()
+	task.then=_then //Thenable
+	task.cancel=_cancel
+	
 	task.fn=fn
 	task.time=time
 	map.tasks.add(task)
-	return task.promise
+	
+	return task
 }
 
 global('TheMap', map) //相当于 TheSim

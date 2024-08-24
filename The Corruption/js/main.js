@@ -30,7 +30,7 @@ const main={
 		currentFrame=requestAnimationFrame(main.run)
 	},
 	init0(download){
-		UI.goto('loading', {textFn:_=>null})
+		UI.goto('loading', {textFn:nullfn})
 		loadAssets0(_=>{
 			if(download)exportToFile()
 			main.mainMenu()
@@ -39,11 +39,11 @@ const main={
 	init(){
 		var loadingText=STRINGS.progress_stage[0]
 		UI.goto('loading', {textFn:_=>loadingText})
-		loadAssets(progress=>{
-			var {stage,percent}=progress
+		function onprogress({stage,percent}){
 			loadingText=STRINGS.progress_stage[stage]
 			if(percent!=undefined)loadingText+=': '+percent*100+'%'
-		}).then(main.mainMenu)
+		}
+		loadAssets(onprogress).then(main.mainMenu)
 	},
 	mainMenu(){
 		TheMap.state=null
@@ -54,7 +54,7 @@ const main={
 	startGame(){
 		//UI.goto('loading', {textFn:_=>'加载地图'})
 		TheMap.load(level.get(0))
-		UI.goto('inGame', {renderMap:renderMap}) //优先为UI添加事件监听
+		UI.goto('inGame', {renderMap}) //优先为UI添加事件监听
 		//var bgmusic=audios['bg.mp3']
 		//bgmusic.play(1)
 		main.addMapHandler()
@@ -62,7 +62,7 @@ const main={
 	},
 	startEditor(l){
 		TheMap.loadBlank(l)
-		UI.goto('editor', {renderMap:renderMap})
+		UI.goto('editor', {renderMap})
 		main.addMapHandler()
 	},
 	addMapHandler(){

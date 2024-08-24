@@ -5,8 +5,8 @@ const eventName={
 	audio:'canplaythrough'
 }
 
-class Asset{
-	constructor(type,name,cx,cy,width,height){
+class Asset{ //todo: 将不同文件格式分别做成class
+	constructor(type, name, cx, cy, width, height){
 		this.type=type
 		this.name=name
 		if(type=='image'){
@@ -41,7 +41,7 @@ class Asset{
 	getRaw(){
 		return this.src
 	}
-	draw(ctx,x,y,opt){
+	draw(ctx, x, y, opt){
 		//opt为true时，表示以图片左上角为中心；为数字时，表示旋转角度
 		if(opt===true)drawImage(ctx,this,x,y,true)
 		else if(typeof opt=='number'){
@@ -75,7 +75,7 @@ function loadImage(name, blob){
 	var img=images[name]||new Asset('image',name) 
 	return img.load(blob) //Promise
 }
-function loadAssets0(onload,beforeEach){//老式加载；exportAssets 之前使用
+function loadAssets0(onload, beforeEach){//老式加载；exportAssets 之前使用
 	var i=0, len=assets.length
 	function loadNext(){
 		if(i<len){
@@ -91,15 +91,15 @@ async function loadAssets(onprogress){
 	var data={}
 	var res=await XHRPromise(PATH+'data/meta.json')
 		.onprogress(e=>onprogress?.({
-			stage:0,
-			percent:e.total?e.loaded/e.total:0
+			stage: 0,
+			percent: e.total?e.loaded/e.total:0
 		}))
 	res=await res.text()
 	data.meta=JSON.parse(res)
 	res=await XHRPromise(PATH+'data/blob.txt') //dat格式会404
 		.onprogress(e=>onprogress?.({
-			stage:1,
-			percent:e.total?e.loaded/e.total:0
+			stage: 1,
+			percent: e.total?e.loaded/e.total:0
 		}))
 	onprogress?.({stage:2})
 	data.blob=await res.blob()
@@ -114,10 +114,7 @@ function exportAssets(){ //先试试图像
 		sizes.push(blob.size)
 	}
 	return {
-		meta:{
-			names:names,
-			sizes:sizes
-		},
+		meta:{names, sizes},
 		blob:new Blob(blobs)
 	}
 }

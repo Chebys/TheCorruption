@@ -1,3 +1,4 @@
+//Mob特有
 class State{
 	constructor(ent){
 		this.ent=ent

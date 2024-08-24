@@ -1,7 +1,7 @@
 import LinkedList from '/lib/linkedList.js'
 import {canvas, ctx} from './canvas.js'
 import {images} from './assets.js'
-
+global('LinkedList', LinkedList)
 const map=TheMap
 const bgcolor='#608'
 const roadWidth=0.6

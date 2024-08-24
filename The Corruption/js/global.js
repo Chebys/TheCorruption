@@ -32,6 +32,7 @@ function XHRPromise(url, opts={}){
 global('global', global)
 global('DeepCopy', DeepCopy)
 global('XHRPromise', XHRPromise)
+global('nullfn', _=>null)
 
 global('PATH', '/The Corruption/')
 global('WIDTH', 1200)
