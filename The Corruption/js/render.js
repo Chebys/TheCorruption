@@ -85,8 +85,8 @@ function renderEnt({x, y, z=0, imageName, imageState}){
 	}else image.draw(ctx, x, y-z)
 }
 
-function getCvsPos(x,y,z=0){//地图坐标转化为canvas坐标
-	return [map.ox+(x-y)*100,map.oy+(x+y)*50]
+function getCvsPos(x, y, z=0){ //地图坐标转化为canvas坐标
+	return [map.ox+(x-y)*100, map.oy+(x+y)*50]
 }
 function mapRect(x,y,sizex,sizey){
 	ctx.beginPath()
@@ -110,7 +110,7 @@ function mapRect2(x1,y1,x2,y2,width){
 		mapRect(x1-halfW,y1,width,dy)
 	}
 }
-function mapOctagon(x,y,d){//正八边形；x,y为中心，d为中心到平行边的距离
+function mapOctagon(x,y,d){ //正八边形；x,y为中心，d为中心到平行边的距离
 	var a=Math.tan(Math.PI/8)*d //半边长
 	ctx.beginPath()
 	ctx.moveTo(...getCvsPos(x+d,y+a))

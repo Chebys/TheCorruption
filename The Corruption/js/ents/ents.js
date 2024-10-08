@@ -11,7 +11,7 @@ class CD{
 	refresh(){
 		this.left=this.total
 	}
-	update(dt,autoRefresh){//无需前置判断
+	update(dt, autoRefresh){ //无需前置判断
 		this.left=Math.max(this.left-dt,0)
 		if(autoRefresh&&this.ready){
 			this.refresh()
@@ -26,6 +26,12 @@ class Ent{
 	}
 	get name(){
 		return this.constructor.name.toLocaleLowerCase()
+	}
+	get isValid(){
+		return !this.ignored
+	}
+	DoTaskInTime(time, fn, ...args){
+		DoTaskInTime(time, fn.bind(this, ...args))
 	}
 	startUpdating(){
 		TheMap.ents_to_update.add(this)
@@ -48,11 +54,11 @@ class Located extends Ent{
 	canSetPos(x,y){
 		return !TheMap.blocked(x,y)
 	}
-	setPos(x,y){//暂时不考虑高度
+	setPos(x,y){ //暂时不考虑高度
 		this.x=x
 		this.y=y
 	}
-	_moveTo(x,y,dt){//需要this.speed
+	_moveTo(x,y,dt){ //需要this.speed
 		var k=this.speed*dt/TheMap.dist(this,{x:x,y:y})
 		if(k>=1)return [x,y]
 		return [this.x+(x-this.x)*k,this.y+(y-this.y)*k]
@@ -63,7 +69,11 @@ class Located extends Ent{
 	setGrid(grid){
 		this.setPos(...grid.center)
 	}
-	getDist(tar){//减去半径
+	atCenter(grid){
+		var [tx,ty]=grid.center
+		return this.x==tx &&this.y==ty
+	}
+	getDist(tar){ //减去半径
 		var d=TheMap.dist(this,tar)
 		if(this.r)d-=this.r
 		if(tar.r)d-=tar.r
@@ -89,21 +99,21 @@ class Visible extends Located{
 }
 class Living extends Visible{
 	health=10
-	onDeath(cause){//用于重写
+	onDeath(cause){ //用于重写；返回真值时remove
 		return true
 	}
-	getAttacked(dmg){
+	getAttacked(dmg, attacker, type){
 		this.health-=dmg
 		if(this.health<=0)this.onDeath()&&this.remove()
 	}
 }
 class Building extends Living{
 	group=1 //默认为玩家
-	constructor(health=100,r=0.4){
+	constructor(health=100, r=0.4){
 		super()
-		this.r=r
 		this.maxHealth=health
 		this.health=health
+		this.r=r
 	}
 	setPos(x,y){
 		super.setPos(x,y)
@@ -169,11 +179,11 @@ class Mob extends Living{
 		this.state.name=name
 		return this.state
 	}
-	canPass(g1,g2){//作为参数传递，不能出现this？
+	canPass(g1,g2){
 		return g2.tile!=2 //默认不能渡水
 	}
-	findPath(grid){
-		return TheMap.findPath(this.grid,grid,this.canPass)
+	findPath(grid){ //无则返回undefined
+		return TheMap.findPath(this.grid, grid, (g1,g2)=>this.canPass(g1,g2))
 	}
 	moveTo(grid){
 		this.setState('Moving').target(grid)
@@ -204,8 +214,8 @@ class Unit extends Mob{
 			this.grid.units.add(this)
 		}
 	}
-	attack(ent){//前置判断（距离、cd等）完成后调用
-		ent.getAttacked(this.damage)
+	attack(ent){ //前置判断（距离、cd等）完成后调用
+		ent.getAttacked(this.damage, this)
 		this.cd.refresh()
 	}
 	remove(){
@@ -216,6 +226,10 @@ class Unit extends Mob{
 		this.cd.update(dt)//最好先判断状态
 		super.update(dt)
 	}
+}
+
+class Mater extends Building{
+	group=2
 }
 
 class Spawner extends Located{
@@ -244,4 +258,4 @@ class AreaSpawner extends Ent{
 }
 
 export {CD, Building, Projectile, Unit}
-export default [CorrupterSpawner]
+export default [Mater, CorrupterSpawner]

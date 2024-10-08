@@ -19,6 +19,7 @@ export default {
 		this.pauseButton.on('click',_=>{
 			//bgmusic.pause()
 			TheMap.state='pause'
+			main.removeMapHandler()
 			this.showMenu()
 		})
 		
@@ -27,6 +28,7 @@ export default {
 		this.continueButton.on('click',_=>{
 			//bgmusic.play()
 			TheMap.state='in_game'
+			main.addMapHandler()
 			this.hideMenu()
 		})
 		
@@ -40,7 +42,7 @@ export default {
 		
 		this.hideMenu()
 		
-		var bHeight=200,bY=HEIGHT-bHeight //底栏位置
+		var bHeight=200, bY=HEIGHT-bHeight //底栏位置
 		new CvsEle(0,bY,WIDTH,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}}).stopPropagation()
 		this.info[0]=new CvsEle(100,bY+20,100,50,borderStyle) //名称
 		this.infoImg=new CvsEle(100,bY+80,100,100,borderStyle) //图片
@@ -75,6 +77,7 @@ export default {
 		this.FSButton.hide()
 		this.exitButton.hide()
 	},
+	onPreRender(){}, //在construct中赋值
 	onUpdate(){
 		var {food, wood, gold, stone}=TheMap.stats
 		this.stat_gold.text('$:'+gold)

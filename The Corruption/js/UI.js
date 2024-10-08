@@ -2,11 +2,12 @@ import {canvas, ctx} from './canvas.js'
 import {init as initEle, reset, render, elements} from './ui/cvsEle.js'
 
 import loading from './ui/loading.js'
+import error from './ui/error.js'
 import mainMenu from './ui/mainmenu.js'
 import inGame from './ui/ingame.js'
 import editor from './ui/editor.js'
 
-initEle(canvas,ctx)
+initEle(canvas, ctx)
 
 function toggleFS(){
 	return document.fullscreenElement
@@ -17,6 +18,7 @@ global('ToggleFS', toggleFS)
 
 const screens={ //要不写成类？防止属性残余
 	loading,
+	error,
 	mainMenu,
 	inGame,
 	editor
@@ -24,7 +26,7 @@ const screens={ //要不写成类？防止属性残余
 const UI={
 	goto(name, config){
 		var screen=screens[name]
-		if(!screen)throw new Error('无'+name)
+		if(!screen)throw new Error(`no screen named '${name}'`)
 		this.clear()
 		screen.construct(config)
 		this.current=screen
@@ -35,7 +37,7 @@ const UI={
 		reset()
 	},
 	render(){
-		this.current.onPreRender?.()
+		this.current?.onPreRender?.()
 		render()
 	},
 	update(dt){ //主要操作在事件监听器中完成了

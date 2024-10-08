@@ -1,6 +1,6 @@
 //canvas应具有getMousePos方法
 //图片暂且依赖 GetImage
-var canvas,ctx
+var canvas, ctx
 
 var elements=[]
 //尽量不要为互相遮挡的元素注册相同事件的监听，无法保证顺序
@@ -47,10 +47,10 @@ class CvsEle{
 	show(){
 		this.hidden=false
 	}
-	text(t){
-		this.intext = typeof t=='function' ? t : String(t??'') //字符串或函数
+	text(t){ //字符串或函数
+		this.intext = typeof t=='function' ? t : String(t??'')
 	}
-	img(name){
+	img(name){ //图片将缩放为与元素大小相同
 		this.image=name&&GetImage(name)
 	}
 	draw(){

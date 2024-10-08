@@ -21,7 +21,7 @@ const map={
 				this.grids[i][j]=new Grid(i,j,...data)
 			}
 		}
-		if(ents)ents.forEach(data=>spawn(data[0]).toCenter(data[1],data[2]))
+		if(ents)ents.forEach(data => spawn(data[0]).toCenter(data[1],data[2]))
 	},
 	loadBlank(l){
 		var grids=[]
@@ -62,7 +62,7 @@ const map={
 		this.state='lose'
 	},
 	
-	update(dt){
+	update(dt){ //先确保 in_game
 		this.ents_to_update.forEach(e=>e.update(dt))
 		for(let task of this.tasks){
 			task.time-=dt
@@ -96,8 +96,8 @@ const map={
 		return grids
 	},
 	allPaths(grid, passFn=(g1,g2)=>true, maxLenth=100){
-		var l=0,paths=new Map()//目标grid到path的对应；path首元为起始grid，末元为目标grid
-		paths.set(grid,[grid])
+		var l=0, paths=new Map //目标grid到path的对应；path首元为起始grid，末元为目标grid
+		paths.set(grid, [grid])
 		const extend=grids=>{
 			if(++l>maxLenth)return
 			var next=new Set
@@ -115,7 +115,7 @@ const map={
 		extend([grid])
 		return paths
 	},
-	findPath(g1, g2, passFn){
+	findPath(g1, g2, passFn){ //无则返回undefined
 		return this.allPaths(g1,passFn).get(g2)
 	},
 	dist({x:x1,y:y1}, {x:x2,y:y2}){
@@ -149,16 +149,16 @@ const map={
 	},
 	getBuilding(x,y){
 		var b=this.getGrid(x,y)?.building //不在同一格时？
-		if(b&&this.dist({x:x,y:y},b)<=b.r)return b
+		if(b && this.dist({x:x,y:y},b)<=b.r)return b
 	},
 	blocked(x,y){
 		return !!this.getBuilding(x,y)
 	},
 	hasRoad(g1,g2){//判断相邻（邻边或对角）两格是否带有道路相连
-		if(!g1?.road||!g2?.road)return false
-		var {x:x1,y:y1}=g1,{x:x2,y:y2}=g2
-		if(x1==x2||y1==y2)return true //邻边
-		if(this.getGrid(x1,y2)?.road||this.getGrid(x2,y1)?.road)return false //同时存在邻边和对角，优先邻边
+		if(!g1?.road || !g2?.road)return false
+		var {x:x1,y:y1}=g1, {x:x2,y:y2}=g2
+		if(x1==x2 || y1==y2)return true //邻边
+		if(this.getGrid(x1,y2)?.road || this.getGrid(x2,y1)?.road)return false //同时存在邻边和对角，优先邻边
 		return true
 	},
 	click(x,y){
@@ -204,7 +204,7 @@ class Grid{
 		this.tile=tile
 		this.road=road
 		this.units=new Set
-		this.corruption=new Corruption()
+		this.corruption=new Corruption
 	}
 	get center(){return [this.x+0.5,this.y+0.5]}
 }

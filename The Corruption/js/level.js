@@ -14,7 +14,8 @@ var entData=[
 	['corrupter',6,3],
 	['tower1',4,3],
 	['corrupterspawner',6,3],
-	['goldmine',1,1]
+	['goldmine',1,1],
+	['mater',6,2],
 ]
 levels[0]={ox:WIDTH/2, oy:0, grids:gridData, ents:entData}
 

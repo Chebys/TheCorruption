@@ -71,11 +71,11 @@ function drawImage(ctx, {bitmap,cx,cy,width,height}, x, y, noCenter){
 function PlaySound(name, config={}){
 	
 }
-function loadImage(name, blob){
+function loadImage(name, blob){ //Promise
 	var img=images[name]||new Asset('image',name) 
-	return img.load(blob) //Promise
+	return img.load(blob)
 }
-function loadAssets0(onload, beforeEach){//老式加载；exportAssets 之前使用
+function loadAssets0(onload, beforeEach){ //老式加载；exportAssets 之前使用
 	var i=0, len=assets.length
 	function loadNext(){
 		if(i<len){
@@ -87,22 +87,28 @@ function loadAssets0(onload, beforeEach){//老式加载；exportAssets 之前使
 	}
 	loadNext()
 }
-async function loadAssets(onprogress){
+async function loadAssets(onprogress){ //fixme: meta.json没缓存，blob.bin有缓存？
 	var data={}
-	var res=await XHRPromise(PATH+'data/meta.json')
-		.onprogress(e=>onprogress?.({
+	
+	var res=await XHRPromise(PATH+'data/meta.json', {onprogress:onprogress0})
+	function onprogress0({loaded, total}){
+		onprogress?.({
 			stage: 0,
-			percent: e.total?e.loaded/e.total:0
-		}))
-	res=await res.text()
-	data.meta=JSON.parse(res)
-	res=await XHRPromise(PATH+'data/blob.txt') //dat格式会404
-		.onprogress(e=>onprogress?.({
+			percent: total ? loaded/total : 0
+		})
+	}
+	data.meta=await res.json()
+	
+	res=await XHRPromise(PATH+'data/blob.bin', {onprogress:onprogress1})
+	function onprogress1({loaded, total}){
+		onprogress?.({
 			stage: 1,
-			percent: e.total?e.loaded/e.total:0
-		}))
+			percent: total ? loaded/total : 0
+		})
+	}
 	onprogress?.({stage:2})
 	data.blob=await res.blob()
+	
 	await importAssets(data)
 }
 function exportAssets(){ //先试试图像
@@ -123,16 +129,25 @@ function exportToFile(){
 	var jsonstr=JSON.stringify(meta)
 	var metablob=new Blob([jsonstr])
 	DownloadBlob(metablob, 'meta.json')
-	DownloadBlob(blob, 'blob.txt')
+	DownloadBlob(blob, 'blob.bin')
 }
 async function importAssets({meta:{names,sizes}, blob}){
+	if(sizes.reduce((s,x)=>s+x) != blob.size)throw 'importAssets: 资源大小不匹配！'
 	var start=0
-	for(let i=0;names[i];i++){
+	for(let i=0; names[i]; i++){
 		let end=start+sizes[i]
 		let raw=blob.slice(start,end)
 		await loadImage(names[i], raw)
 		start=end
 	}
+}
+function checkAssets(){
+	for(let a of assets)
+		if(!a.getRaw()){
+			console.warn('未加载的资源：', a)
+			return false
+		}
+	return true
 }
 
 new Asset('image','mainmenu')
@@ -142,12 +157,13 @@ new Asset('image','info_tile1')
 new Asset('image','info_tile2')
 new Asset('image','default',32,64)
 
-new Asset('image','homebase',32,32)
 new Asset('image','archertower',64,96)
 new Asset('image','arrow',16,16)
-new Asset('image','tower1',32,48)
 new Asset('image','ball',16,16)
 new Asset('image','corrupter',32,48)
+new Asset('image','goldmine',128,128)
+new Asset('image','homebase',32,32)
+new Asset('image','tower1',32,48)
 
 //new Asset('audio','bg.mid') 不支持的格式
 //new Asset('audio','bg.mp3')
@@ -157,4 +173,4 @@ global('exportToFile', exportToFile)
 global('GetImage', GetImage)
 global('PlaySound', PlaySound)
 
-export {loadAssets0, loadAssets, images, audios}
+export {loadAssets0, loadAssets, images, audios, checkAssets}

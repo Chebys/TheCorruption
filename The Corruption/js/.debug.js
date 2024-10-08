@@ -13,8 +13,11 @@ global('DownloadBlob', DownloadBlob)
 	var sel
 	global('c_sel', tar=>{
 		sel=tar??sel
-		console.log('c_sel', sel)
 		return sel
+	})
+	global('c_select', tar=>{
+		c_sel(tar)
+		console.log('c_select', sel)
 	})
 })()
 
