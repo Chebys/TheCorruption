@@ -47,7 +47,7 @@ class Ent{
 }
 class Located extends Ent{
 	x=0
-	y=0//需要吗？
+	y=0
 	get grid(){
 		return TheMap.getGrid(this.x,this.y)
 	}
@@ -59,9 +59,9 @@ class Located extends Ent{
 		this.y=y
 	}
 	_moveTo(x,y,dt){ //需要this.speed
-		var k=this.speed*dt/TheMap.dist(this,{x:x,y:y})
+		var k = this.speed*dt / TheMap.dist(this, {x,y})
 		if(k>=1)return [x,y]
-		return [this.x+(x-this.x)*k,this.y+(y-this.y)*k]
+		return [this.x+(x-this.x)*k, this.y+(y-this.y)*k]
 	}
 	toCenter(x,y){
 		this.setPos(...(TheMap.getGrid(x,y)||this.grid).center)
@@ -74,10 +74,11 @@ class Located extends Ent{
 		return this.x==tx &&this.y==ty
 	}
 	getDist(tar){ //减去半径
-		var d=TheMap.dist(this,tar)
-		if(this.r)d-=this.r
-		if(tar.r)d-=tar.r
-		return d
+		//高度？
+		var d = TheMap.dist(this,tar)
+		if(this.r)d -= this.r
+		if(tar.r)d -= tar.r
+		return d<0 ? 0 : d
 	}
 	getNearbyUnits(dist,fn=e=>true){
 		var _fn=e=>e!=this&&fn(e)
@@ -133,7 +134,7 @@ class Projectile extends Visible{//Mob只能沿grid移动
 		this.startUpdating()
 	}
 	//get imageState(){}
-	track({x,y,z0},target){
+	track({x,y,z0}, target){
 		this.setPos(x,y)
 		this.z=z0
 		this.target=target
@@ -143,21 +144,34 @@ class Projectile extends Visible{//Mob只能沿grid移动
 		this.vz=-z0/t
 		return t
 	}
-	moveOn(dt){
+	moveOn(dt){ //只负责移动，其他判断交给update
 		this.setPos(...this._moveTo(this.tx,this.ty,dt))
 		this.z+=this.vz*dt
+	}
+	onReach(){
+		this.target.getAttacked(this.damage)
+		this.remove()
+	}
+	onEnd(){ //通常无需重写
+		this.onLand()
+	}
+	onLand(){
+		this.remove()
 	}
 	remove(){
 		this.stopUpdating()
 		super.remove()
 	}
-	update(dt){
+	update(dt){ //尽量不要重写update，而是重写事件监听
 		if(this.getDist(this.target)<=0.1){
-			this.target.getAttacked(this.damage)
-			this.remove()
+			this.onReach()
 		}else if(this.x==this.tx&&this.y==this.ty){
-			this.remove()
-		}else this.moveOn(dt)
+			this.onEnd()
+		}else if(this.z<0){
+			this.onLand()
+		}else{
+			this.moveOn(dt)
+		}
 	}
 }
 
@@ -197,8 +211,8 @@ class Mob extends Living{
 	}
 }
 class Unit extends Mob{
-	constructor(health,damage,moreData={}){
-		var {speed=0.3,cd=1,atkR=0.1}=moreData
+	constructor(health=10, damage=1, moreData={}){
+		var {speed=0.3, cd=1, atkR=0.1} = moreData
 		super(speed)
 		this.maxHealth=health
 		this.health=health

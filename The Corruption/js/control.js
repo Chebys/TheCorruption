@@ -93,7 +93,7 @@ const control={
 	},
 	option(i){//点击控件；由UI调用
 		switch(this.selType){
-			case 'grid':gridOpts[this.sel.tile]?.[i]?.fn();break
+			case 'grid': gridOpts[this.sel.tile]?.[i]?.fn(); break
 			case 'building':
 		}
 	},

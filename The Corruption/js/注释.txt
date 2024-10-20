@@ -3,6 +3,8 @@ ui目录下的screen均为对象而非类。建议不要在construct之外为scr
 TheMap.state
 	'in_game'
 	'pause'
+	'lose_pending' 刚输，UI未作相应处理
+	'win_pending' 同理
 	'lose'
 	'win'
 	假值	未进行游戏

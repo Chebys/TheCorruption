@@ -65,8 +65,8 @@ function GetImage(name){
 	return img.bitmap
 }
 function drawImage(ctx, {bitmap,cx,cy,width,height}, x, y, noCenter){
-	var a=noCenter?[bitmap,x,y]:[bitmap,x-cx,y-cy]
-	width&&height ? ctx.drawImage(...a, width, height) : ctx.drawImage(...a)
+	var args = noCenter ? [bitmap,x,y] : [bitmap,x-cx,y-cy]
+	width&&height ? ctx.drawImage(...args, width, height) : ctx.drawImage(...args)
 }
 function PlaySound(name, config={}){
 	
@@ -75,7 +75,7 @@ function loadImage(name, blob){ //Promise
 	var img=images[name]||new Asset('image',name) 
 	return img.load(blob)
 }
-function loadAssets0(onload, beforeEach){ //老式加载；exportAssets 之前使用
+function loadAssetsOld(onload, beforeEach){ //老式加载；exportAssets 之前使用
 	var i=0, len=assets.length
 	function loadNext(){
 		if(i<len){
@@ -87,10 +87,17 @@ function loadAssets0(onload, beforeEach){ //老式加载；exportAssets 之前�
 	}
 	loadNext()
 }
-async function loadAssets(onprogress){ //fixme: meta.json没缓存，blob.bin有缓存？
+async function loadAssets(onprogress){
+	var meta_url = PATH+'data/meta.json'
+	var blob_url = PATH+'data/blob.bin'
+	if(BRANCH=='dev'){
+		meta_url += '?'+Math.random()
+		blob_url += '?'+Math.random()
+	}
+	
 	var data={}
 	
-	var res=await XHRPromise(PATH+'data/meta.json', {onprogress:onprogress0})
+	var res=await XHRPromise(meta_url, {onprogress:onprogress0})
 	function onprogress0({loaded, total}){
 		onprogress?.({
 			stage: 0,
@@ -99,7 +106,7 @@ async function loadAssets(onprogress){ //fixme: meta.json没缓存，blob.bin有
 	}
 	data.meta=await res.json()
 	
-	res=await XHRPromise(PATH+'data/blob.bin', {onprogress:onprogress1})
+	res=await XHRPromise(blob_url, {onprogress:onprogress1})
 	function onprogress1({loaded, total}){
 		onprogress?.({
 			stage: 1,
@@ -132,7 +139,10 @@ function exportToFile(){
 	DownloadBlob(blob, 'blob.bin')
 }
 async function importAssets({meta:{names,sizes}, blob}){
-	if(sizes.reduce((s,x)=>s+x) != blob.size)throw 'importAssets: 资源大小不匹配！'
+	var expected_size = sizes.reduce((s,x)=>s+x)
+	if(expected_size != blob.size)throw new Error('资源大小不匹配！', {
+		cause: {expected_size, actual_size:blob.size}
+	})
 	var start=0
 	for(let i=0; names[i]; i++){
 		let end=start+sizes[i]
@@ -168,9 +178,15 @@ new Asset('image','tower1',32,48)
 //new Asset('audio','bg.mid') 不支持的格式
 //new Asset('audio','bg.mp3')
 
-global('exportToFile', exportToFile)
+if(BRANCH=='dev')
+	global('quickExport', callback=>{
+		loadAssetsOld(()=>{
+			exportToFile()
+			callback?.()
+		})
+	})
 
 global('GetImage', GetImage)
 global('PlaySound', PlaySound)
 
-export {loadAssets0, loadAssets, images, audios, checkAssets}
+export {loadAssetsOld, loadAssets, images, audios, checkAssets}

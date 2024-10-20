@@ -1,7 +1,7 @@
 import LinkedList from '/lib/linkedList.js'
 import {canvas, ctx} from './canvas.js'
 import {images} from './assets.js'
-global('LinkedList', LinkedList)
+//global('LinkedList', LinkedList)
 const map=TheMap
 const bgcolor='#608'
 const roadWidth=0.6
@@ -17,14 +17,14 @@ function render(){
 	renderEnts()
 }
 
-const colormap=['#bb0','#0a0','#06f']
+const tile_colors=['#bb0','#0a0','#06f']
 function renderGrids(){
 	for(let i=0;i<map.sizeX;i++)
 		for(let j=0;j<map.sizeY;j++)
 			renderTile(map.grids[i][j]);
 }
 function renderTile(grid,sel){
-	var {x,y}=grid,color=colormap[grid.tile]
+	var {x,y}=grid, color=tile_colors[grid.tile]
 	mapRect(x,y,1,1)
 	if(sel){
 		ctx.fillStyle='rgba(255,255,255,0.3)'
@@ -63,7 +63,7 @@ function renderRoad(g1,g2){
 	ctx.fill()
 }
 
-function circleEnt({x,y,r},r1=0.4){//选中
+function circleEnt({x,y,r}, r1=0.4){ //选中
 	r=r||r1
 	ctx.lineWidth=4
 	ctx.strokeStyle='rgba(255,255,255,0.8)'
@@ -80,7 +80,7 @@ function renderEnt({x, y, z=0, imageName, imageState}){
 	var image=images[imageName]||images.default
 	var [x,y]=getCvsPos(x,y)
 	if(imageState){
-		let {rotate=0}=imageState
+		let {rotate=0} = imageState
 		image.draw(ctx, x, y-z, rotate)
 	}else image.draw(ctx, x, y-z)
 }

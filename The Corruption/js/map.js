@@ -56,10 +56,10 @@ const map={
 		this.listenForEvent('lose', this.lose)
 	},
 	win(){
-		this.state='win'
+		this.state='win_pending'
 	},
 	lose(){
-		this.state='lose'
+		this.state='lose_pending'
 	},
 	
 	update(dt){ //先确保 in_game

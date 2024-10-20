@@ -12,7 +12,7 @@ class Enemy extends Unit{
 }
 class Corrupter extends Enemy{
 	constructor(){
-		super(10,1)
+		super(10, 2)
 	}
 	canPass(g1,g2){
 		return TheMap.hasRoad(g1,g2)

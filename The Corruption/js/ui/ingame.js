@@ -67,6 +67,9 @@ export default {
 		for(let e of this.info)e.text()
 		for(let e of this.options)e.img()
 	},
+	popup(title){
+		console.log(title) //todo
+	},
 	showMenu(){
 		this.continueButton.show()
 		this.FSButton.show()
@@ -79,7 +82,14 @@ export default {
 	},
 	onPreRender(){}, //在construct中赋值
 	onUpdate(){
-		var {food, wood, gold, stone}=TheMap.stats
+		if(TheMap.state=='lose_pending'){
+			this.popup('输！')
+			return
+		}else if(TheMap.state=='win_pending'){
+			this.popup('赢！')
+			return
+		}
+		let {food, wood, gold, stone}=TheMap.stats
 		this.stat_gold.text('$:'+gold)
 		if(Ctrl.updated){
 			if(Ctrl.sel)this.showInfo(Ctrl.getData())

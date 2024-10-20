@@ -1,4 +1,4 @@
-import {CD, Building, Projectile} from './ents.js'
+import {CD, Building} from './ents.js'
 
 class Wall extends Building{
 	get isWall(){
@@ -67,58 +67,18 @@ class Tower extends Building{//远程
 	}
 }
 
-class Parabolic extends Projectile{//抛射物
-	rotate=0
-	constructor(speed,gravity=1500){
-		super(speed)
-		this.gravity=gravity
-	}
-	get imageState(){
-		return {
-			rotate:this.rotate
-		}
-	}
-	track(origin,target){
-		var t=super.track(origin,target)
-		this.vz+=this.gravity*t/2
-	}
-	moveOn(dt){
-		super.moveOn(dt)
-		this.vz-=this.gravity*dt
-		this.rotate+=dt*6
-	}
-}
-class Bomb extends Parabolic{
-	atkR=1
-	explode(){
-		var tars=this.getNearbyUnits(this.atkR,e=>e.group==2)
-		tars.forEach(t=>t.getAttacked(this.damage))
-		this.remove()
-	}
-	update(dt){
-		if(this.x==this.tx&&this.y==this.ty){
-			this.explode()
-		}else this.moveOn(dt)
-	}
-}
 class ArcherTower extends Tower{
 	projectile='arrow'
 	constructor(){
 		super({dmg:2,atkR:2,cd:2,z0:40})
 	}
 }
-class Arrow extends Parabolic{
-	
-}
+
 class Tower1 extends Tower{
 	constructor(){
 		super({dmg:2,atkR:1.5,cd:3,z0:40})
 	}
 }
-class Ball extends Bomb{
-	constructor(){
-		super(1.5)
-	}
-}
 
-export default [Wall, HomeBase, GoldMine, ArcherTower, Arrow, Tower1, Ball]
+
+export default [Wall, HomeBase, GoldMine, ArcherTower, Tower1]

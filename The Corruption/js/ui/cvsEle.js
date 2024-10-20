@@ -10,9 +10,9 @@ var listeners={}
 var end_listeners={}
 var ongoing={}
 for(let e of events){
-	listeners[e]=new Map()
-	end_listeners[e]=new Map()
-	ongoing[e]=new Set
+	listeners[e] = new Map
+	end_listeners[e] = new Map
+	ongoing[e] = new Set
 }
 
 var defaultFont='20px sans-serif'
@@ -73,7 +73,7 @@ class CvsEle{
 			ctx.font=this.style.font||defaultFont
 			ctx.textBaseline='top'
 			let pd=this.style.padding||0
-			let x,y=this.y1+pd
+			let x, y=this.y1+pd
 			switch(this.style.textAlign){
 				case 'left':
 					ctx.textAlign='left'
@@ -88,7 +88,7 @@ class CvsEle{
 					ctx.textAlign='center'
 					x=(this.x1+this.x2)/2
 			}
-			var t=this.intext
+			let t=this.intext
 			ctx.fillText(typeof t=='function'?t():t,x,y)
 		}
 	}
@@ -121,11 +121,8 @@ function isTarget(ele,e){
 		return true
 }
 
-function init(c,ctx1){
-	if(!c.getMousePos){
-		console.error('canvas应具有getMousePos方法')
-		return
-	}
+function init(c, ctx1){
+	if(!c.getMousePos)throw new Error('canvas应具有getMousePos方法')
 	canvas=c
 	ctx=ctx1||c.getContext('2d')
 	for(let name of events)
@@ -149,10 +146,10 @@ function reset(){
 	}
 }
 function render(clear){//按元素创建的顺序渲染
-	if(clear)ctx.clearRect(0,0,canvas.width,canvas.height)
+	if(clear)ctx.clearRect(0, 0, canvas.width, canvas.height)
 	elements.forEach(e=>e.hidden||e.draw())
 }
 
 export {CvsEle, init, reset, render, elements}
 
-window.elements=elements
+global('elements', elements) //debug

@@ -1,15 +1,17 @@
 import ents from './ents/ents.js'
 import buildings from './ents/buildings.js'
 import units from './ents/units.js'
+import projectiles from './ents/projectiles.js'
 
-var prefabs={};
+var prefabs = {};
 function registerPrefab(C){
-	prefabs[C.name.toLocaleLowerCase()]=C
+	prefabs[C.name.toLocaleLowerCase()] = C
 }
 
 ents.forEach(registerPrefab)
 buildings.forEach(registerPrefab)
 units.forEach(registerPrefab)
+projectiles.forEach(registerPrefab)
 
 function spawn(name=''){
 	var C=prefabs[name.toLocaleLowerCase()]
@@ -18,6 +20,3 @@ function spawn(name=''){
 }
 
 export {spawn}
-
-//window.prefabs=prefabs
-//window.spawn=spawn
