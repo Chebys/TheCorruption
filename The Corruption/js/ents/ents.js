@@ -1,7 +1,7 @@
 import states from'./states.js'
 
 class CD{
-	constructor(total,left){
+	constructor(total, left){
 		this.total=total
 		this.left=left??total
 	}

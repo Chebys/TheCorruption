@@ -14,7 +14,8 @@ units.forEach(registerPrefab)
 projectiles.forEach(registerPrefab)
 
 function spawn(name=''){
-	var C=prefabs[name.toLocaleLowerCase()]
+	//console.log(this)
+	var C = prefabs[name.toLocaleLowerCase()]
 	if(C)return new C()
 	throw new Error('不存在名为"'+name+'"的prefab')
 }

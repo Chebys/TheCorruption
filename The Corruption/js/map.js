@@ -1,8 +1,8 @@
 import {spawn} from './ent.js'
 
-var listeners={}
+var listeners = {}
 
-const map={
+const map = {
 	load({ox=600, oy=0, grids, stats={}, ents}){
 		this.ox=ox //地图原点在canvas中的坐标
 		this.oy=oy
@@ -33,10 +33,10 @@ const map={
 		this.load({grids})
 	},
 	export(){//简略导出，用于地图编辑器
-		var gridData=[],entData=[]
-		for(let i=0;i<this.sizeX;i++){
+		var gridData=[], entData=[]
+		for(let i=0; i<this.sizeX; i++){
 			gridData[i]=[]
-			for(let j=0;j<this.sizeY;j++){
+			for(let j=0; j<this.sizeY; j++){
 				let g=this.grids[i][j]
 				gridData[i][j]=[g.tile]
 				if(g.road)gridData[i][j].push(g.road)

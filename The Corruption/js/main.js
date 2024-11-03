@@ -45,7 +45,7 @@ const main={
 		UI.goto('loading', {textFn:_=>loadingText})
 		loadAssets(onprogress).then(onload, main.onerror)
 		
-		function onprogress({stage,percent}){
+		function onprogress({stage, percent}){
 			loadingText=STRINGS.progress_stage[stage]
 			if(percent!=undefined)loadingText+=': '+percent*100+'%'
 		}

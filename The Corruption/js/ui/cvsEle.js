@@ -126,7 +126,7 @@ function init(c, ctx1){
 	canvas=c
 	ctx=ctx1||c.getContext('2d')
 	for(let name of events)
-		c.addEventListener(name,e=>{
+		c.addEventListener(name, e=>{
 			for(let [ele,fn] of listeners[name])
 				if(isTarget(ele,e)){
 					fn(e, ...canvas.getMousePos(e))

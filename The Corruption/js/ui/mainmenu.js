@@ -1,7 +1,7 @@
 import {CvsEle} from './cvsEle.js'
 
-const FStext=_=>document.fullscreenElement?'退出全屏':'全屏'
-const hoverStyle={bgcolor:'#a74'}
+const FStext = _=>document.fullscreenElement?'退出全屏':'全屏'
+const hoverStyle = {bgcolor:'#a74'}
 
 export default {
 	construct(){
