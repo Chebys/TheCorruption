@@ -3,9 +3,6 @@ class State{
 	constructor(ent){
 		this.ent=ent
 	}
-	get imageName(){
-		return this.ent.name
-	}
 	end(){//正常结束，而非中断
 		this.ent.setState('default')
 	}

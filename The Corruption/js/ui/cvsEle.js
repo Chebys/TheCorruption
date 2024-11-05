@@ -89,7 +89,7 @@ class CvsEle{
 					x=(this.x1+this.x2)/2
 			}
 			let t=this.intext
-			ctx.fillText(typeof t=='function'?t():t,x,y)
+			ctx.fillText(typeof t=='function'?t():t, x, y)
 		}
 	}
 	on(eventName, fn, end_fn){
@@ -122,9 +122,9 @@ function isTarget(ele,e){
 }
 
 function init(c, ctx1){
-	if(!c.getMousePos)throw new Error('canvas应具有getMousePos方法')
-	canvas=c
-	ctx=ctx1||c.getContext('2d')
+	if(!c.getMousePos)throw new Error('canvas 应实现 getMousePos 方法')
+	canvas = c
+	ctx = ctx1||c.getContext('2d')
 	for(let name of events)
 		c.addEventListener(name, e=>{
 			for(let [ele,fn] of listeners[name])

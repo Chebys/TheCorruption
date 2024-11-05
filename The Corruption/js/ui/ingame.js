@@ -5,6 +5,7 @@ const hoverStyle={bgcolor:'#bbb'}
 
 const menuStyle={bgcolor:'#646',border:{width:4,color:'#000'},font:'40px sans-serif',padding:30}
 const borderStyle={border:{width:2,color:'#000'},padding:10}
+
 export default {
 	construct({renderMap}){
 		this.onPreRender=renderMap

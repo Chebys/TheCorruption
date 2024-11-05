@@ -1,10 +1,9 @@
 import LinkedList from '/lib/linkedList.js'
 import {canvas, ctx} from './canvas.js'
-import {images} from './assets.js'
+import {getEntImage} from './ents/ent_img.js'
 //global('LinkedList', LinkedList)
-const map=TheMap
-const bgcolor='#608'
-const roadWidth=0.6
+const bgcolor = '#608'
+const roadWidth = 0.6
 
 function render(){
 	ctx.fillStyle=bgcolor
@@ -17,13 +16,13 @@ function render(){
 	renderEnts()
 }
 
-const tile_colors=['#bb0','#0a0','#06f']
+const tile_colors = ['#bb0','#0a0','#06f']
 function renderGrids(){
-	for(let i=0;i<map.sizeX;i++)
-		for(let j=0;j<map.sizeY;j++)
-			renderTile(map.grids[i][j]);
+	for(let i=0; i<TheMap.sizeX; i++)
+		for(let j=0; j<TheMap.sizeY; j++)
+			renderTile(TheMap.grids[i][j]);
 }
-function renderTile(grid,sel){
+function renderTile(grid, sel){
 	var {x,y}=grid, color=tile_colors[grid.tile]
 	mapRect(x,y,1,1)
 	if(sel){
@@ -40,23 +39,23 @@ function renderTile(grid,sel){
 }
 function renderRoads(){
 	ctx.fillStyle='#987'
-	for(let i=0;i<map.sizeX;i++)
-		for(let j=0;j<map.sizeY;j++)
-			renderRoadsFrom(map.grids[i][j]);
+	for(let i=0;i<TheMap.sizeX;i++)
+		for(let j=0;j<TheMap.sizeY;j++)
+			renderRoadsFrom(TheMap.grids[i][j]);
 }
 function renderRoadsFrom(grid){
 	if(!grid.road)return
 	var [x,y]=grid.center,tar
 	mapOctagon(x,y,roadWidth/2)
 	ctx.fill()
-	tar=map.getGrid(x+1,y)
-	if(map.hasRoad(grid,tar))renderRoad(grid,tar)
-	tar=map.getGrid(x+1,y+1)
-	if(map.hasRoad(grid,tar))renderRoad(grid,tar)
-	tar=map.getGrid(x,y+1)
-	if(map.hasRoad(grid,tar))renderRoad(grid,tar)
-	tar=map.getGrid(x-1,y+1)
-	if(map.hasRoad(grid,tar))renderRoad(grid,tar)
+	tar=TheMap.getGrid(x+1,y)
+	if(TheMap.hasRoad(grid,tar))renderRoad(grid,tar)
+	tar=TheMap.getGrid(x+1,y+1)
+	if(TheMap.hasRoad(grid,tar))renderRoad(grid,tar)
+	tar=TheMap.getGrid(x,y+1)
+	if(TheMap.hasRoad(grid,tar))renderRoad(grid,tar)
+	tar=TheMap.getGrid(x-1,y+1)
+	if(TheMap.hasRoad(grid,tar))renderRoad(grid,tar)
 }
 function renderRoad(g1,g2){
 	mapRect2(...g1.center, ...g2.center, roadWidth)
@@ -73,20 +72,22 @@ function circleEnt({x,y,r}, r1=0.4){ //选中
 }
 function renderEnts(){
 	var list=new LinkedList(), cmp=(e1,e2)=>e1.x+e1.y<e2.x+e2.y
-	map.ents_to_render.forEach(e=>list.insert(e,cmp))
+	TheMap.ents_to_render.forEach(e=>list.insert(e,cmp))
 	list.forEach(renderEnt)
 }
-function renderEnt({x, y, z=0, imageName, imageState}){
-	var image=images[imageName]||images.default
-	var [x,y]=getCvsPos(x,y)
-	if(imageState){
-		let {rotate=0} = imageState
-		image.draw(ctx, x, y-z, rotate)
-	}else image.draw(ctx, x, y-z)
+function renderEnt({x, y, z=0, anim}){
+	var {imageName, rotate} = anim
+	var [x,y] = getCvsPos(x,y,z)
+	var image = getEntImage(imageName)
+	image.draw(ctx, x, y, rotate)
 }
 
-function getCvsPos(x, y, z=0){ //地图坐标转化为canvas坐标
-	return [map.ox+(x-y)*100, map.oy+(x+y)*50]
+function getCvsVector(x, y, z=0){ //地图矢量转化为canvas矢量
+	return [(x-y)*100, (x+y)*50 - z*100]
+}
+function getCvsPos(x, y, z){ //地图坐标转化为canvas坐标
+	var [rx, ry] = getCvsVector(x, y, z)
+	return [TheMap.ox + rx, TheMap.oy + ry]
 }
 function mapRect(x,y,sizex,sizey){
 	ctx.beginPath()
@@ -124,4 +125,5 @@ function mapOctagon(x,y,d){ //正八边形；x,y为中心，d为中心到平行�
 	ctx.closePath()
 }
 
+export {getCvsVector, getCvsPos}
 export default render

@@ -1,4 +1,5 @@
-import states from'./states.js'
+import states from './states.js'
+import {getCvsVector} from '../render.js'
 
 class CD{
 	constructor(total, left){
@@ -20,11 +21,25 @@ class CD{
 	}
 }
 
+class AnimState{
+	constructor(ent){
+		this.ent=ent
+		//this.rotate=0
+	}
+	get imageName(){
+		return this.ent.name
+	}
+	applyDirection({x,y,z}){
+		var [x,y] = getCvsVector(x,y,z)
+		this.rotate = Math.atan2(y,x)
+	}
+}
+
 class Ent{
 	constructor(){
 		TheMap.ents.add(this)
 	}
-	get name(){
+	get name(){ //代码名
 		return this.constructor.name.toLocaleLowerCase()
 	}
 	get isValid(){
@@ -46,8 +61,8 @@ class Ent{
 	}
 }
 class Located extends Ent{
-	x=0
-	y=0
+	x = 0
+	y = 0
 	get grid(){
 		return TheMap.getGrid(this.x,this.y)
 	}
@@ -86,12 +101,10 @@ class Located extends Ent{
 	}
 }
 class Visible extends Located{
+	anim = new AnimState(this)
 	constructor(){
 		super()
 		TheMap.ents_to_render.add(this)
-	}
-	get imageName(){
-		return this.name
 	}
 	remove(){
 		TheMap.ents_to_render.delete(this)
@@ -125,15 +138,15 @@ class Building extends Living{
 		super.remove()
 	}
 }
-class Projectile extends Visible{//Mob只能沿grid移动
-	z=0
-	damage=0 //damage来源于Tower
+class Projectile extends Visible{ //不用Mob，因为Mob只能沿grid移动
+	z = 0
+	damage = 0 //由Tower设置
+	direction = new Vector
 	constructor(speed=4){
 		super()
 		this.speed=speed
 		this.startUpdating()
 	}
-	//get imageState(){}
 	track({x,y,z0}, target){
 		this.setPos(x,y)
 		this.z=z0
@@ -145,8 +158,11 @@ class Projectile extends Visible{//Mob只能沿grid移动
 		return t
 	}
 	moveOn(dt){ //只负责移动，其他判断交给update
-		this.setPos(...this._moveTo(this.tx,this.ty,dt))
-		this.z+=this.vz*dt
+		var [tx, ty] = this._moveTo(this.tx,this.ty,dt)
+		var dz = this.vz*dt
+		this.direction.set(tx-this.x, ty-this.y, dz)
+		this.setPos(tx, ty)
+		this.z += dz
 	}
 	onReach(){
 		this.target.getAttacked(this.damage)
@@ -165,7 +181,7 @@ class Projectile extends Visible{//Mob只能沿grid移动
 	update(dt){ //尽量不要重写update，而是重写事件监听
 		if(this.getDist(this.target)<=0.1){
 			this.onReach()
-		}else if(this.x==this.tx&&this.y==this.ty){
+		}else if(this.x==this.tx && this.y==this.ty){
 			this.onEnd()
 		}else if(this.z<0){
 			this.onLand()
@@ -182,9 +198,6 @@ class Mob extends Living{
 		this.speed=speed
 		this.setState('default')
 		this.startUpdating()
-	}
-	get imageName(){
-		return this.state.imageName
 	}
 	setState(name){
 		name=this.constructor.states[name]||name

@@ -33,7 +33,7 @@ class GoldMine extends Building{
 }
 class Tower extends Building{//远程
 	projectile='ball'
-	constructor({dmg,atkR,cd,z0}){
+	constructor({dmg, atkR, cd, z0}){
 		super()
 		this.damage=dmg
 		this.atkR=atkR
@@ -70,13 +70,13 @@ class Tower extends Building{//远程
 class ArcherTower extends Tower{
 	projectile='arrow'
 	constructor(){
-		super({dmg:2,atkR:2,cd:2,z0:40})
+		super({dmg:2, atkR:2, cd:2, z0:0.7})
 	}
 }
 
 class Tower1 extends Tower{
 	constructor(){
-		super({dmg:2,atkR:1.5,cd:3,z0:40})
+		super({dmg:2, atkR:1.5, cd:3, z0:0.4})
 	}
 }
 

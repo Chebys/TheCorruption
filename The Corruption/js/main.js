@@ -1,5 +1,6 @@
 import './global.js'
 import './.debug.js'
+import './utils.js'
 import {canvas} from './canvas.js'
 import './strings.js'
 import {loadAssetsOld, loadAssets, checkAssets} from './assets.js'

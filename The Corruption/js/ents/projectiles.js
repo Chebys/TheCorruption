@@ -1,34 +1,29 @@
 import {Projectile} from './ents.js'
 
-const default_gravity = 1500
+const default_gravity = 15
 
 class Parabolic extends Projectile{//抛射物
-	angle=0 //画布上的旋转角度
 	constructor(speed, gravity=default_gravity){
 		super(speed)
 		this.gravity=gravity
-	}
-	get imageState(){
-		return {
-			rotate:this.angle
-		}
+		this.anim.rotate=0
 	}
 	track(origin, target){
-		var t=super.track(origin, target)
-		this.vz+=this.gravity*t/2
+		var t = super.track(origin, target)
+		this.vz += this.gravity*t/2
 	}
 	moveOn(dt){
 		super.moveOn(dt)
-		this.vz-=this.gravity*dt
+		this.vz -= this.gravity*dt
 		this.updateAngle(dt)
 	}
 	updateAngle(dt){
-		this.angle+=dt*6
+		this.anim.rotate += dt*6
 	}
 }
 
 class Bomb extends Parabolic{
-	atkR=1
+	atkR = 1
 	explode(){
 		var tars=this.getNearbyUnits(this.atkR, e=>e.group==2)
 		tars.forEach(t=>t.getAttacked(this.damage))
@@ -43,7 +38,7 @@ class Bomb extends Parabolic{
 }
 class Arrow extends Parabolic{
 	updateAngle(){
-		//todo
+		this.anim.applyDirection(this.direction)
 	}
 }
 class Ball extends Bomb{
