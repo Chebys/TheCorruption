@@ -1,14 +1,14 @@
-import './global.js'
-import './.debug.js'
-import './utils.js'
-import {canvas} from './canvas.js'
-import './strings.js'
-import {loadAssetsOld, loadAssets, checkAssets} from './assets.js'
-import UI from './UI.js'
-import './map.js'
-import renderMap from './render.js'
-import './control.js'
-import level from './level.js'
+import '/global.js'
+import '/.debug.js'
+import '/utils.js'
+import {canvas} from '/canvas.js'
+import '/strings.js'
+import {loadAssets, checkAssets} from '/assets.js'
+import UI from '/UI.js'
+import '/map.js'
+import renderMap from '/render.js'
+import '/control.js'
+import level from '/level.js'
 
 addEventListener('mouseup', e=>Ctrl.mousedown=false) //考虑在canvas外松开的情况
 addEventListener('contextmenu', e=>e.preventDefault())
@@ -38,7 +38,7 @@ const main={
 	onerror(error){
 		TheMap.state = null
 		console.log(error)
-		if(error.cause)console.log('cause:', error.cause)
+		if(error?.cause)console.log('cause:', error.cause)
 		UI.goto('error', {error})
 	},
 	init(){

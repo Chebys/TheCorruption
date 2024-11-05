@@ -1,4 +1,4 @@
-import {spawn} from './ent.js'
+import {spawn} from '/ent.js'
 
 var listeners = {}
 

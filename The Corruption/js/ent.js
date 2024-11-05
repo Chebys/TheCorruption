@@ -1,7 +1,7 @@
-import ents from './ents/ents.js'
-import buildings from './ents/buildings.js'
-import units from './ents/units.js'
-import projectiles from './ents/projectiles.js'
+import ents from '/ents/ents.js'
+import buildings from '/ents/buildings.js'
+import units from '/ents/units.js'
+import projectiles from '/ents/projectiles.js'
 
 var prefabs = {};
 function registerPrefab(C){

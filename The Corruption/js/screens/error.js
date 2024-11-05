@@ -1,4 +1,4 @@
-import {CvsEle} from './cvsEle.js'
+import {CvsEle} from '/cvsEle.js'
 export default {
 	construct({error}){
 		new CvsEle(0, 0, WIDTH, HEIGHT, {bgcolor:'#000'})

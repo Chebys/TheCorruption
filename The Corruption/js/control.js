@@ -1,4 +1,4 @@
-import {price} from './figures.js'
+import {price} from '/figures.js'
 
 const stats={
 	get(s){return TheMap.stats[s]},

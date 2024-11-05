@@ -1,4 +1,4 @@
-import {Projectile} from './ents.js'
+import {Projectile} from '/ents/ents.js'
 
 const default_gravity = 15
 

@@ -1,22 +1,21 @@
-//canvas应具有getMousePos方法
 //图片暂且依赖 GetImage
 var canvas, ctx
 
-var elements=[]
+var elements = []
 //尽量不要为互相遮挡的元素注册相同事件的监听，无法保证顺序
 //重复注册同一元素同一事件则覆盖
-const events=['mousemove','mousedown','click']
-var listeners={}
-var end_listeners={}
-var ongoing={}
+const events = ['mousemove','mousedown','click']
+var listeners = {}
+var end_listeners = {}
+var ongoing = {}
 for(let e of events){
 	listeners[e] = new Map
 	end_listeners[e] = new Map
 	ongoing[e] = new Set
 }
 
-var defaultFont='20px sans-serif'
-var defaultcolor='#fff'
+var defaultFont = '20px sans-serif'
+var defaultcolor = '#fff'
 /*style:
 	bgcolor
 	border:{

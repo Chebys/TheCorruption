@@ -1,6 +1,6 @@
-import LinkedList from '/lib/linkedList.js'
-import {canvas, ctx} from './canvas.js'
-import {getEntImage} from './ents/ent_img.js'
+import LinkedList from 'linkedList'
+import {canvas, ctx} from '/canvas.js'
+import {getEntImage} from '/ents/ent_img.js'
 //global('LinkedList', LinkedList)
 const bgcolor = '#608'
 const roadWidth = 0.6

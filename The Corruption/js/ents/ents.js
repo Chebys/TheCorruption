@@ -1,5 +1,5 @@
-import states from './states.js'
-import {getCvsVector} from '../render.js'
+import states from '/ents/states.js'
+import {getCvsVector} from '/render.js'
 
 class CD{
 	constructor(total, left){

@@ -1,4 +1,4 @@
-import {CvsEle} from './cvsEle.js'
+import {CvsEle} from '/cvsEle.js'
 
 const borderStyle={border:{width:2,color:'#000'},padding:10}
 export default {

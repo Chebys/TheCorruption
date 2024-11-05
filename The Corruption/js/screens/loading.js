@@ -1,4 +1,4 @@
-import {CvsEle} from './cvsEle.js'
+import {CvsEle} from '/cvsEle.js'
 export default {
 	construct({textFn}){
 		this.textFn=textFn

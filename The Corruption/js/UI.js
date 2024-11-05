@@ -1,11 +1,11 @@
-import {canvas, ctx} from './canvas.js'
-import {init as initEle, reset, render, elements} from './screens/cvsEle.js'
+import {canvas, ctx} from '/canvas.js'
+import {init as initEle, reset, render, elements} from '/cvsEle.js'
 
-import loading from './screens/loading.js'
-import error from './screens/error.js'
-import mainMenu from './screens/mainmenu.js'
-import inGame from './screens/ingame.js'
-import editor from './screens/editor.js'
+import loading from '/screens/loading.js'
+import error from '/screens/error.js'
+import mainMenu from '/screens/mainmenu.js'
+import inGame from '/screens/ingame.js'
+import editor from '/screens/editor.js'
 
 initEle(canvas, ctx)
 

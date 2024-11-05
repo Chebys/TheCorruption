@@ -1,10 +1,5 @@
 const assets=Dict(), images=Dict(), sounds=Dict()
 
-const eventName={
-	image:'load',
-	audio:'canplaythrough'
-}
-
 class Asset{
 	constructor(path){
 		this.path = path
@@ -192,4 +187,4 @@ if(BRANCH=='dev')
 global('GetImage', GetImage)
 global('GetAudio', GetAudio)
 
-export {loadAssetsOld, loadAssets, images, sounds, checkAssets}
+export {loadAssets, checkAssets}

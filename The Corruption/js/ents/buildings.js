@@ -1,4 +1,4 @@
-import {CD, Building} from './ents.js'
+import {CD, Building} from '/ents/ents.js'
 
 class Wall extends Building{
 	get isWall(){

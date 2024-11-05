@@ -1,4 +1,4 @@
-import {CD, Unit} from './ents.js'
+import {CD, Unit} from '/ents/ents.js'
 
 class Enemy extends Unit{
 	static states={default:'Invading'}
