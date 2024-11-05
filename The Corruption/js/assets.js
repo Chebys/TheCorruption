@@ -1,81 +1,102 @@
-const assets=[], images={}, audios={}
+const assets=Dict(), images=Dict(), sounds=Dict()
 
 const eventName={
 	image:'load',
 	audio:'canplaythrough'
 }
 
-class Asset{ //todo: 将不同文件格式分别做成class
-	constructor(type, name){
-		this.type=type
-		this.name=name
-		if(type=='image'){
-			//this.src=new Image()
-			this.url=PATH+'img/'+name+'.png'
-			images[name]=this
-		}else if(type=='audio'){
-			this.src=new Audio()
-			this.url=PATH+'audio/'+name
-			audios[name]=this
-		}
-		assets.push(this)
+class Asset{
+	constructor(path){
+		this.path = path
+		assets[path] = this
 	}
 	async load(blob){
-		/*var e=eventName[this.type]
-		this.src.addEventListener(e, onload, {once:true})
-		this.src.src=this.url*/
 		if(blob){
-			this.src=blob
-			var originbitmap=this.bitmap
+			this.raw=blob
 		}else{
-			let res=await fetch(this.url)
-			this.src=await res.blob()
+			let res=await fetch(ROOT_PATH+this.path)
+			this.raw=await res.blob()
 		}
-		this.bitmap=await createImageBitmap(this.src)
-		//originbitmap?.close() 有些地方还在用之前GetImage得到的bitmap
 	}
-	getRaw(){
-		return this.src
+	getRaw(){ //返回blob（如果已加载）
+		return this.raw
+	}
+}
+class Image extends Asset{
+	constructor(name){
+		super('img/'+name+'.png')
+		images[name]=this
+	}
+	async load(blob){
+		await super.load(blob)
+		this.bitmap=await createImageBitmap(this.raw)
+	}
+}
+class Sound extends Asset{
+	constructor(name){
+		super('audio/'+name+'.mp3')
+		sounds[name]=this
+	}
+	async load(blob){
+		await super.load(blob)
+		this.obj_url=URL.createObjectURL(this.raw)
 	}
 	play(reset){ //废弃
-		if(reset)this.src.currentTime=0
-		//this.src.play()
+		if(reset)this.raw.currentTime=0
+		//this.raw.play()
 	}
 	pause(){ //废弃
-		this.src.pause()
+		this.raw.pause()
 	}
-}
-function GetImage(name){ //总是返回 ImageBitmap
-	var img=images[name]
-	if(!img){
-		logOnce(`图片 ${name} 不存在`, 'warn')
-		img=images.default
-	}
-	return img.bitmap
 }
 
-function PlaySound(name, config={}){ //废弃
-	
+function getAssetByPath(path){
+	var asset = assets[path]
+	if(asset)return asset
+	throw new Error('undefind asset: '+path)
 }
-function loadImage(name, blob){ //Promise
-	var img=images[name]||new Asset('image',name) 
-	return img.load(blob)
+
+function loadAsset(path, blob){ //返回Promise
+	return getAssetByPath(path).load(blob)
 }
 function loadAssetsOld(onload, beforeEach){ //老式加载；exportAssets 之前使用
-	var i=0, len=assets.length
+	var i = 0,
+		assetList = Object.values(assets),
+		len = assetList.length
 	function loadNext(){
 		if(i<len){
 			beforeEach?.(i,len)
-			assets[i++].load().then(loadNext)
+			assetList[i++].load().then(loadNext)
 		}else{
 			onload?.()
 		}
 	}
 	loadNext()
 }
+
+function exportAssets(){
+	var blobs=[], paths=[], sizes=[]
+	for(let path in assets){
+		paths.push(path)
+		let blob=assets[path].getRaw()
+		blobs.push(blob)
+		sizes.push(blob.size)
+	}
+	return {
+		meta:{paths, sizes},
+		blob:new Blob(blobs)
+	}
+}
+function exportToFile(){
+	var {meta, blob}=exportAssets()
+	var jsonstr=JSON.stringify(meta)
+	var metablob=new Blob([jsonstr])
+	DownloadBlob(metablob, 'meta.json')
+	DownloadBlob(blob, 'blob.bin')
+}
 async function loadAssets(onprogress){
-	var meta_url = PATH+'data/meta.json'
-	var blob_url = PATH+'data/blob.bin'
+	var meta_url = ROOT_PATH+'data/meta.json'
+	var blob_url = ROOT_PATH+'data/blob.bin'
 	if(BRANCH=='dev'){
 		meta_url += '?'+Math.random()
 		blob_url += '?'+Math.random()
@@ -104,41 +125,21 @@ async function loadAssets(onprogress){
 	
 	await importAssets(data)
 }
-function exportAssets(){ //先试试图像
-	var blobs=[], names=[], sizes=[]
-	for(let img of assets){
-		names.push(img.name)
-		let blob=img.getRaw()
-		blobs.push(blob)
-		sizes.push(blob.size)
-	}
-	return {
-		meta:{names, sizes},
-		blob:new Blob(blobs)
-	}
-}
-function exportToFile(){
-	var {meta, blob}=exportAssets()
-	var jsonstr=JSON.stringify(meta)
-	var metablob=new Blob([jsonstr])
-	DownloadBlob(metablob, 'meta.json')
-	DownloadBlob(blob, 'blob.bin')
-}
-async function importAssets({meta:{names,sizes}, blob}){
+async function importAssets({meta:{paths,sizes}, blob}){ //只能导入已实例化的 Asset
 	var expected_size = sizes.reduce((s,x)=>s+x)
 	if(expected_size != blob.size)throw new Error('资源大小不匹配！', {
 		cause: {expected_size, actual_size:blob.size}
 	})
 	var start=0
-	for(let i=0; names[i]; i++){
+	for(let i=0; paths[i]; i++){
 		let end=start+sizes[i]
 		let raw=blob.slice(start,end)
-		await loadImage(names[i], raw)
+		await loadAsset(paths[i], raw)
 		start=end
 	}
 }
 function checkAssets(){
-	for(let a of assets)
+	for(let a of Object.values(assets))
 		if(!a.getRaw()){
 			console.warn('未加载的资源：', a)
 			return false
@@ -146,24 +147,39 @@ function checkAssets(){
 	return true
 }
 
-new Asset('image','default') //必须
+//加载完成后，可使用以下函数
+function GetImage(name){ //总是返回 ImageBitmap 对象
+	var img=images[name]
+	if(!img){
+		logOnce(`图片 ${name} 不存在`, 'warn')
+		img=images.default
+	}
+	return img.bitmap
+}
+function GetAudio(name){ //返回原生Audio对象或undefined；返回的Audio总是new的
+	var sound=sounds[name]
+	if(!sound)return
+	return new Audio(sound.obj_url)
+}
 
-new Asset('image','mainmenu')
+new Image('default') //必须
 
-new Asset('image','info_tile0')
-new Asset('image','info_tile1')
-new Asset('image','info_tile2')
+new Image('mainmenu')
 
-new Asset('image','archertower')
-new Asset('image','arrow')
-new Asset('image','ball')
-new Asset('image','corrupter')
-new Asset('image','goldmine')
-new Asset('image','homebase')
-new Asset('image','tower1')
+new Image('info_tile0')
+new Image('info_tile1')
+new Image('info_tile2')
+
+new Image('archertower')
+new Image('arrow')
+new Image('ball')
+new Image('corrupter')
+new Image('goldmine')
+new Image('homebase')
+new Image('tower1')
 
 //new Asset('audio','bg.mid') 不支持的格式
-//new Asset('audio','bg.mp3')
+new Sound('bg')
 
 if(BRANCH=='dev')
 	global('quickExport', callback=>{
@@ -174,6 +190,6 @@ if(BRANCH=='dev')
 	})
 
 global('GetImage', GetImage)
-global('PlaySound', PlaySound)
+global('GetAudio', GetAudio)
 
-export {loadAssetsOld, loadAssets, images, audios, checkAssets}
+export {loadAssetsOld, loadAssets, images, sounds, checkAssets}

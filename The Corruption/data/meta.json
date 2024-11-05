@@ -1,1 +1,1 @@
-{"names":["mainmenu","info_tile0","info_tile1","info_tile2","default","archertower","arrow","ball","corrupter","goldmine","homebase","tower1"],"sizes":[166647,16677,13555,10915,669,11222,776,1339,4224,26356,2572,607]}
+{"paths":["img/default.png","img/mainmenu.png","img/info_tile0.png","img/info_tile1.png","img/info_tile2.png","img/archertower.png","img/arrow.png","img/ball.png","img/corrupter.png","img/goldmine.png","img/homebase.png","img/tower1.png","audio/bg.mp3"],"sizes":[669,166647,16677,13555,10915,11222,776,1339,4224,26356,2572,607,1288985]}

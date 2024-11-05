@@ -5,7 +5,10 @@ const hoverStyle = {bgcolor:'#a74'}
 
 export default {
 	construct(){
-		new CvsEle(0,0,WIDTH,HEIGHT,{bgcolor:'#000'}).img('mainmenu')
+		var bg=new CvsEle(0,0,WIDTH,HEIGHT,{bgcolor:'#000'})
+		bg.img('mainmenu')
+		//bg.on('click', ()=>UI.playBGMusic('bg'))
+		UI.playBGMusic('bg')
 		var mainbtstyle={bgcolor:'#640',font:'40px sans-serif',padding:30,radius:20,border:{width:2,color:'#fff'}}
 		this.startButton=new CvsEle(300,250,600,100,mainbtstyle)
 		this.startButton.text('开始游戏')

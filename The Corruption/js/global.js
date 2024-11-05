@@ -30,6 +30,6 @@ global('XHRPromise', XHRPromise)
 global('nullfn', _=>null)
 
 global('BRANCH', location.hostname=='localhost'?'dev':'release')
-global('PATH', '/The Corruption/')
+global('ROOT_PATH', '/The Corruption/')
 global('WIDTH', 1200)
 global('HEIGHT', 800)

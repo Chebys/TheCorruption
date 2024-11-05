@@ -1,11 +1,11 @@
 import {canvas, ctx} from './canvas.js'
-import {init as initEle, reset, render, elements} from './ui/cvsEle.js'
+import {init as initEle, reset, render, elements} from './screens/cvsEle.js'
 
-import loading from './ui/loading.js'
-import error from './ui/error.js'
-import mainMenu from './ui/mainmenu.js'
-import inGame from './ui/ingame.js'
-import editor from './ui/editor.js'
+import loading from './screens/loading.js'
+import error from './screens/error.js'
+import mainMenu from './screens/mainmenu.js'
+import inGame from './screens/ingame.js'
+import editor from './screens/editor.js'
 
 initEle(canvas, ctx)
 
@@ -24,6 +24,8 @@ const screens={ //要不写成类？防止属性残余
 	editor
 }
 const UI={
+	current: null,
+	bg_music: null,
 	goto(name, config){
 		var screen=screens[name]
 		if(!screen)throw new Error(`no screen named '${name}'`)
@@ -34,6 +36,8 @@ const UI={
 	},
 	clear(){
 		this.current=null
+		this.bg_music?.pause()
+		this.bg_music=null
 		reset()
 	},
 	render(){
@@ -42,6 +46,15 @@ const UI={
 	},
 	update(dt){ //主要操作在事件监听器中完成了
 		this.current.onUpdate?.()
+	},
+	
+	playBGMusic(name){
+		this.bg_music?.pause()
+		var audio=GetAudio(name)
+		if(audio){
+			audio.play()
+			this.bg_music=audio
+		}
 	}
 }
 

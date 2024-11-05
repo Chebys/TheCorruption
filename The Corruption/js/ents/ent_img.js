@@ -1,5 +1,5 @@
 //在 main.init 之前全部实例化，但此时还不能 GetImage
-const entImages = Object.create(null)
+const entImages = Dict()
 
 class EntImg{
 	constructor(name, cx=0, cy=0, width, height){

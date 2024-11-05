@@ -13,3 +13,4 @@ class Vector{
 }
 
 global('Vector', Vector)
+global('Dict', obj => Object.assign(Object.create(null), obj))
