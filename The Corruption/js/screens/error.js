@@ -1,8 +1,18 @@
-import {CvsEle} from '/cvsEle.js'
-export default {
-	construct({error}){
-		new CvsEle(0, 0, WIDTH, HEIGHT, {bgcolor:'#000'})
-		new CvsEle(WIDTH/2, 100, 0, 0, {font:'30px sans-serif'}).text('发生了错误：')
-		new CvsEle(WIDTH/2, 300).text(error)
+import {Screen, Text} from '/widgets/basewidgets.js'
+
+class Error extends Screen{
+	constructor({error}){
+		super()
+		this.SetStyle({bgcolor:'#000'})
+		
+		var title = this.AddChild(new Text(Strings.ui.error_occurred, '30px sans-serif'))
+		title.SetAnchor('center', 'top')
+		title.SetPos(0, 100)
+		
+		var msg = this.AddChild(new Text(error ?? Strings.ui.unknown_error))
+		msg.SetAnchor('center', 'center')
+		msg.SetPos()
 	}
 }
+
+export default Error

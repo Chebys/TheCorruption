@@ -53,7 +53,7 @@ const getData={//如果数值可能变化，使用函数
 		})
 		return {
 			img:'info_tile'+g.tile,
-			info:[STRINGS.tileName[g.tile], _=>'腐化度：'+g.corruption],
+			info:[Strings.tileName[g.tile], _=>'腐化度：'+g.corruption],
 			options:opts
 		}
 	},
@@ -61,7 +61,7 @@ const getData={//如果数值可能变化，使用函数
 		return {
 			img:b.name,
 			info:[
-				STRINGS.entName[b.name],
+				Strings.entName[b.name],
 				_=>'生命：'+b.health,
 				b.damage&&(_=>'攻击力：'+b.damage)
 			]
@@ -71,7 +71,7 @@ const getData={//如果数值可能变化，使用函数
 		return {
 			img:u.name,
 			info:[
-				STRINGS.entName[u.name],
+				Strings.entName[u.name],
 				_=>'生命：'+u.health,
 				u.damage&&(_=>'攻击力：'+u.damage)
 			]
@@ -81,23 +81,23 @@ const getData={//如果数值可能变化，使用函数
 const defaultInfo={info:['错误']}
 
 const control={
-	keydown:{},
-	updated:false, //暴露给UI
+	keydown: {},
+	updated: false, //暴露给UI
 	select(type,obj){
 		this.selType=type
 		this.sel=obj
 		this.updated=true
 	},
-	getData(){//将选中对象信息暴露给UI
+	getData(){ //将选中对象信息暴露给UI
 		return getData[this.selType]?.(this.sel)||console.error('getData失败')||defaultInfo
 	},
-	option(i){//点击控件；由UI调用
+	option(i){ //点击控件；由UI调用
 		switch(this.selType){
 			case 'grid': gridOpts[this.sel.tile]?.[i]?.fn(); break
 			case 'building':
 		}
 	},
-	editorOption(cmd){//用于地图编辑器
+	editorOption(cmd){ //用于地图编辑器
 		if(this.selType!='grid')return
 		switch(cmd){
 			case 'homebase':
@@ -107,7 +107,7 @@ const control={
 				break
 		}
 	},
-	reset(){//鼠标、键盘按下状态不能清除
+	reset(){ //鼠标、键盘按下状态不能清除
 		this.selType=null
 		this.sel=null
 		this.updated=true

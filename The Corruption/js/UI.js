@@ -1,11 +1,11 @@
 import {canvas, ctx} from '/canvas.js'
 import {init as initEle, reset, render, elements} from '/cvsEle.js'
 
-import loading from '/screens/loading.js'
-import error from '/screens/error.js'
-import mainMenu from '/screens/mainmenu.js'
-import inGame from '/screens/ingame.js'
-import editor from '/screens/editor.js'
+import Loading from '/screens/loading.js'
+import ErrorScreen from '/screens/error.js'
+import MainMenu from '/screens/mainmenu.js'
+import InGame from '/screens/ingame.js'
+import Editor from '/screens/editor.js'
 
 initEle(canvas, ctx)
 
@@ -16,23 +16,22 @@ function toggleFS(){
 }
 global('ToggleFS', toggleFS)
 
-const screens={ //要不写成类？防止属性残余
-	loading,
-	error,
-	mainMenu,
-	inGame,
-	editor
+const screens = { //todo: 写成类
+	Loading,
+	Error: ErrorScreen,
+	MainMenu,
+	InGame,
+	Editor
 }
 const UI={
 	current: null,
 	bg_music: null,
 	goto(name, config){
-		var screen=screens[name]
+		var screen = screens[name]
 		if(!screen)throw new Error(`no screen named '${name}'`)
 		this.clear()
-		screen.construct(config)
-		this.current=screen
-		return screen
+		this.current = new screen(config)
+		return this.current
 	},
 	clear(){
 		this.current=null
@@ -41,11 +40,11 @@ const UI={
 		reset()
 	},
 	render(){
-		this.current?.onPreRender?.()
+		this.current?.OnPreRender()
 		render()
 	},
 	update(dt){ //主要操作在事件监听器中完成了
-		this.current.onUpdate?.()
+		this.current?.OnUpdate()
 	},
 	
 	playBGMusic(name){

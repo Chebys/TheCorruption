@@ -5,12 +5,11 @@ export default {
 	construct({renderMap}){
 		this.onPreRender=renderMap
 		
-		var bHeight=200,bY=HEIGHT-bHeight //底栏位置
-		new CvsEle(0,bY,WIDTH,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}})
-			.on('mousedown',e=>e.stopImmediatePropagation())
+		var bHeight=200,bY=CANVAS_HEIGHT-bHeight //底栏位置
+		new CvsEle(0,bY,CANVAS_WIDTH,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}}).stopClickPropagation()
 		for(let i=0;i<3;i++){
 			let tileButton=new CvsEle(100+i*100,bY+50,100,50,borderStyle)
-			tileButton.text(STRINGS.tileName[i])
+			tileButton.text(Strings.tileName[i])
 			tileButton.on('click',e=>{
 				if(Ctrl.sel){
 					Ctrl.sel.tile=i

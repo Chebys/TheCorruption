@@ -3,10 +3,9 @@ import '/.debug.js'
 import '/utils.js'
 import {canvas} from '/canvas.js'
 import '/strings.js'
-import {loadAssets, checkAssets} from '/assets.js'
+import {loadMeta, loadAssets, checkAssets} from '/assets.js'
 import UI from '/UI.js'
 import '/map.js'
-import renderMap from '/render.js'
 import '/control.js'
 import level from '/level.js'
 
@@ -14,7 +13,7 @@ addEventListener('mouseup', e=>Ctrl.mousedown=false) //考虑在canvas外松开�
 addEventListener('contextmenu', e=>e.preventDefault())
 
 var currentFrame, t0
-const main={
+const main = {
 	run(t){
 		var dt = t&&t0 ? (t-t0)/1000 : 0 //dt以秒为单位
 		if(dt>1)dt=0 //避免longUpdate的一个下策
@@ -39,15 +38,18 @@ const main={
 		TheMap.state = null
 		console.log(error)
 		if(error?.cause)console.log('cause:', error.cause)
-		UI.goto('error', {error})
+		UI.goto('Error', {error})
 	},
-	init(){
-		var loadingText=STRINGS.progress_stage[0]
-		UI.goto('loading', {textFn:_=>loadingText})
-		loadAssets(onprogress).then(onload, main.onerror)
+	async init(){
+		var loadingText = Strings.progress_stage[0]
+		var screen = UI.goto('Loading', {textFn:_=>loadingText})
 		
-		function onprogress({stage, percent}){
-			loadingText=STRINGS.progress_stage[stage]
+		main.meta = await loadMeta()
+		if(BRANCH=='dev') main.loadAssets()
+		else screen.PopupAssetInfo().then(main.loadAssets)
+		
+		/* function onprogress({stage, percent}){
+			loadingText=Strings.progress_stage[stage]
 			if(percent!=undefined)loadingText+=': '+percent*100+'%'
 		}
 		function onload(){
@@ -59,26 +61,27 @@ const main={
 			}else{
 				main.onerror('资源文件缺失')
 			}
-		}
+		} */
+	},
+	loadAssets(){
+		loadAssets(main.meta).then(main.mainMenu)
 	},
 	mainMenu(){
 		TheMap.state=null
 		Ctrl.reset()
 		main.removeMapHandler()
-		UI.goto('mainMenu')
+		UI.goto('MainMenu')
 	},
 	startGame(){
-		//UI.goto('loading', {textFn:_=>'加载地图'})
+		//UI.goto('Loading', {textFn:_=>'加载地图'})
 		TheMap.load(level.get(0))
-		UI.goto('inGame', {renderMap}) //优先为UI添加事件监听
-		//var bgmusic=audios['bg.mp3']
-		//bgmusic.play(1)
+		UI.goto('InGame')
 		main.addMapHandler()
 		TheMap.startGame()
 	},
 	startEditor(l){
 		TheMap.loadBlank(l)
-		UI.goto('editor', {renderMap})
+		UI.goto('Editor')
 		main.addMapHandler()
 	},
 	addMapHandler(){

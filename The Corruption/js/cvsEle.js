@@ -1,18 +1,10 @@
-//图片暂且依赖 GetImage
+//依赖 GetImage
+//依赖 Array.prototype.remove
 var canvas, ctx
 
 var elements = []
-//尽量不要为互相遮挡的元素注册相同事件的监听，无法保证顺序
-//重复注册同一元素同一事件则覆盖
+
 const events = ['mousemove','mousedown','click']
-var listeners = {}
-var end_listeners = {}
-var ongoing = {}
-for(let e of events){
-	listeners[e] = new Map
-	end_listeners[e] = new Map
-	ongoing[e] = new Set
-}
 
 var defaultFont = '20px sans-serif'
 var defaultcolor = '#fff'
@@ -29,16 +21,20 @@ var defaultcolor = '#fff'
 	padding		单个数值；有更复杂的需求，请将文本作为独立element
 */
 class CvsEle{
-	constructor(x,y,width=0,height=0,style={}){
-		this.x1=x
-		this.y1=y
-		this.x2=x+width
-		this.y2=y+height
+	//x1, x2, y1, y2
+	listener = {}
+	end_listener = {}
+	currentEvents = new Set
+	constructor(x, y, width=0, height=0, style={}){ //会随style的变化而同步变化（除了radius需要refreshPath）
 		this.style=style
-		this.path=new Path2D()
-		if(style.radius)this.path.roundRect(x,y,width,height,style.radius)
-		else this.path.rect(x,y,width,height)
+		this.setPos(x, y, x+width, y+height) //顺便refreshPath
 		elements.push(this)
+	}
+	refreshPath(){
+		this.path=new Path2D
+		var {x1, y1, x2, y2, style:{radius}} = this
+		if(radius)this.path.roundRect(x1, y1, x2-x1, y2-y1, radius)
+		else this.path.rect(x1, y1, x2-x1, y2-y1)
 	}
 	hide(){
 		this.hidden=true
@@ -46,11 +42,15 @@ class CvsEle{
 	show(){
 		this.hidden=false
 	}
+	setPos(x1, y1, x2, y2){
+		Object.assign(this, {x1, y1, x2, y2})
+		this.refreshPath()
+	}
 	text(t){ //字符串或函数
 		this.intext = typeof t=='function' ? t : String(t??'')
 	}
-	img(name){ //图片将缩放为与元素大小相同
-		this.image=name&&GetImage(name)
+	img(image){ //图片将缩放为与元素大小相同
+		this.image=image
 	}
 	draw(){
 		if(this.style.bgcolor){
@@ -92,30 +92,25 @@ class CvsEle{
 		}
 	}
 	on(eventName, fn, end_fn){
+		//重复注册同一事件则覆盖
+		//后创建的元素先触发事件
 		//触发时，调用fn(event,x,y)
-		//下一次canvas触发该事件但该元素不是目标时，调用end_fn(event,x,y)
+		//fn返回真值时，事件停止传播
+		//下一次canvas触发该事件但该元素不是目标时，调用end_fn()
 		//不允许只有end_fn
-		listeners[eventName].set(this,fn)
-		end_fn&&end_listeners[eventName].set(this,end_fn)
+		this.listener[eventName] = fn
+		this.end_listener[eventName] = end_fn
 	}
-	hoverStyle(style){
-		var _style=this.style
-		var hoverStyle=Object.create(_style)
-		DeepCopy(style, hoverStyle)
-		this.on('mousemove', _=>{this.style=hoverStyle}, _=>{this.style=_style})
-	}
-	activeStyle(){
-		
-	}
-	stopPropagation(){
-		//防止点击穿透
-		//只会阻止直接通过addEventListener添加到canvas的监听器，如地图点击
-		this.on('mousedown', e=>e.stopImmediatePropagation())
+	/* stopClickPropagation(){
+		this.on('mousedown', e=>true)
+	} */
+	remove(){
+		elements.remove(this)
+		this.invalid = true
 	}
 }
-function isTarget(ele,e){
-	if(ele.hidden)return false
-	var [x,y]=canvas.getMousePos(e)
+function isTarget(ele, x, y){
+	if(ele.hidden||ele.invalid)return false
 	if(ele.x1<=x&&x<=ele.x2&&ele.y1<=y&&y<=ele.y2)
 		return true
 }
@@ -126,25 +121,29 @@ function init(c, ctx1){
 	ctx = ctx1||c.getContext('2d')
 	for(let name of events)
 		c.addEventListener(name, e=>{
-			for(let [ele,fn] of listeners[name])
-				if(isTarget(ele,e)){
-					fn(e, ...canvas.getMousePos(e))
-					ongoing[name].add(ele)
-				}else if(ongoing[name].has(ele)){
-					ongoing[name].delete(ele)
-					end_listeners[name].get(ele)?.(e, ...canvas.getMousePos(e))
+			var propagating = true
+			var list = elements.slice() //elements可能变动
+			var [x, y] = canvas.getMousePos(e)
+			for(let i=list.length-1; i>=0; i--){
+				let ele=list[i]
+				if(!ele)continue //可能已被移除
+				if(isTarget(ele, x, y)){
+					if(propagating){
+						ele.currentEvents.add(name)
+						propagating = !(ele.listener[name]?.(e, x, y))
+					}
+				}else if(ele.currentEvents.has(name)){
+					ele.currentEvents.delete(name)
+					ele.end_listener[name]?.()
 				}
+			}
+			if(!propagating)e.stopImmediatePropagation()
 		})
 }
 function reset(){
 	elements.splice(0)
-	for(let e of events){
-		listeners[e].clear()
-		end_listeners[e].clear()
-		ongoing[e].clear()
-	}
 }
-function render(clear){//按元素创建的顺序渲染
+function render(clear){ //按元素创建的顺序渲染
 	if(clear)ctx.clearRect(0, 0, canvas.width, canvas.height)
 	elements.forEach(e=>e.hidden||e.draw())
 }

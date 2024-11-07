@@ -1,30 +1,36 @@
-import {CvsEle} from '/cvsEle.js'
+import {Screen, Button} from '/widgets/basewidgets.js'
 
 const FStext = _=>document.fullscreenElement?'退出全屏':'全屏'
 const hoverStyle = {bgcolor:'#a74'}
 
-export default {
-	construct(){
-		var bg=new CvsEle(0,0,WIDTH,HEIGHT,{bgcolor:'#000'})
-		bg.img('mainmenu')
+class MainMenu extends Screen{
+	constructor(){
+		super()
+		this.SetImage('mainmenu')
 		//bg.on('click', ()=>UI.playBGMusic('bg'))
-		var mainbtstyle={bgcolor:'#640',font:'40px sans-serif',padding:30,radius:20,border:{width:2,color:'#fff'}}
-		this.startButton=new CvsEle(300,250,600,100,mainbtstyle)
-		this.startButton.text('开始游戏')
-		this.startButton.hoverStyle(hoverStyle)
-		this.startButton.on('click', main.startGame)
+		var mainbtstyle = {bgcolor:'#640', font:'40px sans-serif', padding:30, radius:20, border:{width:2, color:'#fff'}}
 		
-		this.editorButton=new CvsEle(300,450,600,100,mainbtstyle)
-		this.editorButton.text('地图编辑器')
-		this.editorButton.hoverStyle(hoverStyle)
-		this.editorButton.on('click', _=>{
-			var l=parseInt(prompt('输入地图边长（建议不超过30）'))
-			l&&main.startEditor(l)
-		})
+		var startButton = this.AddChild(new Button('开始游戏', main.startGame, 600, 100))
+		startButton.SetStyle(mainbtstyle)
+		startButton.SetHoverStyle(hoverStyle)
+		startButton.SetAnchor('center', 'center')
+		startButton.SetPos(0, -150)
 		
-		this.FSButton=new CvsEle(0,0,120,60,{bgcolor:'#640',font:'30px sans-serif',padding:20})
-		this.FSButton.text(FStext)
-		this.FSButton.on('click', ToggleFS)
-		this.FSButton.hoverStyle(hoverStyle)
+		var editorButton = this.AddChild(new Button('地图编辑器', this.StartEditor, 600, 100))
+		editorButton.SetStyle(mainbtstyle)
+		editorButton.SetHoverStyle(hoverStyle)
+		editorButton.SetAnchor('center', 'center')
+		editorButton.SetPos(0, 150)
+		
+		var FSButton = this.AddChild(new Button(FStext, ToggleFS, 120, 60))
+		FSButton.SetStyle({font:'30px sans-serif', padding:20})
+		FSButton.SetAnchor('right', 'top')
+		FSButton.SetPos(0, 0)
+	}
+	StartEditor(){
+		var l = parseInt(prompt('输入地图边长（建议不超过30）'))
+		l && main.startEditor(l)
 	}
 }
+
+export default MainMenu

@@ -17,7 +17,7 @@ var entData=[
 	['goldmine',1,1],
 	['mater',6,2],
 ]
-levels[0]={ox:WIDTH/2, oy:0, grids:gridData, ents:entData}
+levels[0]={ox:CANVAS_WIDTH/2, oy:0, grids:gridData, ents:entData}
 
 const level={
 	get(i){

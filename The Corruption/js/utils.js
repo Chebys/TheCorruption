@@ -12,5 +12,13 @@ class Vector{
 	}
 }
 
+Array.prototype.remove = function(item){ //移除第一次出现的元素
+	var i = this.indexOf(item)
+	if(i<0)return false
+	this.splice(i, 1)
+	return true
+}
+
+
 global('Vector', Vector)
 global('Dict', obj => Object.assign(Object.create(null), obj))

@@ -2,6 +2,13 @@ var strings = {}
 
 strings.progress_stage = ['加载元信息','加载数据','即将完成']
 
+strings.ui = {
+	confirm: '确定',
+	cancel: '取消',
+	error_occurred: '发生了错误：',
+	unknown_error: '未知错误'
+}
+
 strings.tileName = ['泥土','草地','水域']
 
 strings.entName = {
@@ -13,4 +20,4 @@ strings.entName = {
 	tower1:'测试炮塔',
 }
 
-global('STRINGS', strings)
+global('Strings', strings)

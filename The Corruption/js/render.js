@@ -7,7 +7,7 @@ const roadWidth = 0.6
 
 function render(){
 	ctx.fillStyle=bgcolor
-	ctx.fillRect(0,0,WIDTH,HEIGHT)
+	ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT)
 	renderGrids()
 	renderRoads()
 	if(Ctrl.selType=='grid')renderTile(Ctrl.sel,1)

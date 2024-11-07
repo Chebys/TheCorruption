@@ -8,20 +8,20 @@ function DeepCopy(obj, tar={}){
 	return tar
 }
 function XHRPromise(url, opts={}){
-	//XHRPromise(url, {onprogress:fn}).then(onload)
-	var {method, body, onprogress} = opts
-	var xhr=new XMLHttpRequest
-	xhr.open(method||'GET', url)
-	xhr.responseType='blob' //应该不会丢数据
-	xhr.onprogress=onprogress
+	//XHRPromise(url, {onProgress}).then(onload)
+	var {method, body, onProgress, onUploadProgress, signal} = opts;
+	var xhr = new XMLHttpRequest;
+	xhr.open(method||'GET', url);
+	xhr.responseType = 'blob'; //应该不会丢数据
+	xhr.onprogress = onProgress;
+	xhr.upload.onprogress = onUploadProgress;
+	signal?.addEventListener('abort', ()=>xhr.abort());
 	return new Promise((resolve, reject)=>{
-		xhr.send(body) //可能需要转换
-		xhr.onload=()=>{
-			if(xhr.status!=200)reject('http error: '+xhr.status+' at '+url)
-			var res=new Response(xhr.response)
-			resolve(res)
-		}
-	})
+		xhr.send(body); //可能需要转换
+		//这里尽量和fetch规范一致：fetch() 的 promise 不会因为服务器响应表示错误的 HTTP 状态码而被拒绝
+		xhr.onload = ()=>resolve(new Response(xhr.response));
+		xhr.onabort = ()=>reject(new DOMException(signal.reason||'no reason', 'AbortError'));
+	});
 }
 
 global('global', global)
@@ -31,5 +31,5 @@ global('nullfn', _=>null)
 
 global('BRANCH', location.hostname=='localhost'?'dev':'release')
 global('ROOT_PATH', '/The Corruption/')
-global('WIDTH', 1200)
-global('HEIGHT', 800)
+global('CANVAS_WIDTH', 1200)
+global('CANVAS_HEIGHT', 800)

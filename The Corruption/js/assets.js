@@ -89,35 +89,27 @@ function exportToFile(){
 	DownloadBlob(metablob, 'meta.json')
 	DownloadBlob(blob, 'blob.bin')
 }
-async function loadAssets(onprogress){
-	var meta_url = ROOT_PATH+'data/meta.json'
-	var blob_url = ROOT_PATH+'data/blob.bin'
-	if(BRANCH=='dev'){
-		meta_url += '?'+Math.random()
-		blob_url += '?'+Math.random()
+
+var meta_url = ROOT_PATH+'data/meta.json'
+var blob_url = ROOT_PATH+'data/blob.bin'
+if(BRANCH=='dev'){
+	meta_url += '?'+Math.random()
+	blob_url += '?'+Math.random()
+}
+async function loadMeta(onprogress){
+	var res = await XHRPromise(meta_url, {onProgress})
+	function onProgress({loaded, total}){
+		onprogress?.(total ? loaded/total : 0)
 	}
-	
-	var data={}
-	
-	var res=await XHRPromise(meta_url, {onprogress:onprogress0})
-	function onprogress0({loaded, total}){
-		onprogress?.({
-			stage: 0,
-			percent: total ? loaded/total : 0
-		})
+	return res.json()
+}
+async function loadAssets(meta, onprogress){
+	var data = {meta}
+	var res = await XHRPromise(blob_url, {onProgress})
+	function onProgress({loaded, total}){
+		onprogress?.(total ? loaded/total : 0)
 	}
-	data.meta=await res.json()
-	
-	res=await XHRPromise(blob_url, {onprogress:onprogress1})
-	function onprogress1({loaded, total}){
-		onprogress?.({
-			stage: 1,
-			percent: total ? loaded/total : 0
-		})
-	}
-	onprogress?.({stage:2})
-	data.blob=await res.blob()
-	
+	data.blob = await res.blob()
 	await importAssets(data)
 }
 async function importAssets({meta:{paths,sizes}, blob}){ //只能导入已实例化的 Asset
@@ -187,4 +179,4 @@ if(BRANCH=='dev')
 global('GetImage', GetImage)
 global('GetAudio', GetAudio)
 
-export {loadAssets, checkAssets}
+export {loadMeta, loadAssets, importAssets, checkAssets}

@@ -1,101 +1,108 @@
-import {CvsEle} from '/cvsEle.js'
+import {Screen, Widget, ImageButton, Text, Button} from '/widgets/basewidgets.js'
+import CenterMenu from '/widgets/centermenu.js'
+import renderMap from '/render.js'
 
-const FStext=_=>document.fullscreenElement?'退出全屏':'全屏'
-const hoverStyle={bgcolor:'#bbb'}
+const FStext = _=>document.fullscreenElement?'退出全屏':'全屏'
 
-const menuStyle={bgcolor:'#646',border:{width:4,color:'#000'},font:'40px sans-serif',padding:30}
-const borderStyle={border:{width:2,color:'#000'},padding:10}
+const menuStyle = {bgcolor:'#646',border:{width:4,color:'#000'},font:'40px sans-serif',padding:30}
+const borderStyle = {border:{width:2,color:'#000'},padding:10}
 
-export default {
-	construct({renderMap}){
-		this.onPreRender=renderMap
+class InGame extends Screen{
+	constructor(){
+		super()
 		
-		this.info=[]
-		this.options=[]
+		this.info = []
+		this.options = []
 		
-		this.stat_gold=new CvsEle(2,2,100,40,{bgcolor:'#420',border:{width:4,color:'#864'},padding:10})
+		this.AddChild('stat_gold', new Text)
+		this.stat_gold.SetStyle({bgcolor:'#420',border:{width:4,color:'#864'},padding:10})
+		this.stat_gold.SetAbsPos(2, 2, 100, 40)
 		
-		this.pauseButton=new CvsEle(1100,0,100,40,{bgcolor:'#420',padding:10})
-		this.pauseButton.text('暂停')
-		this.pauseButton.on('click',_=>{
-			//bgmusic.pause()
-			TheMap.state='pause'
-			main.removeMapHandler()
-			this.showMenu()
-		})
+		this.AddChild('pauseButton', new Button('暂停', ()=>this.Pause()))
+		this.pauseButton.SetStyle({bgcolor:'#420', padding:10})
+		this.pauseButton.SetAnchor('right', 'top')
+		this.pauseButton.SetPos(0, 0)
 		
-		this.continueButton=new CvsEle(300,150,600,100,menuStyle)
-		this.continueButton.text('继续')
-		this.continueButton.on('click',_=>{
-			//bgmusic.play()
-			TheMap.state='in_game'
-			main.addMapHandler()
-			this.hideMenu()
-		})
+		var menu_items = [
+			{text:'继续', cb:()=>this.Continue()},
+			{text:FStext, cb:ToggleFS},
+			{text:'返回主菜单', cb:main.mainMenu}
+		]
 		
-		this.FSButton=new CvsEle(300,250,600,100,menuStyle)
-		this.FSButton.text(FStext)
-		this.FSButton.on('click', ToggleFS)
+		this.AddChild('menu', new CenterMenu(menu_items))
+		this.menu.Hide()
 		
-		this.exitButton=new CvsEle(300,350,600,100,menuStyle)
-		this.exitButton.text('返回主菜单')
-		this.exitButton.on('click', main.mainMenu)
+		this.AddChild('bottomPanel', new Widget(CANVAS_WIDTH, 200, {bgcolor:'#420', border:{width:10, color:'#864'}}))
+		this.bottomPanel.SetAnchor('left', 'bottom')
+		this.bottomPanel.SetPos(0, 0)
 		
-		this.hideMenu()
+		this.infoImg = this.bottomPanel.AddChild(new Widget(100, 100, borderStyle)) //图片
+		this.infoImg.SetPos(100, 80)
 		
-		var bHeight=200, bY=HEIGHT-bHeight //底栏位置
-		new CvsEle(0,bY,WIDTH,bHeight,{bgcolor:'#420',border:{width:10,color:'#864'}}).stopPropagation()
-		this.info[0]=new CvsEle(100,bY+20,100,50,borderStyle) //名称
-		this.infoImg=new CvsEle(100,bY+80,100,100,borderStyle) //图片
-		this.info[1]=new CvsEle(250,bY+20,150,40,borderStyle) //生命值
-		this.info[2]=new CvsEle(250,bY+60,150,40,borderStyle)
-		this.info[3]=new CvsEle(250,bY+100,150,40,borderStyle)
-		this.info[4]=new CvsEle(250,bY+140,150,40,borderStyle)
-		for(let i=0;i<2;i++) //选项
-			for(let j=0;j<5;j++){
-				let opt=new CvsEle(500+j*64,bY+40+i*64,64,64,borderStyle)
-				opt.on('click',e=>Ctrl.option(i*5+j))
-				this.options[i*5+j]=opt
+		this.MakeInfo(0, 100, 20, 100, 50) //名称
+		this.MakeInfo(1, 250, 20, 150, 40) //生命值
+		this.MakeInfo(2, 250, 60, 150, 40)
+		this.MakeInfo(3, 250, 100, 150, 40)
+		this.MakeInfo(4, 250, 140, 150, 40)
+		
+		for(let i=0; i<2; i++) //选项
+			for(let j=0; j<5; j++){
+				let opt = this.bottomPanel.AddChild(new ImageButton(null, ()=>Ctrl.option(i*5 + j), 64, 64))
+				opt.SetStyle(borderStyle)
+				opt.SetPos(500 + j*64, 40 + i*64)
+				this.options[i*5 + j] = opt
 			}
-	},
-	showInfo({info=[], options=[], img:imgName='default'}){//info为文字数组，options为图片名数组
-		this.infoImg.img(imgName)
-		this.info.forEach((ele,i)=>ele.text(info[i]))
-		this.options.forEach((ele,i)=>ele.img(options[i]))
-	},
-	clearInfo(){
-		this.infoImg.img()
-		for(let e of this.info)e.text()
-		for(let e of this.options)e.img()
-	},
-	popup(title){
+	}
+	MakeInfo(index, x, y, width, height){
+		this.info[index] = this.bottomPanel.AddChild(new Text)
+		this.info[index].SetStyle(borderStyle)
+		this.info[index].SetSize(width, height)
+		this.info[index].SetPos(x, y)
+	}
+	ShowInfo({info=[], options=[], img:imgName='default'}){//info为文字数组，options为图片名数组
+		this.infoImg.SetImage(imgName)
+		this.info.forEach((ele,i)=>ele.SetText(info[i]))
+		this.options.forEach((ele,i)=>ele.SetImage(options[i]))
+	}
+	ClearInfo(){
+		this.infoImg.SetImage()
+		for(let e of this.info)e.SetText()
+		for(let e of this.options)e.SetImage()
+	}
+	Pause(){
+		//bgmusic.pause()
+		TheMap.state='pause'
+		main.removeMapHandler()
+		this.menu.Show()
+	}
+	Continue(){
+		//bgmusic.play()
+		TheMap.state='in_game'
+		main.addMapHandler()
+		this.menu.Hide()
+	}
+	Popup(title){
 		console.log(title) //todo
-	},
-	showMenu(){
-		this.continueButton.show()
-		this.FSButton.show()
-		this.exitButton.show()
-	},
-	hideMenu(){
-		this.continueButton.hide()
-		this.FSButton.hide()
-		this.exitButton.hide()
-	},
-	onPreRender(){}, //在construct中赋值
-	onUpdate(){
+	}
+	OnPreRender(){
+		renderMap()
+	}
+	OnUpdate(){
 		if(TheMap.state=='lose_pending'){
-			this.popup('输！')
+			this.Popup('输！')
 			return
 		}else if(TheMap.state=='win_pending'){
-			this.popup('赢！')
+			this.Popup('赢！')
 			return
 		}
-		let {food, wood, gold, stone}=TheMap.stats
-		this.stat_gold.text('$:'+gold)
+		let {food, wood, gold, stone} = TheMap.stats
+		this.stat_gold.SetText('$:'+gold)
 		if(Ctrl.updated){
-			if(Ctrl.sel)this.showInfo(Ctrl.getData())
-			else this.clearInfo()
+			if(Ctrl.sel)this.ShowInfo(Ctrl.getData())
+			else this.ClearInfo()
 			Ctrl.updated=false
 		}
 	}
 }
+
+export default InGame
