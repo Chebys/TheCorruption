@@ -66,6 +66,9 @@ class Located extends Ent{
 	get grid(){
 		return TheMap.getGrid(this.x,this.y)
 	}
+	get isOutOfRange(){
+		return TheMap.dist(this, {x:0, y:0}) >= TheMap.MAX_RANGE
+	}
 	canSetPos(x,y){
 		return !TheMap.blocked(x,y)
 	}

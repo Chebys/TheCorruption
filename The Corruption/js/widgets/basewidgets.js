@@ -108,8 +108,12 @@ class Widget{
 	SetImage(name){
 		this._e.img(name&&GetImage(name))
 	}
+	RemoveChild(widget){
+		this.children.delete(widget)
+	}
 	Remove(){
 		for(let child of this.children)child.Remove()
+		this.parent?.RemoveChild(this)
 		this._e.remove()
 	}
 	//以下方法可重写
@@ -182,7 +186,7 @@ class Screen extends Widget{
 	}
 	OnMouseDown(){
 		super.OnMouseDown()
-		//不捕获，以处理地图点击
+		//不捕获，以处理地图点击等
 	}
 	OnMouseMove(){
 		super.OnMouseMove()

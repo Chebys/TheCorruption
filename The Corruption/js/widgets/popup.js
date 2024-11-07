@@ -4,7 +4,8 @@ class Popup extends Widget{
 	constructor(titleStr, contentStr, onConfirm, onCancel){
 		super(600, 400, {
 			border: {width:2, color:'white'},
-			radius: 10
+			radius: 10,
+			bgcolor: '#000'
 		})
 		this.onConfirm = onConfirm
 		this.onCancel = onCancel
@@ -30,12 +31,12 @@ class Popup extends Widget{
 		this.SetPos(0, 0)
 	}
 	Confirm(){
-		this.Remove()
 		this.onConfirm()
+		this.Remove()
 	}
 	Cancel(){
-		this.Remove()
 		this.onCancel()
+		this.Remove()
 	}
 }
 

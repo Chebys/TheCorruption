@@ -12,13 +12,6 @@ class InMap extends Screen{
 	OnPreRender(){
 		renderMap()
 	}
-	OnMouseDown(){
-		super.OnMouseDown()
-		//不捕获，以处理地图点击
-	}
-	OnMouseMove(){
-		super.OnMouseMove()
-	}
 }
 
 export default InMap

@@ -41,30 +41,27 @@ const main = {
 		UI.goto('Error', {error})
 	},
 	async init(){
-		var loadingText = Strings.progress_stage[0]
-		var screen = UI.goto('Loading', {textFn:_=>loadingText})
-		
-		main.meta = await loadMeta()
-		if(BRANCH=='dev') main.loadAssets()
-		else screen.PopupAssetInfo().then(main.loadAssets)
-		
-		/* function onprogress({stage, percent}){
-			loadingText=Strings.progress_stage[stage]
-			if(percent!=undefined)loadingText+=': '+percent*100+'%'
+		var task = {title:Strings.ui.progress_stage[0]}
+		function onprogress(percent){
+			task.percent = percent
 		}
-		function onload(){
-			if(checkAssets()){
-				main.mainMenu()
-			}else if(BRANCH=='dev'){
-				console.log('资源文件缺失，尝试老式加载')
-				quickExport(main.mainMenu)
-			}else{
-				main.onerror('资源文件缺失')
-			}
-		} */
-	},
-	loadAssets(){
-		loadAssets(main.meta).then(main.mainMenu)
+		var screen = UI.goto('Loading', {task})
+		
+		var meta = await loadMeta(onprogress)
+		
+		if(BRANCH=='release')await screen.PopupAssetInfo(meta)
+		
+		task.title = Strings.ui.progress_stage[1]
+		await loadAssets(meta, onprogress)
+		
+		if(checkAssets()){
+			main.mainMenu()
+		}else if(BRANCH=='dev'){
+			console.log('资源文件缺失，尝试老式加载')
+			quickExport(main.mainMenu)
+		}else{
+			main.onerror('资源文件缺失')
+		}
 	},
 	mainMenu(){
 		TheMap.state=null

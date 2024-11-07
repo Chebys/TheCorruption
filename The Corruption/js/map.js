@@ -3,6 +3,7 @@ import {spawn} from '/ent.js'
 var listeners = {}
 
 const map = {
+	MAX_RANGE: 1000,
 	load({ox=600, oy=0, grids, stats={}, ents}){
 		this.ox=ox //地图原点在canvas中的坐标
 		this.oy=oy
