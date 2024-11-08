@@ -33,3 +33,12 @@ global('BRANCH', location.hostname=='localhost'?'dev':'release')
 global('ROOT_PATH', '/The Corruption/')
 global('CANVAS_WIDTH', 1200)
 global('CANVAS_HEIGHT', 800)
+
+if(!Promise.withResolvers)Promise.withResolvers = ()=>{ //某些浏览器似乎没有
+	var resolve, reject
+	var promise = new Promise((r, t)=>{
+		resolve = r
+		reject = t
+	})
+	return {promise, resolve, reject}
+}

@@ -43,9 +43,6 @@ class Widget{
 	SetAbsPos(x1, y1, x2, y2){
 		//SetAbsPos(x1, y1) 根据宽高自动推断x2 y2
 		//SetAbsPos(x1, y1, x2, y2) 同时设置宽高
-		if(x1==undefined){
-			var {x1, y1} = this._e
-		}
 		if(x2==undefined){
 			x2 = x1+this.width
 			y2 = y1+this.height
