@@ -40,7 +40,7 @@ new EntImg('archertower', 64, 96)
 new EntImg('arrow', 16, 16, 32, 32)
 new EntImg('ball', 16, 16, 24, 24)
 new EntImg('corrupter', 32, 48)
-new EntImg('goldmine', 128, 128)
+new EntImg('goldmine', 64, 64, 128, 128)
 new EntImg('homebase', 32, 32)
 new EntImg('tower1', 32, 48)
 

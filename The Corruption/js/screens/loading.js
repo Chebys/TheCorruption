@@ -24,8 +24,7 @@ class Loading extends Screen{
 	}
 	Popup(title, content){
 		var {promise, resolve, reject} = Promise.withResolvers()
-		var popup = this.AddChild(new Popup(title, content, resolve, reject))
-		popup.SetPos()
+		this.AddChild(new Popup(title, content, resolve, reject))
 		return promise
 	}
 	PopupAssetInfo(meta){
@@ -35,7 +34,7 @@ class Loading extends Screen{
 	}
 	OnUpdate(){
 		var {title, percent=0} = this.task
-		var text = title + ': ' + percentText(percent)
+		var text = title+': '+percentText(percent)
 		this.content.SetText(text)
 	}
 }

@@ -24,7 +24,7 @@ class Widget{
 		this.SetStyle(style)
 		this.SetAnchor('left', 'top')
 		this.SetSize(width, height)
-		this._e.on('mousedown', ()=>this._able&&this.OnMouseDown())
+		this._e.on('mousedown', ()=>this._able&&this.OnMouseDown(), ()=>this.OnLoseFocus())
 		this._e.on('click', ()=>this._able&&this.OnClick())
 		this._e.on('mousemove', ()=>this._able&&this.OnMouseMove(), ()=>this.OnMouseOut())
 		this.Enable(true)
@@ -91,6 +91,7 @@ class Widget{
 	}
 	Enable(able){ //影响监听器
 		this._able = able
+		//子组件？
 	}
 	Hide(){
 		this.Enable(false)
@@ -116,6 +117,7 @@ class Widget{
 	//以下方法可重写
 	OnNewParent(widget){} //可以重写此方法来自动定位
 	OnMouseDown(){
+		this._e.focus()
 		return true //捕获
 	}
 	OnClick(){
@@ -135,6 +137,7 @@ class Widget{
 		this._focus = false
 		this._e.style = this.style
 	}
+	OnLoseFocus(){}
 }
 
 class ImageButton extends Widget{
@@ -174,6 +177,31 @@ class Button extends Text{
 	}
 }
 
+const default_input_style = {padding:10, radius:5, bgcolor:'grey'}
+const default_valid_chars = new Set('qwertyuiopasdfghjklzxcvbnm')
+class Input extends Text{ //todo
+	constructor(str=''){
+		super(str)
+		this.value = str
+		this.SetSize(100, 40)
+		this.SetStyle(default_input_style)
+		this._e.oninput = e=>this.OnInput(e)
+	}
+	SetValue(value){
+		this.value = value
+		this._e.text(value)
+	}
+	/* OnKeyDown(key, e){
+		if(default_valid_chars.has(key))this.SetValue(this.value + key)
+		return true
+	} */
+	OnInput(e){
+		console.log(e)
+	}
+	OnLoseFocus(){
+		//console.log('OnLoseFocus')
+	}
+}
 
 //Screen为根组件，需要在UI.js中注册，一次只能有一个Screen实例
 class Screen extends Widget{
@@ -193,4 +221,4 @@ class Screen extends Widget{
 	OnPreRender(){}
 }
 
-export {Widget, ImageButton, Text, Button, Screen}
+export {Widget, ImageButton, Text, Button, Input, Screen}

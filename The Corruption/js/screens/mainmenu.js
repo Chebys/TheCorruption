@@ -1,4 +1,5 @@
 import {Screen, Button} from '/widgets/basewidgets.js'
+import EditorEntrancePopup from '/widgets/editorentrancepopup.js'
 
 const FStext = _=>document.fullscreenElement?'退出全屏':'全屏'
 const hoverStyle = {bgcolor:'#a74'}
@@ -16,7 +17,7 @@ class MainMenu extends Screen{
 		startButton.SetAnchor('center', 'center')
 		startButton.SetPos(0, -150)
 		
-		var editorButton = this.AddChild(new Button('地图编辑器', this.StartEditor, 600, 100))
+		var editorButton = this.AddChild(new Button('地图编辑器', ()=>this.AddChild(new EditorEntrancePopup), 600, 100))
 		editorButton.SetStyle(mainbtstyle)
 		editorButton.SetHoverStyle(hoverStyle)
 		editorButton.SetAnchor('center', 'center')
@@ -27,10 +28,10 @@ class MainMenu extends Screen{
 		FSButton.SetAnchor('right', 'top')
 		FSButton.SetPos(0, 0)
 	}
-	StartEditor(){
+	/* StartEditor(){
 		var l = parseInt(prompt('输入地图边长（建议不超过30）'))
 		l && main.startEditor(l)
-	}
+	} */
 }
 
 export default MainMenu

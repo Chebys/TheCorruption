@@ -52,6 +52,7 @@ class InGame extends Screen{
 				opt.SetPos(500 + j*64, 40 + i*64)
 				this.options[i*5 + j] = opt
 			}
+		UI.playBGMusic('level0')
 	}
 	MakeInfo(index, x, y, width, height){
 		this.info[index] = this.bottomPanel.AddChild(new Text)

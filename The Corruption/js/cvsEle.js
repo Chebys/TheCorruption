@@ -1,10 +1,10 @@
-//依赖 GetImage
 //依赖 Array.prototype.remove
 var canvas, ctx
 
 var elements = []
-
+var activeElement = null
 const events = ['mousemove','mousedown','click']
+const keyEvents = ['down']
 
 var defaultFont = '20px sans-serif'
 var defaultcolor = '#fff'
@@ -25,10 +25,15 @@ class CvsEle{
 	listener = {}
 	end_listener = {}
 	currentEvents = new Set
+	key_listener = {}
+	//oninput
 	constructor(x, y, width=0, height=0, style={}){ //会随style的变化而同步变化（除了radius需要refreshPath）
 		this.style=style
 		this.setPos(x, y, x+width, y+height) //顺便refreshPath
 		elements.push(this)
+	}
+	get isFocused(){
+		return activeElement == this
 	}
 	refreshPath(){
 		this.path=new Path2D
@@ -101,9 +106,14 @@ class CvsEle{
 		this.listener[eventName] = fn
 		this.end_listener[eventName] = end_fn
 	}
-	/* stopClickPropagation(){
-		this.on('mousedown', e=>true)
-	} */
+	onkey(eventName, fn){
+		//仅当获取焦点时触发
+		//返回真值时，阻止默认行为
+		this.key_listener[eventName] = fn
+	}
+	focus(){ //元素不会自动获取焦点，需手动调用
+		activeElement = this
+	}
 	remove(){
 		elements.remove(this)
 		this.invalid = true
@@ -122,11 +132,9 @@ function init(c, ctx1){
 	for(let name of events)
 		c.addEventListener(name, e=>{
 			var propagating = true
-			var list = elements.slice() //elements可能变动
+			var list = elements.toReversed() //elements可能在迭代过程中变动
 			var [x, y] = canvas.getMousePos(e)
-			for(let i=list.length-1; i>=0; i--){
-				let ele=list[i]
-				if(!ele)continue //可能已被移除
+			for(let ele of list){
 				if(isTarget(ele, x, y)){
 					if(propagating){
 						ele.currentEvents.add(name)
@@ -139,8 +147,17 @@ function init(c, ctx1){
 			}
 			if(!propagating)e.stopImmediatePropagation()
 		})
+	c.contentEditable = true //使能够触发键盘事件
+	c.style.outline = 'none'
+	for(let name of keyEvents)
+		c.addEventListener('key'+name, e=>{
+			if(activeElement?.key_listener[name]?.(e))
+				e.preventDefault()
+		})
+	c.addEventListener('input', e=>activeElement?.oninput?.(e)) //没用？？
 }
 function reset(){
+	activeElement = null
 	elements.splice(0)
 }
 function render(clear){ //按元素创建的顺序渲染

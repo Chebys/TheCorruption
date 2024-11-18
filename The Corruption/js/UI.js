@@ -23,7 +23,7 @@ const screens = { //todo: 写成类
 	InGame,
 	Editor
 }
-const UI={
+const UI = {
 	current: null,
 	bg_music: null,
 	goto(name, config){
@@ -34,7 +34,7 @@ const UI={
 		return this.current
 	},
 	clear(){
-		this.current=null
+		this.current=null //Remove?
 		this.bg_music?.pause()
 		this.bg_music=null
 		reset()
@@ -51,6 +51,7 @@ const UI={
 		this.bg_music?.pause()
 		var audio=GetAudio(name)
 		if(audio){
+			audio.loop=true
 			audio.play()
 			this.bg_music=audio
 		}

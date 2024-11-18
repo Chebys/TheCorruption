@@ -16,8 +16,8 @@ var currentFrame, t0
 const main = {
 	run(t){
 		var dt = t&&t0 ? (t-t0)/1000 : 0 //dt以秒为单位
-		if(dt>1)dt=0 //避免longUpdate的一个下策
-		t0=t
+		if(dt>0.5)dt = 0 //避免longUpdate的一个下策
+		t0 = t
 		try{
 			UI.render() //renderMap()
 			UI.update(dt)
@@ -32,7 +32,7 @@ const main = {
 		}catch(e){
 			main.onerror(e)
 		}
-		currentFrame=requestAnimationFrame(main.run)
+		currentFrame = requestAnimationFrame(main.run)
 	},
 	onerror(error){
 		TheMap.state = null
@@ -46,21 +46,26 @@ const main = {
 			task.percent = percent
 		}
 		var screen = UI.goto('Loading', {task})
-		
-		var meta = await loadMeta(onprogress)
-		
-		if(BRANCH=='release')await screen.PopupAssetInfo(meta)
-		
-		task.title = Strings.ui.progress_stage[1]
-		await loadAssets(meta, onprogress)
-		
-		if(checkAssets()){
-			main.mainMenu()
-		}else if(BRANCH=='dev'){
-			console.log('资源文件缺失，尝试老式加载')
-			quickExport(main.mainMenu)
-		}else{
-			main.onerror('资源文件缺失')
+		try{
+			var meta = await loadMeta(onprogress)
+			onprogress(1)
+			
+			if(BRANCH=='release')await screen.PopupAssetInfo(meta)
+			
+			task.title = Strings.ui.progress_stage[1]
+			task.percent = 0
+			await loadAssets(meta, onprogress)
+			
+			if(checkAssets()){
+				main.mainMenu()
+			}else if(BRANCH=='dev'){
+				console.log('资源文件缺失，尝试老式加载')
+				quickExport(main.mainMenu)
+			}else{
+				throw new Error('资源文件缺失')
+			}
+		}catch(e){
+			main.onerror(e)
 		}
 	},
 	mainMenu(){

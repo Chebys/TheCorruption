@@ -16,6 +16,13 @@ class Asset{
 	getRaw(){ //返回blob（如果已加载）
 		return this.raw
 	}
+	async toDataURL(){
+		const reader = new FileReader
+		return new Promise(resolve=>{
+			reader.addEventListener('load', ()=>resolve(reader.result))
+			reader.readAsDataURL(this.raw)
+		})
+	}
 }
 class Image extends Asset{
 	constructor(name){
@@ -167,6 +174,7 @@ new Image('tower1')
 
 //new Asset('audio','bg.mid') 不支持的格式
 new Sound('bg')
+new Sound('level0')
 
 if(BRANCH=='dev')
 	global('quickExport', callback=>{

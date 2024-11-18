@@ -34,7 +34,7 @@ global('ROOT_PATH', '/The Corruption/')
 global('CANVAS_WIDTH', 1200)
 global('CANVAS_HEIGHT', 800)
 
-if(!Promise.withResolvers)Promise.withResolvers = ()=>{ //某些浏览器似乎没有
+if(!Promise.withResolvers)Promise.withResolvers = ()=>{ //polyfill
 	var resolve, reject
 	var promise = new Promise((r, t)=>{
 		resolve = r
