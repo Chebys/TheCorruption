@@ -55,7 +55,7 @@ class Sound extends Asset{
 function getAssetByPath(path){
 	var asset = assets[path]
 	if(asset)return asset
-	throw new Error('undefind asset: '+path)
+	throw new Error('undefined asset: '+path)
 }
 
 function loadAsset(path, blob){ //返回Promise
